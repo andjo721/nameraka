@@ -13,5 +13,5 @@ include users/manna-harbour_miryoku/custom_rules.mk
 
 include users/manna-harbour_miryoku/post_rules.mk
 
-CAPS_WORD_ENABLÉ = yes
+CAPS_WORD_ENABLE = yes
 COMMAND_ENABLE = no
