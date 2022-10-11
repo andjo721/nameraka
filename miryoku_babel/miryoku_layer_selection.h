@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "../../../quantum/keymap_extras/keymap_nordic.h"
 #include "../../../quantum/keymap_extras/keymap_swedish.h"
 #include "miryoku_layer_alternatives.h"
 

@@ -17,7 +17,7 @@ KC_LSFT, LT(U_BUTTON,KC_Z), ALGR_T(KC_X),      KC_C,              KC_D,         
 
 #define MIRYOKU_ALTERNATIVES_BASE_QWERTY \
 U_NP,    KC_Q,              KC_W,              KC_E,              KC_R,              KC_T,              KC_Y,              KC_U,              KC_I,              KC_O,              KC_P,                  KC_LBRC, \
-KC_LCTL, LGUI_T(KC_A),      LALT_T(KC_S),      LCTL_T(KC_D),      LSFT_T(KC_F),      KC_G,              HYPR_T(KC_H),      LSFT_T(KC_J),      LCTL_T(KC_K),      LALT_T(KC_L),      LGUI_T(KC_COLN),       KC_QUOT, \
+KC_LCTL, LGUI_T(KC_A),      LALT_T(KC_S),      LCTL_T(KC_D),      LSFT_T(KC_F),      KC_G,              HYPR_T(KC_H),      RSFT_T(KC_J),      LCTL_T(KC_K),      LALT_T(KC_L),      LGUI_T(KC_COLN),       KC_QUOT, \
 KC_LSFT, LT(U_BUTTON,KC_Z), ALGR_T(KC_X),      KC_C,              KC_V,              KC_B,              KC_N,              MEH_T(KC_M),       KC_COMM,           ALGR_T(KC_DOT),    LT(U_BUTTON,KC_SLSH),  KC_SCLN, \
                                                LT(U_MEDIA,KC_ESC),LT(U_NAV,KC_SPC),  LT(U_MOUSE,KC_TAB),LT(U_SYM,KC_ENT),  LT(U_NUM,KC_BSPC), LT(U_FUN,KC_DEL)
 
@@ -48,7 +48,7 @@ U_NP, U_NA,              KC_ALGR,           DF(U_SYM),         DF(U_MOUSE),     
 
 #define MIRYOKU_ALTERNATIVES_NAV \
 U_NP, RESET,             DF(U_TAP),         DF(U_EXTRA),       DF(U_BASE),        DT_PRNT,           U_RDO,             U_PST,             U_CPY,             U_CUT,             U_UND,                 U_NP, \
-U_NP, KC_LGUI,           KC_LALT,           KC_LCTL,           KC_LSFT,           DT_UP,             KC_CAPS,           KC_LEFT,           KC_DOWN,           KC_UP,             KC_RGHT,               U_NP, \
+U_NP, KC_LGUI,           KC_LALT,           KC_LCTL,           KC_LSFT,           DT_UP,             CAPSWRD,         KC_LEFT,           KC_DOWN,           KC_UP,             KC_RGHT,               U_NP, \
 U_NP, U_NA,              KC_ALGR,           DF(U_NUM),         DF(U_NAV),         DT_DOWN,           KC_INS,            KC_HOME,           KC_PGDN,           KC_PGUP,           KC_END,                U_NP, \
                                             U_NA,              U_NA,              U_NA,              KC_ENT,            KC_BSPC,           KC_DEL
 
@@ -96,9 +96,9 @@ U_NP, LSFT(KC_DOT),      LSFT(KC_1),        RALT(KC_8),        RALT(KC_9),      
 */
 
 #define MIRYOKU_ALTERNATIVES_SYM_TWO \
-U_NP, KC_NUBS,           LSFT(KC_6),        RALT(KC_7),        RALT(KC_0),        RALT(KC_2),                    LSFT(KC_7),             U_NA,            U_NA,              U_NA,              U_NA,               U_NP, \
+U_NP, KC_NUBS,           LSFT(KC_6),        RALT(KC_7),        RALT(KC_0),        RALT(KC_2),                    LSFT(KC_7),          SE_TILD,         SE_CIRC,              U_NA,              U_NA,               U_NP, \
 U_NP, LSFT(KC_NUBS),     RALT(KC_4),        LSFT(KC_8),        LSFT(KC_9),        LSFT(KC_COMM),                 LSFT(KC_0),       LSFT(KC_3),            U_NA,              U_NA,              U_NA,               U_NP, \
-U_NP, RALT(KC_NUBS),     LSFT(KC_1),        RALT(KC_8),        RALT(KC_9),        LSFT(KC_DOT),               RALT(KC_MINS),          KC_PERC,         KC_SLSH,           KC_ALGR,              U_NA,               U_NP, \
+U_NP, RALT(KC_NUBS),     LSFT(KC_1),        RALT(KC_8),        RALT(KC_9),        LSFT(KC_DOT),                     SE_BSLS,          KC_PERC,          SE_GRV,           KC_ALGR,              U_NA,               U_NP,                         \
                                             LSFT(KC_2),        LSFT(KC_7),        KC_NUHS,                             U_NA,             U_NA,            U_NA
 
 //=-%\\\%---%%\====*/-++-=
