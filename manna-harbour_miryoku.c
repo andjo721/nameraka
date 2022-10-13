@@ -7,6 +7,39 @@
 
 #include "manna-harbour_miryoku.h"
 
+/* #include "features/caps_word.h" */
+
+/* bool process_record_user(uint16_t keycode, keyrecord_t* record) { */
+/*   if (!process_caps_word(keycode, record)) { return false; } */
+/*   // Your macros ... */
+
+/*   return true; */
+/* } */
+
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+
+    // Keycodes that continue Caps Word, with shift applied.
+    case SE_A ... SE_Z:
+    case SE_ARNG:
+    case SE_ADIA:
+    case SE_ODIA:
+    case SE_MINS:
+        add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
+        return true;
+
+    // Keycodes that continue Caps Word, without shifting.
+    case SE_1 ... SE_0:
+    case KC_BSPC:
+    case KC_DEL:
+    case SE_UNDS:
+//        add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
+        return true;
+    }
+
+    return false;  // Deactivate Caps Word.
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MIRYOKU_X(LAYER, STRING) [U_##LAYER] = U_MACRO_VA_ARGS(MIRYOKU_LAYERMAPPING_##LAYER, MIRYOKU_LAYER_##LAYER),
 MIRYOKU_LAYER_LIST
