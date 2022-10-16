@@ -7,18 +7,62 @@
 
 #include "manna-harbour_miryoku.h"
 
-/* #include "features/caps_word.h" */
+enum custom_keycodes {
+    WIND_LEFT = SAFE_RANGE,
+    WIND_RIGHT,
+    WIND_UP,
+    WIND_DOWN,
+    WIND_MAX_TOGGLE,
+};
 
-/* bool process_record_user(uint16_t keycode, keyrecord_t* record) { */
-/*   if (!process_caps_word(keycode, record)) { return false; } */
-/*   // Your macros ... */
+bool process_record_user(uint16_t keycode, keyrecord_t *record)
+{
+    if (record->event.pressed) {
+        const uint8_t mods = get_mods();
 
-/*   return true; */
-/* } */
+        bool wind_move =
+            (keycode == WIND_LEFT) || 
+            (keycode == WIND_DOWN) || 
+            (keycode == WIND_UP) || 
+            (keycode == WIND_RIGHT);
 
-bool caps_word_press_user(uint16_t keycode) {
+        if (wind_move) {
+            SEND_STRING(SS_LCTRL("b"));
+
+            if ((mods) & MOD_MASK_CTRL)
+                SEND_STRING("b");
+            
+            switch(keycode) {
+            case WIND_LEFT:
+                tap_code16(KC_LEFT);
+                return false;
+            case WIND_DOWN:
+                tap_code16(KC_DOWN);
+                return false;
+            case WIND_UP:
+                tap_code16(KC_UP);
+                return false;
+            case WIND_RIGHT:
+                tap_code16(KC_RIGHT);
+                return false;
+            }
+        }
+        if (keycode == WIND_MAX_TOGGLE) {
+            SEND_STRING(SS_LCTRL("b"));
+            SEND_STRING("z");
+            return false;
+        }
+            
+    }
+    return true;
+};
+
+
+// Customized caps word for defines
+bool caps_word_press_user(uint16_t keycode)
+{
+
     switch (keycode) {
-
     // Keycodes that continue Caps Word, with shift applied.
     case SE_A ... SE_Z:
     case SE_ARNG:
@@ -33,7 +77,6 @@ bool caps_word_press_user(uint16_t keycode) {
     case KC_BSPC:
     case KC_DEL:
     case SE_UNDS:
-//        add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
         return true;
     }
 
