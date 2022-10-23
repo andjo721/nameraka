@@ -11,7 +11,7 @@
 #undef TAPPING_TERM
 #define TAPPING_TERM 170
 
-#define PERMISSIVE_HOLD
+//#define PERMISSIVE_HOLD
 
 //define HOLD_ON_OTHER_KEY_PRESS
 
