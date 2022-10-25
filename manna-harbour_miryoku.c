@@ -6,6 +6,7 @@
 #include QMK_KEYBOARD_H
 
 #include "manna-harbour_miryoku.h"
+#include "features/layer_lock.h"
 
 enum custom_keycodes {
     WIND_LEFT = SAFE_RANGE,
@@ -14,10 +15,13 @@ enum custom_keycodes {
     WIND_DOWN,
     WIND_MAX_TOGGLE,
     HELM_RESUME,
+    LAYER_LOCK
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
+    if (!process_layer_lock(keycode, record, LAYER_LOCK)) { return false; }
+
     if (record->event.pressed) {
         const uint8_t mods = get_mods();
 
@@ -69,7 +73,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 // Customized caps word for defines
 bool caps_word_press_user(uint16_t keycode)
 {
-
     switch (keycode) {
     // Keycodes that continue Caps Word, with shift applied.
     case SE_A ... SE_Z:
