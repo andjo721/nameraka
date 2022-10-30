@@ -20,53 +20,74 @@ enum custom_keycodes {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
-    if (!process_layer_lock(keycode, record, LAYER_LOCK)) { return false; }
+    const uint8_t mods = get_mods();
+
+    
+    if (!process_layer_lock(keycode, record, LAYER_LOCK)) {
+        return false;
+    }
+
 
     if (record->event.pressed) {
-        const uint8_t mods = get_mods();
-
         bool wind_move =
             (keycode == WIND_LEFT) || 
             (keycode == WIND_DOWN) || 
             (keycode == WIND_UP) || 
             (keycode == WIND_RIGHT);
-
+        
         if (wind_move) {
+            clear_mods();
             SEND_STRING(SS_LCTRL("b"));
 
+            if (((mods) & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
+                SEND_STRING("%");
+                goto bail_false;
+            }
+
+            if (((mods) & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
+                tap_code16(SE_DQUO);
+                goto bail_false;
+            } 
+            
             if ((mods) & MOD_MASK_CTRL)
                 SEND_STRING("b");
+
             
             switch(keycode) {
             case WIND_LEFT:
                 tap_code16(KC_LEFT);
-                return false;
+                goto bail_false;
             case WIND_DOWN:
                 tap_code16(KC_DOWN);
-                return false;
+                goto bail_false;
             case WIND_UP:
                 tap_code16(KC_UP);
-                return false;
+                goto bail_false;
             case WIND_RIGHT:
                 tap_code16(KC_RIGHT);
-                return false;
+                goto bail_false;
             }
         }
 
         if (keycode == WIND_MAX_TOGGLE) {
             SEND_STRING(SS_LCTRL("b"));
             SEND_STRING("z");
-            return false;
+            goto bail_false;
         }
 
         if (keycode == HELM_RESUME) {
             SEND_STRING(SS_LCTRL("x"));
             SEND_STRING("c");
             SEND_STRING("b");
-            return false;
-        }            
+            goto bail_false;
+        }
     }
+
     return true;
+    
+bail_false:
+    set_mods(mods);
+    return false;
 };
 
 

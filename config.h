@@ -9,9 +9,9 @@
 
 // default but used in macros
 #undef TAPPING_TERM
-#define TAPPING_TERM 170
+#define TAPPING_TERM 200
 
-//#define PERMISSIVE_HOLD
+#define PERMISSIVE_HOLD
 
 //define HOLD_ON_OTHER_KEY_PRESS
 
