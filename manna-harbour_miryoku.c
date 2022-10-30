@@ -57,7 +57,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             SEND_STRING(SS_LCTRL("b"));
             SEND_STRING("z");
             return false;
-        }            
+        }
 
         if (keycode == HELM_RESUME) {
             SEND_STRING(SS_LCTRL("x"));

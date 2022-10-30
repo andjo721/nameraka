@@ -34,8 +34,8 @@ U_NP,  KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,      KC_K,  KC_H,  KC_COMM,  KC_DOT,  K
                    KC_ESC, KC_SPC, KC_TAB,    KC_ENT, KC_BSPC, KC_DEL
 
 #define MIRYOKU_ALTERNATIVES_MOUSE \
-LAYER_LOCK, U_NA,     U_NA,       U_NA,     U_NA,     U_NA,          LSFT(KC_7),  KC_PAST,     KC_PMNS,  KC_PPLS,  LSFT(KC_5),  U_NP, \
-U_NP,       KC_LGUI,  KC_LALT,    KC_LCTL,  KC_LSFT,  U_NA,          U_NU,        LSFT(KC_0),  U_NP,     U_NP,     U_NP,        U_NP, \
+LAYER_LOCK, U_NA,     U_NA,       U_NA,     U_NA,     U_NA,          SE_SLSH,     SE_ASTR,     SE_MINS,  SE_PLUS,  SE_PERC,     U_NP, \
+U_NP,       KC_LGUI,  KC_LALT,    KC_LCTL,  KC_LSFT,  U_NA,          U_NU,        SE_EQL,      U_NP,     U_NP,     U_NP,        U_NP, \
 U_NP,       U_NA,     KC_ALGR,    U_NA,     U_NA,     U_NA,          U_NU,        U_NP,        U_NP,     U_NP,     U_NP,        U_NP, \
                                   U_NA,     U_NA,     U_NA,          U_NP,        U_NP,        U_NP
 
