@@ -28,15 +28,19 @@ KC_LSFT,  KC_Z,  KC_X,    KC_C,    KC_V,              KC_B,              KC_N,  
                           KC_ESC,  LT(U_NAV,KC_SPC),  KC_TAB,            KC_ENT,  KC_BSPC,  KC_DEL
 
 #define MIRYOKU_ALTERNATIVES_TAP_COLEMAKDH \
-U_NP,  KC_Q,  KC_W,  KC_F,  KC_P,  KC_B,      KC_J,  KC_L,  KC_U,     KC_Y,    KC_QUOT,  U_NP, \
-U_NP,  KC_A,  KC_R,  KC_S,  KC_T,  KC_G,      KC_M,  KC_N,  KC_E,     KC_I,    KC_O,     U_NP, \
-U_NP,  KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,      KC_K,  KC_H,  KC_COMM,  KC_DOT,  KC_SLSH,  U_NP, \
-                   KC_ESC, KC_SPC, KC_TAB,    KC_ENT, KC_BSPC, KC_DEL
+U_NP,  KC_Q,  KC_W,  KC_F,  KC_P,  KC_B,         KC_J,  KC_L,  KC_U,     KC_Y,    KC_QUOT,  U_NP, \
+U_NP,  KC_A,  KC_R,  KC_S,  KC_T,  KC_G,         KC_M,  KC_N,  KC_E,     KC_I,    KC_O,     U_NP, \
+U_NP,  KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,         KC_K,  KC_H,  KC_COMM,  KC_DOT,  KC_SLSH,  U_NP, \
+                   KC_ESC, KC_SPC, KC_TAB,       KC_ENT, KC_BSPC, KC_DEL
+
+
+
+// LAYER_LOCK, U_NA,     U_NA,       U_NA,     U_NA,     U_NA,          SE_SLSH,     SE_ASTR,     SE_MINS,  SE_PLUS,  SE_PERC,     U_NP,
 
 #define MIRYOKU_ALTERNATIVES_MOUSE \
-LAYER_LOCK, U_NA,     U_NA,       U_NA,     U_NA,     U_NA,          SE_SLSH,     SE_ASTR,     SE_MINS,  SE_PLUS,  SE_PERC,     U_NP, \
-U_NP,       KC_LGUI,  KC_LALT,    KC_LCTL,  KC_LSFT,  U_NA,          U_NU,        SE_EQL,      U_NP,     U_NP,     U_NP,        U_NP, \
-U_NP,       U_NA,     KC_ALGR,    U_NA,     U_NA,     U_NA,          U_NU,        U_NP,        U_NP,     U_NP,     U_NP,        U_NP, \
+LAYER_LOCK, U_NA,     U_NA,       U_NA,     U_NA,     U_NA,          U_NP,        U_NP,        U_NP,     U_NP,     U_NP,        U_NP, \
+U_NP,       KC_LGUI,  KC_LALT,    KC_LCTL,  KC_LSFT,  KC_HYPR,       U_NU,        U_NP,        U_NP,     U_NP,     U_NP,        U_NP, \
+U_NP,       U_NA,     KC_ALGR,    U_NA,     KC_MEH,   U_NA,          U_NU,        U_NP,        U_NP,     U_NP,     U_NP,        U_NP, \
                                   U_NA,     U_NA,     U_NA,          U_NP,        U_NP,        U_NP
 
 #define MIRYOKU_ALTERNATIVES_NAV \
@@ -55,7 +59,7 @@ U_NP,       U_NA,     KC_ALGR,    DF(U_FUN),    DF(U_MEDIA),  DT_DOWN,       OUT
 #define MIRYOKU_ALTERNATIVES_NUM \
 LAYER_LOCK,  SE_SLSH,  SE_7,   SE_8,   SE_9,   SE_MINS,       U_NA,      U_NA,         U_NA,          U_NA,        U_NA,      U_NP, \
 U_NP,        SE_ASTR,  SE_4,   SE_5,   SE_6,   SE_PLUS,       KC_HYPR,   KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,   U_NP, \
-U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   U_NA,          U_NA,      KC_MEH,       U_NA,          KC_ALGR,     U_NA,      U_NP, \
+U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   SE_PERC,       U_NA,      KC_MEH,       U_NA,          KC_ALGR,     U_NA,      U_NP, \
                               SE_DOT,  SE_0,   SE_COLN,       U_NA,      U_NA,         U_NA
 
 #define MIRYOKU_ALTERNATIVES_EMPTY \
@@ -73,7 +77,7 @@ U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_
 #define MIRYOKU_ALTERNATIVES_FUN \
 LAYER_LOCK, KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,        U_NA,       U_NA,        U_NA,         U_NA,       U_NA,     U_NP, \
 U_NP,       KC_F11, KC_F4, KC_F5, KC_F6, KC_SLCK,        KC_HYPR,    KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,  U_NP, \
-U_NP,       KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,        U_NA, KC_MEH,      U_NA,         U_NA,       U_NA,     U_NP, \
+U_NP,       KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,        U_NA,       KC_MEH,      U_NA,         U_NA,       U_NA,     U_NP, \
                            KC_APP,KC_SPC, KC_TAB,        U_NA,       U_NA,        U_NA
 
 #define MIRYOKU_ALTERNATIVES_SYM_TWO \
