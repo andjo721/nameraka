@@ -27,7 +27,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         return false;
     }
 
-
     if (record->event.pressed) {
         bool wind_move =
             (keycode == WIND_LEFT) || 
@@ -39,6 +38,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             clear_mods();
             SEND_STRING(SS_LCTRL("b"));
 
+
+            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
+                tap_code16(C(KC_RIGHT));
+                goto bail_false;
+            }
+            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
+                tap_code16(C(KC_LEFT));
+                goto bail_false;
+            }
+            
             if (((mods) & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
                 SEND_STRING("%");
                 goto bail_false;
