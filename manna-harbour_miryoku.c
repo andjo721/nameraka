@@ -38,13 +38,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             clear_mods();
             SEND_STRING(SS_LCTRL("b"));
 
-
             if (((mods) & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
                 tap_code16(C(KC_RIGHT));
                 goto bail_false;
             }
             if (((mods) & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
                 tap_code16(C(KC_LEFT));
+                goto bail_false;
+            }
+            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_UP)) {
+                tap_code16(C(KC_UP));
+                goto bail_false;
+            }
+            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_DOWN)) {
+                tap_code16(C(KC_DOWN));
                 goto bail_false;
             }
             
