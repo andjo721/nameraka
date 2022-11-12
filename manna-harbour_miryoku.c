@@ -15,14 +15,28 @@ enum custom_keycodes {
     WIND_DOWN,
     WIND_MAX_TOGGLE,
     HELM_RESUME,
-    LAYER_LOCK
+    LAYER_LOCK,
+    /* Project keycodes */
+    PRJ_FILES,
+    PRJ_PROJS,
+    PRJ_SEARCH,
+    PERSP_BUF,
+    MAGIT_STATUS,
+    PRJ_OTHER_FILE,
+    GO_TO,
+    GO_BACK,
+    LSP_FORMAT_REGION,
+    LSP_REFERENCES,
+    LSP_RENAME,    
+    LSP_LENS,    
+    FLYCHECK_NEXT_ERROR,
+    FLYCHECK_PREV_ERROR,
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     const uint8_t mods = get_mods();
 
-    
     if (!process_layer_lock(keycode, record, LAYER_LOCK)) {
         return false;
     }
@@ -36,8 +50,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         
         if (wind_move) {
             clear_mods();
-            SEND_STRING(SS_LCTRL("b"));
-
+#if 0
+            if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_RIGHT)) {
+                tap_code16(A(G(KC_5)));
+                goto bail_false;
+            }
+            if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_LEFT)) {
+                tap_code16(A(G(KC_4)));
+                goto bail_false;
+            }
+#endif
+            
+            SEND_STRING(SS_LCTL("b"));
+            
             if (((mods) & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
                 tap_code16(C(KC_RIGHT));
                 goto bail_false;
@@ -63,11 +88,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             if (((mods) & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
                 tap_code16(SE_DQUO);
                 goto bail_false;
-            } 
+            }
             
             if ((mods) & MOD_MASK_CTRL)
                 SEND_STRING("b");
-
             
             switch(keycode) {
             case WIND_LEFT:
@@ -86,15 +110,98 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         }
 
         if (keycode == WIND_MAX_TOGGLE) {
-            SEND_STRING(SS_LCTRL("b"));
+            SEND_STRING(SS_LCTL("b"));
             SEND_STRING("z");
             goto bail_false;
         }
 
         if (keycode == HELM_RESUME) {
-            SEND_STRING(SS_LCTRL("x"));
+            SEND_STRING(SS_LCTL("x"));
             SEND_STRING("c");
             SEND_STRING("b");
+            goto bail_false;
+        }
+
+        if (keycode == PRJ_FILES) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("pf");
+            goto bail_false;
+        }
+
+        if (keycode == PRJ_PROJS) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("pp");
+            goto bail_false;
+        }
+
+        if (keycode == PRJ_SEARCH) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("pss");
+            goto bail_false;
+        }
+
+        if (keycode == PRJ_OTHER_FILE) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("pa");
+            goto bail_false;
+        }
+
+        if (keycode == PERSP_BUF) {
+            SEND_STRING(SS_LCTL("x"));
+            SEND_STRING(SS_LCTL("b"));
+            goto bail_false;
+        }
+
+        if (keycode == MAGIT_STATUS) {
+            SEND_STRING(SS_LCTL("x"));
+            SEND_STRING("g");
+            goto bail_false;
+        }
+
+        if (keycode == GO_TO) {
+            tap_code16(A(SE_DOT));
+            goto bail_false;
+        }
+
+        if (keycode == GO_BACK) {
+            tap_code16(A(SE_COMM));
+            goto bail_false;
+        }
+
+        if (keycode == LSP_FORMAT_REGION) {
+            SEND_STRING(SS_LCTL(SS_LSFT(".")));
+            tap_code16(SE_EQL);
+            SEND_STRING("r");
+            goto bail_false;
+        }
+
+        if (keycode == LSP_REFERENCES) {
+            SEND_STRING(SS_LCTL(SS_LSFT(".")));
+            SEND_STRING("gr");
+            goto bail_false;
+        }
+
+        if (keycode == LSP_RENAME) {
+            SEND_STRING(SS_LCTL(SS_LSFT(".")));
+            SEND_STRING("rr");
+            goto bail_false;
+        }
+
+        if (keycode == LSP_LENS) {
+            SEND_STRING(SS_LCTL(SS_LSFT(".")));
+            SEND_STRING("Tl");
+            goto bail_false;
+        }
+        
+        if (keycode == FLYCHECK_NEXT_ERROR) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("!n");
+            goto bail_false;
+        }
+        
+        if (keycode == FLYCHECK_PREV_ERROR) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("!p");
             goto bail_false;
         }
     }
@@ -139,7 +246,7 @@ MIRYOKU_LAYER_LIST
 
 #if defined (MIRYOKU_KLUDGE_THUMBCOMBOS)
 const uint16_t PROGMEM thumbcombos_base_right[] = {LT(U_SYM, KC_ENT), LT(U_NUM, KC_BSPC), COMBO_END};
-const uint16_t PROGMEM thumbcombos_base_left[] = {LT(U_NAV, KC_SPC), LT(U_MOUSE, KC_TAB), COMBO_END};
+const uint16_t PROGMEM thumbcombos_base_left[] = {LT(U_NAV, KC_SPC), LT(U_DEVELOP, KC_TAB), COMBO_END};
 const uint16_t PROGMEM thumbcombos_nav[] = {KC_ENT, KC_BSPC, COMBO_END};
 const uint16_t PROGMEM thumbcombos_mouse[] = {KC_BTN2, KC_BTN1, COMBO_END};
 const uint16_t PROGMEM thumbcombos_media[] = {KC_MSTP, KC_MPLY, COMBO_END};
