@@ -1,0 +1,4 @@
+clang
+-D QMK_KEYBOARD_H="crkbd.h"
+-Iquantum/
+-Ikeyboards/crkbd/
