@@ -29,7 +29,7 @@
 #define AUTO_SHIFT_NO_SETUP
 
 // combos
-#define COMBO_COUNT 3
+#define COMBO_COUNT 2
 
 // Mouse key speed and acceleration.
 #undef MOUSEKEY_DELAY

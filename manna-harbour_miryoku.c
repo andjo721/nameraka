@@ -38,12 +38,12 @@ enum custom_keycodes {
 
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
 const uint16_t PROGMEM combo_aa[] = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM combo_ae[] = {RSFT_T(KC_J), LCTL_T(KC_K), COMBO_END};
-const uint16_t PROGMEM combo_oe[] = {MEH_T(KC_M), KC_COMM, COMBO_END};
+const uint16_t PROGMEM combo_oe[] = {RSFT_T(KC_J), LCTL_T(KC_K), COMBO_END};
+const uint16_t PROGMEM combo_ae[] = {MEH_T(KC_M), KC_COMM, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo_aa, KEY_AA), 
+//    COMBO(combo_oe, KEY_OE), 
     COMBO(combo_ae, KEY_AE), 
-    COMBO(combo_oe, KEY_OE), 
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
@@ -59,16 +59,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         // General implementation for combos - makes it possible to do macros and other more complicated stuff.
         if (keycode == KEY_AA) {
             tap_code16(SE_ARNG);
-            return false;
+            return true;
         }
         if (keycode == KEY_AE) {
             tap_code16(SE_ADIA);
-            return false;
+            return true;
         }
-        if (keycode == KEY_OE) {
-            tap_code16(SE_ODIA);
-            return false;
-        }
+        /* if (keycode == KEY_OE) { */
+        /*     tap_code16(SE_ODIA); */
+        /*     return true; */
+        /* } */
 
         bool wind_move =
             (keycode == WIND_LEFT) || 
