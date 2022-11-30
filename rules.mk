@@ -15,6 +15,8 @@ include users/manna-harbour_miryoku/post_rules.mk
 
 CAPS_WORD_ENABLE = yes
 
+COMBO_ENABLE = yes
+
 SRC += features/layer_lock.c
 
 COMMAND_ENABLE = no
