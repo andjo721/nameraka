@@ -1,7 +1,13 @@
-// Copyright 2022 Manna Harbour
-// https://github.com/manna-harbour/miryoku
+/* manna-harbour_miryoku modified by Andreas Johansson 
+   ---------------------------------------------------
 
-// This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+  Features include:
+  - Caps word
+  - Layer lock
+  - Tmux and emacs window handling
+  - Emacs project and programming layer
+  - Swedish characters using outer 3x6 columns or combos.
+*/ 
 
 #include QMK_KEYBOARD_H
 
@@ -9,31 +15,33 @@
 #include "features/layer_lock.h"
 
 enum custom_keycodes {
-    WIND_LEFT = SAFE_RANGE,
-    WIND_RIGHT,
-    WIND_UP,
-    WIND_DOWN,
-    WIND_MAX_TOGGLE,
-    HELM_RESUME,
-    LAYER_LOCK,
+    WIND_LEFT = SAFE_RANGE, 
+    WIND_RIGHT, 
+    WIND_UP, 
+    WIND_DOWN, 
+    WIND_MAX_TOGGLE, 
+    HELM_RESUME, 
+    LAYER_LOCK, // May be used for locking to current layer.
+
     /* Project keycodes */
-    PRJ_FILES,
-    PRJ_PROJS,
-    PRJ_SEARCH,
+    PRJ_FILES, 
+    PRJ_PROJS, 
+    PRJ_SEARCH, 
     PERSP_BUF,
-    MAGIT_STATUS,
-    PRJ_OTHER_FILE,
-    GO_TO,
-    GO_BACK,
-    LSP_FORMAT_REGION,
-    LSP_REFERENCES,
-    LSP_RENAME,    
-    LSP_LENS,    
-    FLYCHECK_NEXT_ERROR,
-    FLYCHECK_PREV_ERROR,
-    KEY_AA,
-    KEY_AE,
-    KEY_OE,
+    MAGIT_STATUS, 
+    PRJ_OTHER_FILE, 
+    GO_TO, 
+    GO_BACK, 
+    LSP_FORMAT_REGION, 
+    LSP_REFERENCES, 
+    LSP_RENAME, 
+    LSP_LENS, 
+    FLYCHECK_NEXT_ERROR, 
+    FLYCHECK_PREV_ERROR, 
+    /* Swedish key codes for activation through e.g. Combos. */
+    KEY_AA, 
+    KEY_AE, 
+    KEY_OE, 
 };
 
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
@@ -45,7 +53,7 @@ combo_t key_combos[COMBO_COUNT] = {
 //    COMBO(combo_oe, KEY_OE), 
     COMBO(combo_ae, KEY_AE), 
 };
-
+ 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     const uint8_t mods = get_mods();
