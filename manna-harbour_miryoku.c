@@ -1,12 +1,13 @@
 /* manna-harbour_miryoku modified by Andreas Johansson 
    ---------------------------------------------------
 
-  Features include:
-  - Caps word
-  - Layer lock
-  - Tmux and emacs window handling
-  - Emacs project and programming layer
-  - Swedish characters using outer 3x6 columns or combos.
+   Features include:
+   - Caps word
+   - Layer lock
+   - Tmux and emacs window handling
+   - Emacs project and programming layer
+   - Swedish characters using outer 3x6 columns or combos.
+  
 */ 
 
 #include QMK_KEYBOARD_H
@@ -38,6 +39,7 @@ enum custom_keycodes {
     LSP_LENS, 
     FLYCHECK_NEXT_ERROR, 
     FLYCHECK_PREV_ERROR, 
+
     /* Swedish key codes for activation through e.g. Combos. */
     KEY_AA, 
     KEY_AE, 
