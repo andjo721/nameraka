@@ -13,7 +13,7 @@
 // Can be switched between using the <DF> keys located in the media layer.
 // Which are BASE EXTRA and TAPPED may be specified using build time command line settings, for example by appending:
 // -e MIRYOKU_ALPHAS=QWERTY -e MIRYOKU_EXTRA=COLEMAKDH -e MIRYOKU_TAP=QWERTY
- #define MIRYOKU_ALTERNATIVES_BASE_COLEMAKDH \
+#define MIRYOKU_ALTERNATIVES_BASE_COLEMAKDH \
 U_NP,          KC_Q,              KC_W,              KC_F,              KC_P,              KC_B,              KC_J,              KC_L,              KC_U,              KC_Y,              KC_MINS,               KC_LBRC, \
 U_NP,          LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              HYPR_T(KC_M),      LSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O),          KC_QUOT, \
 U_NP,          LT(U_BUTTON,KC_Z), ALGR_T(KC_X),      KC_C,              KC_D,              KC_V,              KC_K,              MEH_T(KC_H),       KC_COMM,           ALGR_T(KC_DOT),    LT(U_BUTTON,KC_NUHS),  KC_SCLN, \
@@ -25,7 +25,7 @@ U_NP,          LT(U_BUTTON,KC_Z), ALGR_T(KC_X),      KC_C,              MEH_T(KC
                                                      LT(U_MEDIA,KC_ESC),LT(U_NAV,KC_SPC),  LT(U_PROJECT,KC_TAB),  LT(U_SYM,KC_ENT),  LT(U_NUM,KC_BSPC), LT(U_FUN,KC_DEL)
 #define MIRYOKU_ALTERNATIVES_TAP_QWERTY \
 KC_LALT,   KC_Q,  KC_W,    KC_E,    KC_R,              KC_T,              KC_Y,    KC_U,     KC_I,     KC_O,    KC_P,     KC_LBRC, \
-KC_LCTRL,  KC_A,  KC_S,    KC_D,    KC_F,              KC_G,              KC_H,    KC_J,     KC_K,     KC_L,    KC_COLN,  KC_QUOT, \
+KC_LCTL,   KC_A,  KC_S,    KC_D,    KC_F,              KC_G,              KC_H,    KC_J,     KC_K,     KC_L,    KC_COLN,  KC_QUOT, \
 KC_LSFT,   KC_Z,  KC_X,    KC_C,    KC_V,              KC_B,              KC_N,    KC_M,     KC_COMM,  KC_DOT,  KC_SLSH,  KC_SCLN, \
                           KC_ESC,  LT(U_NAV,KC_SPC),  KC_TAB,            KC_ENT,  KC_BSPC,  KC_DEL
 
@@ -40,16 +40,17 @@ U_NP,  KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,         KC_K,   KC_H,    KC_COMM,  KC_D
 // ----------------
 
 // Left thumb key #1 (from inside)
+// Emacs/Emacs Project
 #define MIRYOKU_ALTERNATIVES_PROJECT \
-U_NP,       U_NA,           U_NA,        U_NA,     U_NA,            U_NA,                 U_NP,                  LSP_REFERENCES,      U_NP,                  U_NP,     PRJ_PROJS,   U_NP, \
-U_NP,       PRJ_OTHER_FILE, PRJ_SEARCH,  U_NA,     PRJ_FILES,       MAGIT_STATUS,         LSP_FORMAT_REGION,     GO_TO,               GO_BACK,               LSP_LENS, U_NP,        U_NP, \
+U_NP,    LSP_FORMAT_REGION, U_NA,        U_NA,     U_NA,            U_NA,                 U_NP,                  LSP_REFERENCES,      U_NP,                  U_NP,     PRJ_PROJS,   U_NP, \
+U_NP,       PRJ_OTHER_FILE, PRJ_SEARCH,  U_NA,     PRJ_FILES,       MAGIT_STATUS,         HELM_RESUME,           GO_TO,               GO_BACK,               LSP_LENS, U_NP,        U_NP, \
 U_NP,       U_NA,           U_NA,   S(KC_F12),     U_NA,            PERSP_BUF,            LSP_RENAME,            FLYCHECK_NEXT_ERROR, FLYCHECK_PREV_ERROR,   U_NP,     U_NP,        U_NP, \
                                          U_NA,     U_NA,            U_NA,                 C(SE_RABK),            U_NP,                U_NP
 // Left thumb key #2 (from inside)
 #define MIRYOKU_ALTERNATIVES_NAV \
-U_NP,       U_NA,      U_NA,     U_NA,     U_NA,     U_NA,         WIND_MAX_TOGGLE,   WIND_LEFT,  WIND_DOWN,  WIND_UP,    WIND_RIGHT,  LCTL(SE_MINS), \
-U_NP,       KC_LGUI,   KC_LALT,  KC_LCTL,  KC_LSFT,  KC_HYPR,      CAPSWRD,           KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,     LCTL(SE_PLUS), \
-U_NP,       U_NA,      KC_ALGR,  U_NA,     KC_MEH,   U_NA,         KC_INS,            KC_HOME,    KC_PGDN,    KC_PGUP,    KC_END,      HELM_RESUME, \
+U_NP,       U_NA,      U_NA,     U_NA,     U_NA,     U_NA,         WIND_MAX_TOGGLE,   WIND_LEFT,  WIND_DOWN,  WIND_UP,    WIND_RIGHT,  U_NP, \
+U_NP,       KC_LGUI,   KC_LALT,  KC_LCTL,  KC_LSFT,  KC_HYPR,      CAPSWRD,           KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,     U_NP, \
+U_NP,       U_NA,      KC_ALGR,  U_NA,     KC_MEH,   U_NA,         KC_INS,            KC_END,     KC_PGDN,    KC_PGUP,    KC_HOME,     U_NP, \
                                  U_NA,     U_NA,     U_NA,         KC_ENT,            KC_BSPC,    KC_DEL
 
 // Left thumb key #3 (from inside)
@@ -57,10 +58,10 @@ U_NP,       U_NA,      KC_ALGR,  U_NA,     KC_MEH,   U_NA,         KC_INS,      
 // 2. DT is also here for evaluating purposes.
 //    Should be removed, or at least not built for release, when it is clear what the appropriate modifier delay is when I have become faster at typing on this keyboard.
 #define MIRYOKU_ALTERNATIVES_MEDIA                                      \
-U_NP,       RESET,    DF(U_TAP),  DF(U_EXTRA),  DF(U_BASE),   DT_PRNT,       RGB_TOG,   RGB_MOD,  RGB_HUI,  RGB_SAI,   RGB_VAI,  U_NP, \
-U_NP,       KC_LGUI,  KC_LALT,    KC_LCTL,      KC_LSFT,      DT_UP,         U_NU,      KC_MPRV,  KC_VOLD,  KC_VOLU,   KC_MNXT,  U_NP, \
-U_NP,       U_NA,     KC_ALGR,    DF(U_FUN),    DF(U_MEDIA),  DT_DOWN,       OUT_AUTO,  U_NU,     U_NU,     U_NU,      U_NU,     U_NP, \
-                                  U_NA,         U_NA,         U_NA,          KC_MSTP,   KC_MPLY,  KC_MUTE
+U_NP, TD(U_TD_BOOT), TD(U_TD_U_TAP),  TD(U_TD_U_EXTRA),    TD(U_TD_U_BASE),   DT_PRNT,    RGB_TOG,   RGB_MOD,  RGB_HUI,  RGB_SAI,   RGB_VAI,  U_NP, \
+U_NP,       KC_LGUI,        KC_LALT,           KC_LCTL,            KC_LSFT,      DT_UP,      U_NU,   KC_MPRV,  KC_VOLD,  KC_VOLU,   KC_MNXT,  U_NP, \
+U_NP,          U_NA,        KC_ALGR,    TD(U_TD_U_FUN),   TD(U_TD_U_MEDIA),    DT_DOWN,   OU_AUTO,      U_NU,     U_NU,     U_NU,      U_NU,  U_NP, \
+                               U_NA,              U_NA,               U_NA,    KC_MSTP,   KC_MPLY,   KC_MUTE
 // --------
 
 // Right thumb key #1 (from inside)
@@ -80,7 +81,7 @@ U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   SE_PERC,       U_NA,      KC_MEH,
 // Right thumb key #3 (from inside)
 #define MIRYOKU_ALTERNATIVES_FUN \
 U_NP,       KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,        U_NA,       U_NA,        U_NA,         U_NA,       U_NA,     U_NP, \
-U_NP,       KC_F11, KC_F4, KC_F5, KC_F6, KC_SLCK,        KC_HYPR,    KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,  U_NP, \
+U_NP,       KC_F11, KC_F4, KC_F5, KC_F6, KC_SCRL,        KC_HYPR,    KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,  U_NP, \
 U_NP,       KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,        U_NA,       KC_MEH,      U_NA,         U_NA,       U_NA,     U_NP, \
                            KC_APP,KC_SPC, KC_TAB,        U_NA,       U_NA,        U_NA
 
@@ -97,5 +98,3 @@ U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_
 U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        \
                                        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP
 
-
-//(projectile-run-term "/bin/bash")

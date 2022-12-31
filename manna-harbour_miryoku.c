@@ -148,8 +148,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         }
 
         if (keycode == WIND_MAX_TOGGLE) {
-            SEND_STRING(SS_LCTL("b"));
-            SEND_STRING("z");
+            if (mods & MOD_MASK_CTRL) {
+                SEND_STRING(SS_LCTL("x"));
+                SEND_STRING("1");
+            }
+            else {
+                SEND_STRING(SS_LCTL("b"));
+                SEND_STRING("z");
+            }
             goto bail_false;
         }
 
@@ -276,11 +282,49 @@ bool caps_word_press_user(uint16_t keycode)
     return false;  // Deactivate Caps Word.
 }
 
+
+// Additional Features double tap guard
+
+enum {
+    U_TD_BOOT,
+#define MIRYOKU_X(LAYER, STRING) U_TD_U_##LAYER,
+MIRYOKU_LAYER_LIST
+#undef MIRYOKU_X
+};
+
+void u_td_fn_boot(qk_tap_dance_state_t *state, void *user_data) { \
+  if (state->count == 2) {
+    reset_keyboard();
+  }
+}
+
+#define MIRYOKU_X(LAYER, STRING) \
+void u_td_fn_U_##LAYER(qk_tap_dance_state_t *state, void *user_data) { \
+  if (state->count == 2) { \
+    default_layer_set((layer_state_t)1 << U_##LAYER); \
+  } \
+}
+MIRYOKU_LAYER_LIST
+#undef MIRYOKU_X
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [U_TD_BOOT] = ACTION_TAP_DANCE_FN(u_td_fn_boot),
+#define MIRYOKU_X(LAYER, STRING) [U_TD_U_##LAYER] = ACTION_TAP_DANCE_FN(u_td_fn_U_##LAYER),
+MIRYOKU_LAYER_LIST
+#undef MIRYOKU_X
+};
+
+
+
+// keymap
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define MIRYOKU_X(LAYER, STRING) [U_##LAYER] = U_MACRO_VA_ARGS(MIRYOKU_LAYERMAPPING_##LAYER, MIRYOKU_LAYER_##LAYER),
 MIRYOKU_LAYER_LIST
 #undef MIRYOKU_X
 };
+
+// thumb combos
 
 #if defined (MIRYOKU_KLUDGE_THUMBCOMBOS)
 const uint16_t PROGMEM thumbcombos_base_right[] = {LT(U_SYM, KC_ENT), LT(U_NUM, KC_BSPC), COMBO_END};
