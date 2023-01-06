@@ -104,6 +104,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                 return false;
             }
 
+            if (keycode == SE_SLSH) {
+                clear_mods();
+                tap_code16(SE_SLSH);
+                tap_code16(SE_SLSH);
+                tap_code16(KC_SPC);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_GRV) {
+                clear_mods();
+                tap_code16(SE_GRV);
+                tap_code16(SE_GRV);
+                tap_code16(SE_GRV);
+                tap_code16(SE_GRV);
+                tap_code16(KC_LEFT);
+                set_mods(mods);
+                return false;
+            }
+            
+            if (keycode == SE_QUOT) {
+                clear_mods();
+                tap_code16(SE_QUOT);
+                tap_code16(SE_QUOT);
+                tap_code16(KC_LEFT);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_DQUO) {
+                clear_mods();
+                tap_code16(SE_DQUO);
+                tap_code16(SE_DQUO);
+                tap_code16(KC_LEFT);
+                set_mods(mods);
+                return false;
+            }
+
             if (keycode == SE_EQL) {
                 clear_mods();
                 tap_code16(KC_SPC);

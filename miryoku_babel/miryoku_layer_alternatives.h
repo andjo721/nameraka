@@ -66,9 +66,9 @@ U_NP,          U_NA,        KC_ALGR,    TD(U_TD_U_FUN),   TD(U_TD_U_MEDIA),    D
 
 // Right thumb key #1 (from inside)
 #define MIRYOKU_ALTERNATIVES_SYM \
-U_NP,       SE_LABK,  SE_AMPR,  SE_LCBR,   SE_RCBR,   SE_AT,              SE_SLSH,   SE_TILD,            SE_CIRC,        SE_ACUT,     SE_QUES,  U_NP, \
+U_NP,       SE_LABK,  SE_AMPR,  SE_LCBR,   SE_RCBR,   SE_AT,              SE_SLSH,   SE_GRV,            SE_CIRC,        SE_ACUT,     SE_QUES,  U_NP, \
 U_NP,       SE_RABK,  SE_DLR,   SE_LPRN,   SE_RPRN,   SE_SCLN,            SE_HASH,   SE_EQL,        LCTL_T(U_NA),   LALT_T(U_NA),  LGUI(U_NA),  U_NP, \
-U_NP,       SE_PIPE,  SE_EXLM,  SE_LBRC,   SE_RBRC,   SE_COLN,            SE_BSLS,   KC_PERC,             SE_GRV,        KC_ALGR,        U_NA,  U_NP, \
+U_NP,       SE_PIPE,  SE_EXLM,  SE_LBRC,   SE_RBRC,   SE_COLN,            SE_BSLS,   KC_PERC,            SE_TILD,        KC_ALGR,        U_NA,  U_NP, \
                                 SE_DQUO,   SE_SLSH,   SE_QUOT,            U_NA,      U_NA,                  U_NA
 
 // Right thumb key #2 (from inside)
