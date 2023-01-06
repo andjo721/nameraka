@@ -19,7 +19,7 @@ enum custom_keycodes {
     WIND_LEFT = SAFE_RANGE, 
     WIND_RIGHT, 
     WIND_UP, 
-    WIND_DOWN, 
+    WIND_DOWN,
     WIND_MAX_TOGGLE, 
     HELM_RESUME, 
     LAYER_LOCK, // May be used for locking to current layer.
@@ -28,7 +28,7 @@ enum custom_keycodes {
     PRJ_FILES, 
     PRJ_PROJS, 
     PRJ_SEARCH, 
-    PERSP_BUF,
+    PERSP_BUF, 
     MAGIT_STATUS, 
     PRJ_OTHER_FILE, 
     GO_TO, 
@@ -52,10 +52,9 @@ const uint16_t PROGMEM combo_oe[] = {RSFT_T(KC_J), LCTL_T(KC_K), COMBO_END};
 const uint16_t PROGMEM combo_ae[] = {MEH_T(KC_M), KC_COMM, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo_aa, KEY_AA), 
-//    COMBO(combo_oe, KEY_OE), 
     COMBO(combo_ae, KEY_AE), 
 };
- 
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     const uint8_t mods = get_mods();
@@ -75,16 +74,115 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             tap_code16(SE_ADIA);
             return true;
         }
-        /* if (keycode == KEY_OE) { */
-        /*     tap_code16(SE_ODIA); */
-        /*     return true; */
-        /* } */
 
-        bool wind_move =
-            (keycode == WIND_LEFT) || 
-            (keycode == WIND_DOWN) || 
-            (keycode == WIND_UP) || 
-            (keycode == WIND_RIGHT);
+        // Mostly for programming
+        if (mods & MOD_MASK_ALT) {
+            if (keycode == SE_LCBR) {
+                clear_mods();
+                tap_code16(KC_END);
+                tap_code16(KC_SPC);
+                tap_code16(SE_LCBR);
+                tap_code16(KC_TAB);
+                tap_code16(KC_ENT);
+                tap_code16(KC_ENT);
+                tap_code16(SE_RCBR);
+                tap_code16(KC_TAB);
+                tap_code16(KC_UP);
+                tap_code16(KC_TAB);
+                set_mods(mods);
+                return false;
+            }
+        }
+        
+        if (mods & MOD_MASK_CTRL) {
+
+            if (keycode == KC_COMM) {
+                clear_mods();
+                tap_code16(KC_COMM);
+                tap_code16(KC_SPC);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_EQL) {
+                clear_mods();
+                tap_code16(KC_SPC);
+                tap_code16(SE_EQL);
+                tap_code16(SE_EQL);
+                tap_code16(KC_SPC);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_SCLN) {
+                clear_mods();
+                tap_code16(KC_END);
+                tap_code16(SE_SCLN);
+                tap_code16(KC_ENT);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_EXLM) {
+                clear_mods();
+                tap_code16(KC_SPC);
+                tap_code16(SE_EXLM);
+                tap_code16(SE_EQL);
+                tap_code16(KC_SPC);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_PIPE) {
+                clear_mods();
+                tap_code16(KC_SPC);
+                tap_code16(SE_PIPE);
+                tap_code16(SE_PIPE);
+                tap_code16(KC_SPC);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_AMPR) {
+                clear_mods();
+                tap_code16(KC_SPC);
+                tap_code16(SE_AMPR);
+                tap_code16(SE_AMPR);
+                tap_code16(KC_SPC);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_LPRN) {
+                clear_mods();
+                tap_code16(SE_LPRN);
+                tap_code16(SE_RPRN);
+                tap_code16(KC_LEFT);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_LCBR) {
+                clear_mods();
+                tap_code16(SE_LCBR);
+                tap_code16(SE_RCBR);
+                tap_code16(KC_LEFT);
+                set_mods(mods);
+                return false;
+            }
+
+            if (keycode == SE_LBRC) {
+                clear_mods();
+                tap_code16(SE_LBRC);
+                tap_code16(SE_RBRC);
+                tap_code16(KC_LEFT);
+                set_mods(mods);
+                return false;
+            }
+        }
+        
+        bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || 
+                         (keycode == WIND_UP)   || (keycode == WIND_RIGHT);
         
         if (wind_move) {
             clear_mods();
@@ -101,34 +199,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             
             SEND_STRING(SS_LCTL("b"));
             
-            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
+            if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
                 tap_code16(C(KC_RIGHT));
                 goto bail_false;
             }
-            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
+            if ((mods & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
                 tap_code16(C(KC_LEFT));
                 goto bail_false;
             }
-            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_UP)) {
+            if ((mods & MOD_MASK_GUI) && (keycode == WIND_UP)) {
                 tap_code16(C(KC_UP));
                 goto bail_false;
             }
-            if (((mods) & MOD_MASK_GUI) && (keycode == WIND_DOWN)) {
+            if ((mods & MOD_MASK_GUI) && (keycode == WIND_DOWN)) {
                 tap_code16(C(KC_DOWN));
                 goto bail_false;
             }
             
-            if (((mods) & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
+            if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
                 SEND_STRING("%");
                 goto bail_false;
             }
 
-            if (((mods) & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
+            if ((mods & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
                 tap_code16(SE_DQUO);
                 goto bail_false;
             }
             
-            if ((mods) & MOD_MASK_CTRL)
+            if (mods & MOD_MASK_CTRL)
                 SEND_STRING("b");
             
             switch(keycode) {
