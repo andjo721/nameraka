@@ -55,6 +55,356 @@ combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo_ae, KEY_AE), 
 };
 
+
+#define PROCESS_SUB_RECORD(F) { \
+        int r = F(keycode, record, mods); \
+        if (r == 0) \
+           goto bail_false; \
+        else if (r == 1) \
+           return true; \
+    }
+
+
+int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
+{
+    // Mostly for programming
+    if (mods & MOD_MASK_ALT) {
+        if (keycode == SE_LCBR) {
+            clear_mods();
+            tap_code16(KC_END);
+            tap_code16(KC_SPC);
+            tap_code16(SE_LCBR);
+            tap_code16(KC_TAB);
+            tap_code16(KC_ENT);
+            tap_code16(KC_ENT);
+            tap_code16(SE_RCBR);
+            tap_code16(KC_TAB);
+            tap_code16(KC_UP);
+            tap_code16(KC_TAB);
+            set_mods(mods);
+            return 0;
+        }
+    }
+        
+    if (mods & MOD_MASK_CTRL) {
+
+        if (keycode == KC_COMM) {
+            clear_mods();
+            tap_code16(KC_COMM);
+            tap_code16(KC_SPC);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_SLSH) {
+            clear_mods();
+            tap_code16(SE_SLSH);
+            tap_code16(SE_SLSH);
+            tap_code16(KC_SPC);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_GRV) {
+            clear_mods();
+            tap_code16(SE_GRV);
+            tap_code16(SE_GRV);
+            tap_code16(SE_GRV);
+            tap_code16(SE_GRV);
+            tap_code16(KC_LEFT);
+            set_mods(mods);
+            return 0;
+        }
+            
+        if (keycode == SE_QUOT) {
+            clear_mods();
+            tap_code16(SE_QUOT);
+            tap_code16(SE_QUOT);
+            tap_code16(KC_LEFT);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_DQUO) {
+            clear_mods();
+            tap_code16(SE_DQUO);
+            tap_code16(SE_DQUO);
+            tap_code16(KC_LEFT);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_EQL) {
+            clear_mods();
+            tap_code16(KC_SPC);
+            tap_code16(SE_EQL);
+            tap_code16(SE_EQL);
+            tap_code16(KC_SPC);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_SCLN) {
+            clear_mods();
+            tap_code16(KC_END);
+            tap_code16(SE_SCLN);
+            tap_code16(KC_ENT);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_EXLM) {
+            clear_mods();
+            tap_code16(KC_SPC);
+            tap_code16(SE_EXLM);
+            tap_code16(SE_EQL);
+            tap_code16(KC_SPC);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_PIPE) {
+            clear_mods();
+            tap_code16(KC_SPC);
+            tap_code16(SE_PIPE);
+            tap_code16(SE_PIPE);
+            tap_code16(KC_SPC);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_AMPR) {
+            clear_mods();
+            tap_code16(KC_SPC);
+            tap_code16(SE_AMPR);
+            tap_code16(SE_AMPR);
+            tap_code16(KC_SPC);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_LPRN) {
+            clear_mods();
+            tap_code16(SE_LPRN);
+            tap_code16(SE_RPRN);
+            tap_code16(KC_LEFT);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_LCBR) {
+            clear_mods();
+            tap_code16(SE_LCBR);
+            tap_code16(SE_RCBR);
+            tap_code16(KC_LEFT);
+            set_mods(mods);
+            return 0;
+        }
+
+        if (keycode == SE_LBRC) {
+            clear_mods();
+            tap_code16(SE_LBRC);
+            tap_code16(SE_RBRC);
+            tap_code16(KC_LEFT);
+            set_mods(mods);
+            return 0;
+        }
+    }
+
+    return -1;
+}
+
+
+/**
+ */
+int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
+{
+    bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || 
+        (keycode == WIND_UP)   || (keycode == WIND_RIGHT);
+        
+    if (wind_move) {
+        clear_mods();
+#if 0
+        if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_RIGHT)) {
+            tap_code16(A(G(KC_5)));
+            goto bail_false;
+        }
+        if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_LEFT)) {
+            tap_code16(A(G(KC_4)));
+            goto bail_false;
+        }
+#endif
+            
+        SEND_STRING(SS_LCTL("b"));
+            
+        if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
+            tap_code16(C(KC_RIGHT));
+            goto bail_false;
+        }
+        if ((mods & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
+            tap_code16(C(KC_LEFT));
+            goto bail_false;
+        }
+        if ((mods & MOD_MASK_GUI) && (keycode == WIND_UP)) {
+            tap_code16(C(KC_UP));
+            goto bail_false;
+        }
+        if ((mods & MOD_MASK_GUI) && (keycode == WIND_DOWN)) {
+            tap_code16(C(KC_DOWN));
+            goto bail_false;
+        }
+            
+        if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
+            SEND_STRING("%");
+            goto bail_false;
+        }
+
+        if ((mods & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
+            tap_code16(SE_DQUO);
+            goto bail_false;
+        }
+            
+        if (mods & MOD_MASK_CTRL)
+            SEND_STRING("b");
+            
+        switch(keycode) {
+        case WIND_LEFT:
+            tap_code16(KC_LEFT);
+            goto bail_false;
+        case WIND_DOWN:
+            tap_code16(KC_DOWN);
+            goto bail_false;
+        case WIND_UP:
+            tap_code16(KC_UP);
+            goto bail_false;
+        case WIND_RIGHT:
+            tap_code16(KC_RIGHT);
+            goto bail_false;
+        }
+    }
+
+    if (keycode == WIND_MAX_TOGGLE) {
+        if (mods & MOD_MASK_CTRL) {
+            SEND_STRING(SS_LCTL("x"));
+            SEND_STRING("1");
+        }
+        else {
+            SEND_STRING(SS_LCTL("b"));
+            SEND_STRING("z");
+        }
+        goto bail_false;
+    }
+
+    return -1;
+    
+bail_false:
+    return 0;
+}
+
+
+/**
+ */
+int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
+{
+    if (keycode == HELM_RESUME) {
+        SEND_STRING(SS_LCTL("x"));
+        SEND_STRING("c");
+        SEND_STRING("b");
+        goto bail_false;
+    }
+
+    if (keycode == PRJ_FILES) {
+        SEND_STRING(SS_LCTL("c"));
+        SEND_STRING("pf");
+        goto bail_false;
+    }
+
+    if (keycode == PRJ_PROJS) {
+        SEND_STRING(SS_LCTL("c"));
+        SEND_STRING("pp");
+        goto bail_false;
+    }
+
+    if (keycode == PRJ_SEARCH) {
+        SEND_STRING(SS_LCTL("c"));
+        SEND_STRING("pss");
+        goto bail_false;
+    }
+
+    if (keycode == PRJ_OTHER_FILE) {
+        SEND_STRING(SS_LCTL("c"));
+        SEND_STRING("pa");
+        goto bail_false;
+    }
+
+    if (keycode == PERSP_BUF) {
+        SEND_STRING(SS_LCTL("x"));
+        SEND_STRING(SS_LCTL("b"));
+        goto bail_false;
+    }
+
+    if (keycode == MAGIT_STATUS) {
+        SEND_STRING(SS_LCTL("x"));
+        SEND_STRING("g");
+        goto bail_false;
+    }
+
+    if (keycode == GO_TO) {
+        tap_code16(A(SE_DOT));
+        goto bail_false;
+    }
+
+    if (keycode == GO_BACK) {
+        tap_code16(A(SE_COMM));
+        goto bail_false;
+    }
+
+    if (keycode == LSP_FORMAT_REGION) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")));
+        tap_code16(SE_EQL);
+        SEND_STRING("r");
+        goto bail_false;
+    }
+
+    if (keycode == LSP_REFERENCES) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")));
+        SEND_STRING("gr");
+        goto bail_false;
+    }
+
+    if (keycode == LSP_RENAME) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")));
+        SEND_STRING("rr");
+        goto bail_false;
+    }
+
+    if (keycode == LSP_LENS) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")));
+        SEND_STRING("Tl");
+        goto bail_false;
+    }
+        
+    if (keycode == FLYCHECK_NEXT_ERROR) {
+        SEND_STRING(SS_LCTL("c"));
+        SEND_STRING("!n");
+        goto bail_false;
+    }
+        
+    if (keycode == FLYCHECK_PREV_ERROR) {
+        SEND_STRING(SS_LCTL("c"));
+        SEND_STRING("!p");
+        goto bail_false;
+    }
+
+    return -1;
+    
+bail_false:
+    return 0;
+}
+
+
+/**
+ */
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     const uint8_t mods = get_mods();
@@ -64,7 +414,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     }
 
     if (record->event.pressed) {
-
         // General implementation for combos - makes it possible to do macros and other more complicated stuff.
         if (keycode == KEY_AA) {
             tap_code16(SE_ARNG);
@@ -75,323 +424,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return true;
         }
 
-        // Mostly for programming
-        if (mods & MOD_MASK_ALT) {
-            if (keycode == SE_LCBR) {
-                clear_mods();
-                tap_code16(KC_END);
-                tap_code16(KC_SPC);
-                tap_code16(SE_LCBR);
-                tap_code16(KC_TAB);
-                tap_code16(KC_ENT);
-                tap_code16(KC_ENT);
-                tap_code16(SE_RCBR);
-                tap_code16(KC_TAB);
-                tap_code16(KC_UP);
-                tap_code16(KC_TAB);
-                set_mods(mods);
-                return false;
-            }
-        }
-        
-        if (mods & MOD_MASK_CTRL) {
+        PROCESS_SUB_RECORD(process_record_programming); 
 
-            if (keycode == KC_COMM) {
-                clear_mods();
-                tap_code16(KC_COMM);
-                tap_code16(KC_SPC);
-                set_mods(mods);
-                return false;
-            }
+        PROCESS_SUB_RECORD(process_record_navigation);
 
-            if (keycode == SE_SLSH) {
-                clear_mods();
-                tap_code16(SE_SLSH);
-                tap_code16(SE_SLSH);
-                tap_code16(KC_SPC);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_GRV) {
-                clear_mods();
-                tap_code16(SE_GRV);
-                tap_code16(SE_GRV);
-                tap_code16(SE_GRV);
-                tap_code16(SE_GRV);
-                tap_code16(KC_LEFT);
-                set_mods(mods);
-                return false;
-            }
-            
-            if (keycode == SE_QUOT) {
-                clear_mods();
-                tap_code16(SE_QUOT);
-                tap_code16(SE_QUOT);
-                tap_code16(KC_LEFT);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_DQUO) {
-                clear_mods();
-                tap_code16(SE_DQUO);
-                tap_code16(SE_DQUO);
-                tap_code16(KC_LEFT);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_EQL) {
-                clear_mods();
-                tap_code16(KC_SPC);
-                tap_code16(SE_EQL);
-                tap_code16(SE_EQL);
-                tap_code16(KC_SPC);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_SCLN) {
-                clear_mods();
-                tap_code16(KC_END);
-                tap_code16(SE_SCLN);
-                tap_code16(KC_ENT);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_EXLM) {
-                clear_mods();
-                tap_code16(KC_SPC);
-                tap_code16(SE_EXLM);
-                tap_code16(SE_EQL);
-                tap_code16(KC_SPC);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_PIPE) {
-                clear_mods();
-                tap_code16(KC_SPC);
-                tap_code16(SE_PIPE);
-                tap_code16(SE_PIPE);
-                tap_code16(KC_SPC);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_AMPR) {
-                clear_mods();
-                tap_code16(KC_SPC);
-                tap_code16(SE_AMPR);
-                tap_code16(SE_AMPR);
-                tap_code16(KC_SPC);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_LPRN) {
-                clear_mods();
-                tap_code16(SE_LPRN);
-                tap_code16(SE_RPRN);
-                tap_code16(KC_LEFT);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_LCBR) {
-                clear_mods();
-                tap_code16(SE_LCBR);
-                tap_code16(SE_RCBR);
-                tap_code16(KC_LEFT);
-                set_mods(mods);
-                return false;
-            }
-
-            if (keycode == SE_LBRC) {
-                clear_mods();
-                tap_code16(SE_LBRC);
-                tap_code16(SE_RBRC);
-                tap_code16(KC_LEFT);
-                set_mods(mods);
-                return false;
-            }
-        }
-        
-        bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || 
-                         (keycode == WIND_UP)   || (keycode == WIND_RIGHT);
-        
-        if (wind_move) {
-            clear_mods();
-#if 0
-            if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_RIGHT)) {
-                tap_code16(A(G(KC_5)));
-                goto bail_false;
-            }
-            if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_LEFT)) {
-                tap_code16(A(G(KC_4)));
-                goto bail_false;
-            }
-#endif
-            
-            SEND_STRING(SS_LCTL("b"));
-            
-            if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
-                tap_code16(C(KC_RIGHT));
-                goto bail_false;
-            }
-            if ((mods & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
-                tap_code16(C(KC_LEFT));
-                goto bail_false;
-            }
-            if ((mods & MOD_MASK_GUI) && (keycode == WIND_UP)) {
-                tap_code16(C(KC_UP));
-                goto bail_false;
-            }
-            if ((mods & MOD_MASK_GUI) && (keycode == WIND_DOWN)) {
-                tap_code16(C(KC_DOWN));
-                goto bail_false;
-            }
-            
-            if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
-                SEND_STRING("%");
-                goto bail_false;
-            }
-
-            if ((mods & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
-                tap_code16(SE_DQUO);
-                goto bail_false;
-            }
-            
-            if (mods & MOD_MASK_CTRL)
-                SEND_STRING("b");
-            
-            switch(keycode) {
-            case WIND_LEFT:
-                tap_code16(KC_LEFT);
-                goto bail_false;
-            case WIND_DOWN:
-                tap_code16(KC_DOWN);
-                goto bail_false;
-            case WIND_UP:
-                tap_code16(KC_UP);
-                goto bail_false;
-            case WIND_RIGHT:
-                tap_code16(KC_RIGHT);
-                goto bail_false;
-            }
-        }
-
-        if (keycode == WIND_MAX_TOGGLE) {
-            if (mods & MOD_MASK_CTRL) {
-                SEND_STRING(SS_LCTL("x"));
-                SEND_STRING("1");
-            }
-            else {
-                SEND_STRING(SS_LCTL("b"));
-                SEND_STRING("z");
-            }
-            goto bail_false;
-        }
-
-        if (keycode == HELM_RESUME) {
-            SEND_STRING(SS_LCTL("x"));
-            SEND_STRING("c");
-            SEND_STRING("b");
-            goto bail_false;
-        }
-
-        if (keycode == PRJ_FILES) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("pf");
-            goto bail_false;
-        }
-
-        if (keycode == PRJ_PROJS) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("pp");
-            goto bail_false;
-        }
-
-        if (keycode == PRJ_SEARCH) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("pss");
-            goto bail_false;
-        }
-
-        if (keycode == PRJ_OTHER_FILE) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("pa");
-            goto bail_false;
-        }
-
-        if (keycode == PERSP_BUF) {
-            SEND_STRING(SS_LCTL("x"));
-            SEND_STRING(SS_LCTL("b"));
-            goto bail_false;
-        }
-
-        if (keycode == MAGIT_STATUS) {
-            SEND_STRING(SS_LCTL("x"));
-            SEND_STRING("g");
-            goto bail_false;
-        }
-
-        if (keycode == GO_TO) {
-            tap_code16(A(SE_DOT));
-            goto bail_false;
-        }
-
-        if (keycode == GO_BACK) {
-            tap_code16(A(SE_COMM));
-            goto bail_false;
-        }
-
-        if (keycode == LSP_FORMAT_REGION) {
-            SEND_STRING(SS_LCTL(SS_LSFT(".")));
-            tap_code16(SE_EQL);
-            SEND_STRING("r");
-            goto bail_false;
-        }
-
-        if (keycode == LSP_REFERENCES) {
-            SEND_STRING(SS_LCTL(SS_LSFT(".")));
-            SEND_STRING("gr");
-            goto bail_false;
-        }
-
-        if (keycode == LSP_RENAME) {
-            SEND_STRING(SS_LCTL(SS_LSFT(".")));
-            SEND_STRING("rr");
-            goto bail_false;
-        }
-
-        if (keycode == LSP_LENS) {
-            SEND_STRING(SS_LCTL(SS_LSFT(".")));
-            SEND_STRING("Tl");
-            goto bail_false;
-        }
-        
-        if (keycode == FLYCHECK_NEXT_ERROR) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("!n");
-            goto bail_false;
-        }
-        
-        if (keycode == FLYCHECK_PREV_ERROR) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("!p");
-            goto bail_false;
-        }
+        PROCESS_SUB_RECORD(process_record_project); 
     }
 
     return true;
-    
+
 bail_false:
     set_mods(mods);
     return false;
-};
+}
 
 
 // Customized caps word for defines
