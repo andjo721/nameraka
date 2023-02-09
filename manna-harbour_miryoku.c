@@ -64,7 +64,6 @@ combo_t key_combos[COMBO_COUNT] = {
            return true; \
     }
 
-// before: 24598 bytes
 int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
     // Mostly for programming
@@ -75,10 +74,11 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
             tap_code(KC_END);
             tap_code(KC_SPC);
             tap_code16(SE_LCBR);
+            tap_code16(SE_RCBR);
+            tap_code(KC_LEFT);
             tap_code(KC_TAB);
             tap_code(KC_ENT);
             tap_code(KC_ENT);
-            tap_code16(SE_RCBR);
             tap_code(KC_TAB);
             tap_code(KC_UP);
             tap_code(KC_TAB);
