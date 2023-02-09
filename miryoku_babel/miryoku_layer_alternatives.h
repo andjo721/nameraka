@@ -46,6 +46,7 @@ U_NP,    LSP_FORMAT_REGION, U_NA,        U_NA,     U_NA,            U_NA,       
 U_NP,       PRJ_OTHER_FILE, PRJ_SEARCH,  U_NA,     PRJ_FILES,       MAGIT_STATUS,         HELM_RESUME,           GO_TO,               GO_BACK,               LSP_LENS, U_NP,        U_NP, \
 U_NP,       U_NA,           U_NA,   S(KC_F12),     U_NA,            PERSP_BUF,            LSP_RENAME,            FLYCHECK_NEXT_ERROR, FLYCHECK_PREV_ERROR,   U_NP,     U_NP,        U_NP, \
                                          U_NA,     U_NA,            U_NA,                 C(SE_RABK),            U_NP,                U_NP
+
 // Left thumb key #2 (from inside)
 #define MIRYOKU_ALTERNATIVES_NAV \
 U_NP,       U_NA,      U_NA,     U_NA,     U_NA,     U_NA,         WIND_MAX_TOGGLE,   WIND_LEFT,  WIND_DOWN,  WIND_UP,    WIND_RIGHT,  U_NP, \

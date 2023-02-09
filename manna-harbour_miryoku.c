@@ -64,154 +64,132 @@ combo_t key_combos[COMBO_COUNT] = {
            return true; \
     }
 
-
+// before: 24598 bytes
 int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
     // Mostly for programming
+    clear_mods();
+    
     if (mods & MOD_MASK_ALT) {
         if (keycode == SE_LCBR) {
-            clear_mods();
-            tap_code16(KC_END);
-            tap_code16(KC_SPC);
+            tap_code(KC_END);
+            tap_code(KC_SPC);
             tap_code16(SE_LCBR);
-            tap_code16(KC_TAB);
-            tap_code16(KC_ENT);
-            tap_code16(KC_ENT);
+            tap_code(KC_TAB);
+            tap_code(KC_ENT);
+            tap_code(KC_ENT);
             tap_code16(SE_RCBR);
-            tap_code16(KC_TAB);
-            tap_code16(KC_UP);
-            tap_code16(KC_TAB);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_TAB);
+            tap_code(KC_UP);
+            tap_code(KC_TAB);
+            goto bail;
         }
     }
         
     if (mods & MOD_MASK_CTRL) {
 
         if (keycode == KC_COMM) {
-            clear_mods();
-            tap_code16(KC_COMM);
-            tap_code16(KC_SPC);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_COMM);
+            tap_code(KC_SPC);
+            goto bail;
         }
 
         if (keycode == SE_SLSH) {
-            clear_mods();
             tap_code16(SE_SLSH);
             tap_code16(SE_SLSH);
-            tap_code16(KC_SPC);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_SPC);
+            goto bail;
         }
 
         if (keycode == SE_GRV) {
-            clear_mods();
             tap_code16(SE_GRV);
             tap_code16(SE_GRV);
             tap_code16(SE_GRV);
             tap_code16(SE_GRV);
-            tap_code16(KC_LEFT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_LEFT);
+            goto bail;
         }
             
         if (keycode == SE_QUOT) {
-            clear_mods();
             tap_code16(SE_QUOT);
             tap_code16(SE_QUOT);
-            tap_code16(KC_LEFT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_LEFT);
+            goto bail;
         }
 
         if (keycode == SE_DQUO) {
-            clear_mods();
             tap_code16(SE_DQUO);
             tap_code16(SE_DQUO);
-            tap_code16(KC_LEFT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_LEFT);
+            goto bail;
         }
 
         if (keycode == SE_EQL) {
-            clear_mods();
-            tap_code16(KC_SPC);
+            tap_code(KC_SPC);
             tap_code16(SE_EQL);
             tap_code16(SE_EQL);
-            tap_code16(KC_SPC);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_SPC);
+            goto bail;
         }
 
         if (keycode == SE_SCLN) {
-            clear_mods();
-            tap_code16(KC_END);
+            tap_code(KC_END);
             tap_code16(SE_SCLN);
-            tap_code16(KC_ENT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_ENT);
+            goto bail;
         }
 
         if (keycode == SE_EXLM) {
-            clear_mods();
-            tap_code16(KC_SPC);
+            tap_code(KC_SPC);
             tap_code16(SE_EXLM);
             tap_code16(SE_EQL);
-            tap_code16(KC_SPC);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_SPC);
+            goto bail;
         }
 
         if (keycode == SE_PIPE) {
-            clear_mods();
-            tap_code16(KC_SPC);
+            tap_code(KC_SPC);
             tap_code16(SE_PIPE);
             tap_code16(SE_PIPE);
-            tap_code16(KC_SPC);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_SPC);
+            goto bail;
         }
 
         if (keycode == SE_AMPR) {
-            clear_mods();
-            tap_code16(KC_SPC);
+            tap_code(KC_SPC);
             tap_code16(SE_AMPR);
             tap_code16(SE_AMPR);
-            tap_code16(KC_SPC);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_SPC);
+            goto bail;
         }
 
         if (keycode == SE_LPRN) {
-            clear_mods();
             tap_code16(SE_LPRN);
             tap_code16(SE_RPRN);
-            tap_code16(KC_LEFT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_LEFT);
+            goto bail;
         }
 
         if (keycode == SE_LCBR) {
-            clear_mods();
             tap_code16(SE_LCBR);
             tap_code16(SE_RCBR);
-            tap_code16(KC_LEFT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_LEFT);
+            goto bail;
         }
 
         if (keycode == SE_LBRC) {
-            clear_mods();
             tap_code16(SE_LBRC);
             tap_code16(SE_RBRC);
-            tap_code16(KC_LEFT);
-            set_mods(mods);
-            return 0;
+            tap_code(KC_LEFT);
+            goto bail;
         }
     }
 
+    set_mods(mods);
     return -1;
+bail:
+    set_mods(mods);
+    return 0;
 }
 
 
@@ -219,21 +197,10 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
  */
 int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
-    bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || 
-        (keycode == WIND_UP)   || (keycode == WIND_RIGHT);
+    bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || (keycode == WIND_UP) || (keycode == WIND_RIGHT);
         
     if (wind_move) {
         clear_mods();
-#if 0
-        if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_RIGHT)) {
-            tap_code16(A(G(KC_5)));
-            goto bail_false;
-        }
-        if ((((mods) & MOD_MASK_CSA) == MOD_MASK_CSA) && (keycode == WIND_LEFT)) {
-            tap_code16(A(G(KC_4)));
-            goto bail_false;
-        }
-#endif
             
         SEND_STRING(SS_LCTL("b"));
             
@@ -307,45 +274,37 @@ bail_false:
 int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
     if (keycode == HELM_RESUME) {
-        SEND_STRING(SS_LCTL("x"));
-        SEND_STRING("c");
-        SEND_STRING("b");
+        SEND_STRING(SS_LCTL("x") "cb");
         goto bail_false;
     }
 
     if (keycode == PRJ_FILES) {
-        SEND_STRING(SS_LCTL("c"));
-        SEND_STRING("pf");
+        SEND_STRING(SS_LCTL("c") "pf");
         goto bail_false;
     }
 
     if (keycode == PRJ_PROJS) {
-        SEND_STRING(SS_LCTL("c"));
-        SEND_STRING("pp");
+        SEND_STRING(SS_LCTL("c") "pp");
         goto bail_false;
     }
 
     if (keycode == PRJ_SEARCH) {
-        SEND_STRING(SS_LCTL("c"));
-        SEND_STRING("pss");
+        SEND_STRING(SS_LCTL("c") "pss");
         goto bail_false;
     }
 
     if (keycode == PRJ_OTHER_FILE) {
-        SEND_STRING(SS_LCTL("c"));
-        SEND_STRING("pa");
+        SEND_STRING(SS_LCTL("c") "pa");
         goto bail_false;
     }
 
     if (keycode == PERSP_BUF) {
-        SEND_STRING(SS_LCTL("x"));
-        SEND_STRING(SS_LCTL("b"));
+        SEND_STRING(SS_LCTL("x") SS_LCTL("b"));
         goto bail_false;
     }
 
     if (keycode == MAGIT_STATUS) {
-        SEND_STRING(SS_LCTL("x"));
-        SEND_STRING("g");
+        SEND_STRING(SS_LCTL("x") "g");
         goto bail_false;
     }
 
@@ -367,32 +326,27 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
     }
 
     if (keycode == LSP_REFERENCES) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")));
-        SEND_STRING("gr");
+        SEND_STRING(SS_LCTL(SS_LSFT(".")) "gr");
         goto bail_false;
     }
 
     if (keycode == LSP_RENAME) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")));
-        SEND_STRING("rr");
+        SEND_STRING(SS_LCTL(SS_LSFT(".")) "rr");
         goto bail_false;
     }
 
     if (keycode == LSP_LENS) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")));
-        SEND_STRING("Tl");
+        SEND_STRING(SS_LCTL(SS_LSFT(".")) "Tl");
         goto bail_false;
     }
         
     if (keycode == FLYCHECK_NEXT_ERROR) {
-        SEND_STRING(SS_LCTL("c"));
-        SEND_STRING("!n");
+        SEND_STRING(SS_LCTL("c") "!n");
         goto bail_false;
     }
         
     if (keycode == FLYCHECK_PREV_ERROR) {
-        SEND_STRING(SS_LCTL("c"));
-        SEND_STRING("!p");
+        SEND_STRING(SS_LCTL("c") "!p");
         goto bail_false;
     }
 
@@ -409,9 +363,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     const uint8_t mods = get_mods();
 
-    if (!process_layer_lock(keycode, record, LAYER_LOCK)) {
-        return false;
-    }
+    /* if (!process_layer_lock(keycode, record, LAYER_LOCK)) { */
+    /*     return false; */
+    /* } */
 
     if (record->event.pressed) {
         // General implementation for combos - makes it possible to do macros and other more complicated stuff.

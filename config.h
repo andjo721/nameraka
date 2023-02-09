@@ -13,6 +13,7 @@
 
 #define PERMISSIVE_HOLD
 
+//#define RGB_MATRIX_LED_COUNT 0
 //define HOLD_ON_OTHER_KEY_PRESS
 
 #define LAYER_LOCK_IDLE_TIMEOUT 60000  // Turn off layer lock after 60 seconds.
