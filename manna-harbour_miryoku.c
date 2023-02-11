@@ -86,8 +86,14 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
         }
     }
         
-    if (mods & MOD_MASK_CTRL) {
-
+    if (mods & MOD_MASK_CTRL) {        
+        if (keycode == SE_LABK) {
+            tap_code16(SE_LABK);
+            tap_code16(SE_RABK);
+            tap_code(KC_LEFT);
+            goto bail;
+        }
+        
         if (keycode == KC_COMM) {
             tap_code(KC_COMM);
             tap_code(KC_SPC);
