@@ -40,6 +40,11 @@ enum custom_keycodes {
     FLYCHECK_NEXT_ERROR, 
     FLYCHECK_PREV_ERROR, 
 
+    /* GPT */
+    GPT_QUERY,
+    GPT_QUERY_T,
+    GPT_CHAT,
+
     /* Swedish key codes for activation through e.g. Combos. */
     KEY_AA, 
     KEY_AE, 
@@ -246,6 +251,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         if (keycode == FLYCHECK_PREV_ERROR) {
             SEND_STRING(SS_LCTL("c"));
             SEND_STRING("!p");
+            goto bail_false;
+        }
+
+        // GPT
+        if (keycode == GPT_QUERY) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("gq");
+            goto bail_false;
+        }
+        if (keycode == GPT_QUERY_T) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("gt");
+            goto bail_false;
+        }
+        if (keycode == GPT_CHAT) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("gr");
             goto bail_false;
         }
     }

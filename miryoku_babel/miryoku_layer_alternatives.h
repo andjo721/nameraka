@@ -57,11 +57,14 @@ U_NP,       U_NA,      KC_ALGR,  U_NA,     KC_MEH,   U_NA,         KC_INS,      
 // 1. Media is also the only home of DFs - DFs and reset have been removed from all other layers
 // 2. DT is also here for evaluating purposes.
 //    Should be removed, or at least not built for release, when it is clear what the appropriate modifier delay is when I have become faster at typing on this keyboard.
+// 3. Also, since it is for issuing commands of different kinds, I also have added GPT Emacs qmk macros here, since i foresee using my GPT package a lot.
+//    I removed RGB support for this. This was the upper right row before my changes: RGB_TOG,   RGB_MOD,  RGB_HUI,  RGB_SAI,   RGB_VAI,
+
 #define MIRYOKU_ALTERNATIVES_MEDIA                                      \
-U_NP, TD(U_TD_BOOT), TD(U_TD_U_TAP),  TD(U_TD_U_EXTRA),    TD(U_TD_U_BASE),   DT_PRNT,    RGB_TOG,   RGB_MOD,  RGB_HUI,  RGB_SAI,   RGB_VAI,  U_NP, \
-U_NP,       KC_LGUI,        KC_LALT,           KC_LCTL,            KC_LSFT,      DT_UP,      U_NU,   KC_MPRV,  KC_VOLD,  KC_VOLU,   KC_MNXT,  U_NP, \
-U_NP,          U_NA,        KC_ALGR,    TD(U_TD_U_FUN),   TD(U_TD_U_MEDIA),    DT_DOWN,   OU_AUTO,      U_NU,     U_NU,     U_NU,      U_NU,  U_NP, \
-                               U_NA,              U_NA,               U_NA,    KC_MSTP,   KC_MPLY,   KC_MUTE
+U_NP, TD(U_TD_BOOT), TD(U_TD_U_TAP),  TD(U_TD_U_EXTRA),    TD(U_TD_U_BASE),   DT_PRNT,  GPT_QUERY, GPT_QUERY_T,     U_NU,     U_NU,      U_NU,  U_NP, \
+U_NP,       KC_LGUI,        KC_LALT,           KC_LCTL,            KC_LSFT,      DT_UP,  GPT_CHAT,     KC_MPRV,  KC_VOLD,  KC_VOLU,   KC_MNXT,  U_NP, \
+U_NP,          U_NA,        KC_ALGR,    TD(U_TD_U_FUN),   TD(U_TD_U_MEDIA),    DT_DOWN,   OU_AUTO,        U_NU,     U_NU,     U_NU,      U_NU,  U_NP, \
+                               U_NA,              U_NA,               U_NA,    KC_MSTP,   KC_MPLY,     KC_MUTE
 // --------
 
 // Right thumb key #1 (from inside)
