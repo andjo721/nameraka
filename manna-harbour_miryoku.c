@@ -7,7 +7,11 @@
    - Tmux and emacs window handling
    - Emacs project and programming layer
    - Swedish characters using outer 3x6 columns or combos.
-  
+
+   May be built with mac os ansi keymap support by setting the environment variable:
+   -e MIRYOKU_KEYMAP=MACOS
+   when building. For example
+   qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY -e MIRYOKU_KEYMAP=MACOS
 */ 
 
 #include QMK_KEYBOARD_H
@@ -48,7 +52,10 @@ enum custom_keycodes {
     /* Swedish key codes for activation through e.g. Combos. */
     KEY_AA, 
     KEY_AE, 
-    KEY_OE, 
+    KEY_OE,
+
+    /* Macro keys */
+    JS_ARROW_FN,
 };
 
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
@@ -385,6 +392,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return true;
         }
 
+        // JS
+        if (keycode == JS_ARROW_FN) {
+            tap_code(KC_SPC);
+            tap_code16(SE_EQL);
+            tap_code(KC_SPC);
+            tap_code16(SE_LPRN);
+            tap_code16(SE_RPRN);
+            tap_code(KC_SPC);
+            tap_code16(SE_EQL);
+
+            tap_code16(SE_RABK);
+            tap_code16(KC_SPC);
+            send_string(SS_LSFT(SS_LALT("8")));
+            send_string(SS_LSFT(SS_LALT("9")));
+            tap_code(KC_LEFT);    
+            goto bail_false;
+        }
+        
         // GPT
         if (keycode == GPT_QUERY) {
             SEND_STRING(SS_LCTL("c"));

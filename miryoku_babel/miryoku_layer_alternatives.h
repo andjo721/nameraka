@@ -79,10 +79,10 @@ U_NP,       SE_PIPE,  SE_EXLM,  SE_LBRC,   SE_RBRC,   SE_COLN,            SE_BSL
 
 // Right thumb key #2 (from inside)
 #define MIRYOKU_ALTERNATIVES_NUM \
-U_NP,        SE_SLSH,  SE_7,   SE_8,   SE_9,   SE_MINS,       U_NA,      U_NA,         U_NA,          U_NA,        U_NA,      U_NP, \
-U_NP,        SE_ASTR,  SE_4,   SE_5,   SE_6,   SE_PLUS,       KC_HYPR,   KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,   U_NP, \
-U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   SE_PERC,       U_NA,      KC_MEH,       U_NA,          KC_ALGR,     U_NA,      U_NP, \
-                              SE_DOT,  SE_0,   SE_COLN,       U_NA,      U_NA,         U_NA
+U_NP,        SE_SLSH,  SE_7,   SE_8,   SE_9,   SE_MINS,       JS_ARROW_FN, U_NA,         U_NA,          U_NA,        U_NA,      U_NP, \
+U_NP,        SE_ASTR,  SE_4,   SE_5,   SE_6,   SE_PLUS,       KC_HYPR,     KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,   U_NP, \
+U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   SE_PERC,       U_NA,        KC_MEH,       U_NA,          KC_ALGR,     U_NA,      U_NP, \
+                              SE_DOT,  SE_0,   SE_COLN,       U_NA,        U_NA,         U_NA
 
 // Right thumb key #3 (from inside)
 #define MIRYOKU_ALTERNATIVES_FUN \

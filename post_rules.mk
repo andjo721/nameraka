@@ -29,6 +29,11 @@ ifneq ($(strip $(MIRYOKU_LAYERS)),)
   OPT_DEFS += -DMIRYOKU_LAYERS_$(MIRYOKU_LAYERS)
 endif
 
+
+ifneq ($(strip $(MIRYOKU_KEYMAP)),)
+  OPT_DEFS += -DMIRYOKU_KEYMAP_$(MIRYOKU_KEYMAP)
+endif
+
 # subset mappings
 
 ifneq ($(strip $(MIRYOKU_MAPPING)),)

@@ -7,7 +7,11 @@
 #pragma once
 
 #include "../../../quantum/keymap_extras/keymap_nordic.h"
+#if defined(MIRYOKU_KEYMAP_MACOS)
+#include "../../../quantum/keymap_extras/keymap_swedish_mac_ansi.h"
+#else
 #include "../../../quantum/keymap_extras/keymap_swedish.h"
+#endif
 #include "miryoku_layer_alternatives.h"
 
 #if !defined(MIRYOKU_LAYER_BASE)
