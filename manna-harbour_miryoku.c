@@ -1,4 +1,4 @@
-/* manna-harbour_miryoku modified by Andreas Johansson 
+/* manna-harbour_miryoku modified by Andreas Johansson
    ---------------------------------------------------
 
    Features include:
@@ -12,7 +12,7 @@
    -e MIRYOKU_KEYMAP=MACOS
    when building. For example
    qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY -e MIRYOKU_KEYMAP=MACOS
-*/ 
+*/
 
 #include QMK_KEYBOARD_H
 
@@ -20,29 +20,29 @@
 #include "features/layer_lock.h"
 
 enum custom_keycodes {
-    WIND_LEFT = SAFE_RANGE, 
-    WIND_RIGHT, 
-    WIND_UP, 
+    WIND_LEFT = SAFE_RANGE,
+    WIND_RIGHT,
+    WIND_UP,
     WIND_DOWN,
-    WIND_MAX_TOGGLE, 
-    HELM_RESUME, 
+    WIND_MAX_TOGGLE,
+    HELM_RESUME,
     LAYER_LOCK, // May be used for locking to current layer.
 
     /* Project keycodes */
-    PRJ_FILES, 
-    PRJ_PROJS, 
-    PRJ_SEARCH, 
-    PERSP_BUF, 
-    MAGIT_STATUS, 
-    PRJ_OTHER_FILE, 
-    GO_TO, 
-    GO_BACK, 
-    LSP_FORMAT_REGION, 
-    LSP_REFERENCES, 
-    LSP_RENAME, 
-    LSP_LENS, 
-    FLYCHECK_NEXT_ERROR, 
-    FLYCHECK_PREV_ERROR, 
+    PRJ_FILES,
+    PRJ_PROJS,
+    PRJ_SEARCH,
+    PERSP_BUF,
+    MAGIT_STATUS,
+    PRJ_OTHER_FILE,
+    GO_TO,
+    GO_BACK,
+    LSP_FORMAT_REGION,
+    LSP_REFERENCES,
+    LSP_RENAME,
+    LSP_LENS,
+    FLYCHECK_NEXT_ERROR,
+    FLYCHECK_PREV_ERROR,
 
     /* GPT */
     GPT_QUERY,
@@ -50,8 +50,8 @@ enum custom_keycodes {
     GPT_CHAT,
 
     /* Swedish key codes for activation through e.g. Combos. */
-    KEY_AA, 
-    KEY_AE, 
+    KEY_AA,
+    KEY_AE,
     KEY_OE,
 
     /* Macro keys */
@@ -63,8 +63,8 @@ const uint16_t PROGMEM combo_aa[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_oe[] = {RSFT_T(KC_J), LCTL_T(KC_K), COMBO_END};
 const uint16_t PROGMEM combo_ae[] = {MEH_T(KC_M), KC_COMM, COMBO_END};
 combo_t key_combos[COMBO_COUNT] = {
-    COMBO(combo_aa, KEY_AA), 
-    COMBO(combo_ae, KEY_AE), 
+    COMBO(combo_aa, KEY_AA),
+    COMBO(combo_ae, KEY_AE),
 };
 
 
@@ -80,7 +80,7 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
 {
     // Mostly for programming
     clear_mods();
-    
+
     if (mods & MOD_MASK_ALT) {
         if (keycode == SE_LCBR) {
             tap_code(KC_END);
@@ -97,15 +97,15 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
             goto bail;
         }
     }
-        
-    if (mods & MOD_MASK_CTRL) {        
+
+    if (mods & MOD_MASK_CTRL) {
         if (keycode == SE_LABK) {
             tap_code16(SE_LABK);
             tap_code16(SE_RABK);
             tap_code(KC_LEFT);
             goto bail;
         }
-        
+
         if (keycode == KC_COMM) {
             tap_code(KC_COMM);
             tap_code(KC_SPC);
@@ -127,7 +127,7 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
             tap_code(KC_LEFT);
             goto bail;
         }
-            
+
         if (keycode == SE_QUOT) {
             tap_code16(SE_QUOT);
             tap_code16(SE_QUOT);
@@ -216,12 +216,12 @@ bail:
 int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
     bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || (keycode == WIND_UP) || (keycode == WIND_RIGHT);
-        
+
     if (wind_move) {
         clear_mods();
-            
+
         SEND_STRING(SS_LCTL("b"));
-            
+
         if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
             tap_code16(C(KC_RIGHT));
             goto bail_false;
@@ -238,7 +238,7 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
             tap_code16(C(KC_DOWN));
             goto bail_false;
         }
-            
+
         if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
             SEND_STRING("%");
             goto bail_false;
@@ -248,10 +248,10 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
             tap_code16(SE_DQUO);
             goto bail_false;
         }
-            
+
         if (mods & MOD_MASK_CTRL)
             SEND_STRING("b");
-            
+
         switch(keycode) {
         case WIND_LEFT:
             tap_code16(KC_LEFT);
@@ -281,7 +281,7 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
     }
 
     return -1;
-    
+
 bail_false:
     return 0;
 }
@@ -357,19 +357,19 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
         SEND_STRING(SS_LCTL(SS_LSFT(".")) "Tl");
         goto bail_false;
     }
-        
+
     if (keycode == FLYCHECK_NEXT_ERROR) {
         SEND_STRING(SS_LCTL("c") "!n");
         goto bail_false;
     }
-        
+
     if (keycode == FLYCHECK_PREV_ERROR) {
         SEND_STRING(SS_LCTL("c") "!p");
         goto bail_false;
     }
 
     return -1;
-    
+
 bail_false:
     return 0;
 }
@@ -406,10 +406,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             tap_code16(KC_SPC);
             send_string(SS_LSFT(SS_LALT("8")));
             send_string(SS_LSFT(SS_LALT("9")));
-            tap_code(KC_LEFT);    
+            tap_code(KC_LEFT);
             goto bail_false;
         }
-        
+
         // GPT
         if (keycode == GPT_QUERY) {
             SEND_STRING(SS_LCTL("c"));
@@ -432,11 +432,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return true;
         }
 
-        PROCESS_SUB_RECORD(process_record_programming); 
+        PROCESS_SUB_RECORD(process_record_programming);
 
         PROCESS_SUB_RECORD(process_record_navigation);
 
-        PROCESS_SUB_RECORD(process_record_project); 
+        PROCESS_SUB_RECORD(process_record_project);
     }
 
     return true;
@@ -481,14 +481,14 @@ MIRYOKU_LAYER_LIST
 #undef MIRYOKU_X
 };
 
-void u_td_fn_boot(qk_tap_dance_state_t *state, void *user_data) { \
+void u_td_fn_boot(tap_dance_state_t *state, void *user_data) { \
   if (state->count == 2) {
     reset_keyboard();
   }
 }
 
 #define MIRYOKU_X(LAYER, STRING) \
-void u_td_fn_U_##LAYER(qk_tap_dance_state_t *state, void *user_data) { \
+void u_td_fn_U_##LAYER(tap_dance_state_t *state, void *user_data) { \
   if (state->count == 2) { \
     default_layer_set((layer_state_t)1 << U_##LAYER); \
   } \
@@ -496,7 +496,7 @@ void u_td_fn_U_##LAYER(qk_tap_dance_state_t *state, void *user_data) { \
 MIRYOKU_LAYER_LIST
 #undef MIRYOKU_X
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [U_TD_BOOT] = ACTION_TAP_DANCE_FN(u_td_fn_boot),
 #define MIRYOKU_X(LAYER, STRING) [U_TD_U_##LAYER] = ACTION_TAP_DANCE_FN(u_td_fn_U_##LAYER),
 MIRYOKU_LAYER_LIST

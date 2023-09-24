@@ -9,7 +9,7 @@
 
 // SPLIT 3x6
 
-// Base layers 
+// Base layers
 // Can be switched between using the <DF> keys located in the media layer.
 // Which are BASE EXTRA and TAPPED may be specified using build time command line settings, for example by appending:
 // -e MIRYOKU_ALPHAS=QWERTY -e MIRYOKU_EXTRA=COLEMAKDH -e MIRYOKU_TAP=QWERTY
@@ -17,7 +17,7 @@
 U_NP,          KC_Q,              KC_W,              KC_F,              KC_P,              KC_B,              KC_J,              KC_L,              KC_U,              KC_Y,              KC_MINS,               KC_LBRC, \
 U_NP,          LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              HYPR_T(KC_M),      LSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O),          KC_QUOT, \
 U_NP,          LT(U_BUTTON,KC_Z), ALGR_T(KC_X),      KC_C,              KC_D,              KC_V,              KC_K,              MEH_T(KC_H),       KC_COMM,           ALGR_T(KC_DOT),    LT(U_BUTTON,KC_NUHS),  KC_SCLN, \
-                                                     LT(U_MEDIA,KC_ESC),LT(U_NAV,KC_SPC),  LT(U_PROJECT,KC_TAB),LT(U_SYM,KC_ENT),  LT(U_NUM,KC_BSPC), LT(U_FUN,KC_DEL)             
+                                                     LT(U_MEDIA,KC_ESC),LT(U_NAV,KC_SPC),  LT(U_PROJECT,KC_TAB),LT(U_SYM,KC_ENT),  LT(U_NUM,KC_BSPC), LT(U_FUN,KC_DEL)
 
 #define MIRYOKU_ALTERNATIVES_BASE_QWERTY                                \
 U_NP,          KC_Q,              KC_W,              KC_E,              KC_R,              KC_T,                KC_Y,              KC_U,              KC_I,              KC_O,              KC_P,                  KC_LBRC, \
@@ -52,7 +52,7 @@ U_NP,       U_NA,           U_NA,   S(KC_F12),     U_NA,            PERSP_BUF,  
 // Left thumb key #2 (from inside)
 #define MIRYOKU_ALTERNATIVES_NAV \
 U_NP,       U_NA,      U_NA,     U_NA,     U_NA,     U_NA,         WIND_MAX_TOGGLE,   WIND_LEFT,  WIND_DOWN,  WIND_UP,    WIND_RIGHT,  U_NP, \
-U_NP,       KC_LGUI,   KC_LALT,  KC_LCTL,  KC_LSFT,  KC_HYPR,      CAPSWRD,           KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,     U_NP, \
+U_NP,       KC_LGUI,   KC_LALT,  KC_LCTL,  KC_LSFT,  KC_HYPR,      CW_TOGG,           KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,     U_NP, \
 U_NP,       U_NA,      KC_ALGR,  U_NA,     KC_MEH,   U_NA,         KC_INS,            KC_END,     KC_PGDN,    KC_PGUP,    KC_HOME,     U_NP, \
                                  U_NA,     U_NA,     U_NA,         KC_ENT,            KC_BSPC,    KC_DEL
 
@@ -103,4 +103,3 @@ U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_
 U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        \
 U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        \
                                        U_NP,        U_NP,        U_NP,        U_NP,        U_NP,        U_NP
-
