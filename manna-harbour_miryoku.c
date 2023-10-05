@@ -41,6 +41,7 @@ enum custom_keycodes {
     LSP_REFERENCES,
     LSP_RENAME,
     LSP_LENS,
+    SVN_REVERT_HUNK,
     FLYCHECK_NEXT_ERROR,
     FLYCHECK_PREV_ERROR,
 
@@ -315,6 +316,12 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
         SEND_STRING(SS_LCTL("c") "pa");
         goto bail_false;
     }
+
+    if (keycode == SVN_REVERT_HUNK) {
+        SEND_STRING(SS_LCTL("x") "vn");  // diff-hl-revert-hunk
+        goto bail_false;
+    }
+
 
     if (keycode == PERSP_BUF) {
         SEND_STRING(SS_LCTL("x") SS_LCTL("b"));

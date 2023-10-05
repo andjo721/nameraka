@@ -44,7 +44,7 @@ U_NP,  KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,         KC_K,   KC_H,    KC_COMM,  KC_D
 // Left thumb key #1 (from inside)
 // Emacs/Emacs Project
 #define MIRYOKU_ALTERNATIVES_PROJECT \
-U_NP,    LSP_FORMAT_REGION, U_NA,        U_NA,     U_NA,            U_NA,                 U_NP,                  LSP_REFERENCES,      U_NP,                  U_NP,     PRJ_PROJS,   U_NP, \
+U_NP,    LSP_FORMAT_REGION, U_NA,        U_NA,     SVN_REVERT_HUNK, U_NA,                 U_NP,                  LSP_REFERENCES,      U_NP,                  U_NP,     PRJ_PROJS,   U_NP, \
 U_NP,       PRJ_OTHER_FILE, PRJ_SEARCH,  U_NA,     PRJ_FILES,       MAGIT_STATUS,         HELM_RESUME,           GO_TO,               GO_BACK,               LSP_LENS, U_NP,        U_NP, \
 U_NP,       U_NA,           U_NA,   S(KC_F12),     U_NA,            PERSP_BUF,            LSP_RENAME,            FLYCHECK_NEXT_ERROR, FLYCHECK_PREV_ERROR,   U_NP,     U_NP,        U_NP, \
                                          U_NA,     U_NA,            U_NA,                 C(SE_RABK),            U_NP,                U_NP
