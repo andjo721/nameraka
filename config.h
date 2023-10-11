@@ -9,7 +9,7 @@
 
 // default but used in macros
 #undef TAPPING_TERM
-#define TAPPING_TERM 175
+#define TAPPING_TERM 150
 
 #define PERMISSIVE_HOLD
 
@@ -28,6 +28,11 @@
 #define NO_AUTO_SHIFT_ALPHA
 #define AUTO_SHIFT_TIMEOUT TAPPING_TERM
 #define AUTO_SHIFT_NO_SETUP
+
+// Setting QUICK_TAP_TERM to 0 to stop keys with hold actions from autorepeating TAP key, if tapped twice in quick succession and then held.
+// https://docs.qmk.fm/#/tap_hold?id=quick-tap-term
+#undef QUICK_TAP_TERM
+#define QUICK_TAP_TERM 0
 
 // combos
 #define COMBO_COUNT 2
@@ -50,4 +55,3 @@
   #define COMBO_TERM 200
   #define EXTRA_SHORT_COMBOS
 #endif
-
