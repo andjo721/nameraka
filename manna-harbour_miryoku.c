@@ -8,14 +8,18 @@
    - Emacs project and programming layer
    - Swedish characters using outer 3x6 columns or combos.
 
+   To build and flash normally:
+   qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY
+
    May be built with mac os ansi keymap support by setting the environment variable:
    -e MIRYOKU_KEYMAP=MACOS
    when building. For example
    qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY -e MIRYOKU_KEYMAP=MACOS
+
+   To enable support for the lsp code server ccls, see ccls_create.sh.
 */
 
 #include QMK_KEYBOARD_H
-
 #include "manna-harbour_miryoku.h"
 #include "features/layer_lock.h"
 
