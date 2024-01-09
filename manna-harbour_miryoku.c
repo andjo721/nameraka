@@ -21,6 +21,7 @@
 
 #include QMK_KEYBOARD_H
 #include "manna-harbour_miryoku.h"
+#include "wait.h"
 #include "features/layer_lock.h"
 
 enum custom_keycodes {
@@ -225,7 +226,7 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
     if (wind_move) {
         clear_mods();
 
-        SEND_STRING(SS_LCTL("b"));
+        tap_code16_delay(C(KC_B), 10);
 
         if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
             tap_code16(C(KC_RIGHT));
@@ -245,30 +246,30 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
         }
 
         if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
-            SEND_STRING("%");
+            tap_code16_delay(KC_PERCENT, 10);
             goto bail_false;
         }
 
         if ((mods & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
-            tap_code16(SE_DQUO);
+            tap_code16_delay(SE_DQUO, 10);
             goto bail_false;
         }
 
         if (mods & MOD_MASK_CTRL)
-            SEND_STRING("b");
+            tap_code16_delay(KC_B, 10);
 
         switch(keycode) {
         case WIND_LEFT:
-            tap_code16(KC_LEFT);
+            tap_code(KC_LEFT);
             goto bail_false;
         case WIND_DOWN:
-            tap_code16(KC_DOWN);
+            tap_code(KC_DOWN);
             goto bail_false;
         case WIND_UP:
-            tap_code16(KC_UP);
+            tap_code(KC_UP);
             goto bail_false;
         case WIND_RIGHT:
-            tap_code16(KC_RIGHT);
+            tap_code(KC_RIGHT);
             goto bail_false;
         }
     }
