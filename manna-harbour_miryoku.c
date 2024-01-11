@@ -226,7 +226,7 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
     if (wind_move) {
         clear_mods();
 
-        tap_code16_delay(C(KC_B), 10);
+        tap_code16(C(KC_B));
 
         if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
             tap_code16(C(KC_RIGHT));
@@ -246,17 +246,17 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
         }
 
         if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
-            tap_code16_delay(KC_PERCENT, 10);
+            tap_code16(KC_PERCENT);
             goto bail_false;
         }
 
         if ((mods & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
-            tap_code16_delay(SE_DQUO, 10);
+            tap_code16(SE_DQUO);
             goto bail_false;
         }
 
         if (mods & MOD_MASK_CTRL)
-            tap_code16_delay(KC_B, 10);
+            tap_code16(KC_B);
 
         switch(keycode) {
         case WIND_LEFT:
