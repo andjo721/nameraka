@@ -40,6 +40,9 @@ enum custom_keycodes {
     PERSP_BUF,
     MAGIT_STATUS,
     PRJ_OTHER_FILE,
+    LSP_TYPE_DEFINITION,
+    CCLS_CALL_HIERARCHY,
+    CCLS_MEMBER_HIERARCHY,
     GO_TO,
     GO_BACK,
     LSP_FORMAT_REGION,
@@ -221,42 +224,43 @@ bail:
  */
 int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
-    bool wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || (keycode == WIND_UP) || (keycode == WIND_RIGHT);
+    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
+    bool          wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || (keycode == WIND_UP) || (keycode == WIND_RIGHT);
+    clear_mods();
 
     if (wind_move) {
-        clear_mods();
 
-        tap_code16_delay(C(KC_B), 10);
+        tap_code16(C(KC_B));
 
-        if ((mods & MOD_MASK_GUI) && (keycode == WIND_RIGHT)) {
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_GUI) && (keycode == WIND_RIGHT)) {
             tap_code16(C(KC_RIGHT));
             goto bail_false;
         }
-        if ((mods & MOD_MASK_GUI) && (keycode == WIND_LEFT)) {
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_GUI) && (keycode == WIND_LEFT)) {
             tap_code16(C(KC_LEFT));
             goto bail_false;
         }
-        if ((mods & MOD_MASK_GUI) && (keycode == WIND_UP)) {
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_GUI) && (keycode == WIND_UP)) {
             tap_code16(C(KC_UP));
             goto bail_false;
         }
-        if ((mods & MOD_MASK_GUI) && (keycode == WIND_DOWN)) {
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_GUI) && (keycode == WIND_DOWN)) {
             tap_code16(C(KC_DOWN));
             goto bail_false;
         }
 
-        if ((mods & MOD_MASK_ALT) && (keycode == WIND_RIGHT)) {
-            tap_code16_delay(KC_PERCENT, 10);
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_ALT) && (keycode == WIND_RIGHT)) {
+            tap_code16(KC_PERCENT);
             goto bail_false;
         }
 
-        if ((mods & MOD_MASK_ALT) && (keycode == WIND_DOWN)) {
-            tap_code16_delay(SE_DQUO, 10);
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_ALT) && (keycode == WIND_DOWN)) {
+            tap_code16(SE_DQUO);
             goto bail_false;
         }
 
-        if (mods & MOD_MASK_CTRL)
-            tap_code16_delay(KC_B, 10);
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_CTRL))
+            tap_code16(KC_B);
 
         switch(keycode) {
         case WIND_LEFT:
@@ -275,9 +279,13 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
     }
 
     if (keycode == WIND_MAX_TOGGLE) {
-        if (mods & MOD_MASK_CTRL) {
+        if ((mods & mod_mask) == MOD_BIT(KC_LEFT_CTRL)) {
             SEND_STRING(SS_LCTL("x"));
             SEND_STRING("1");
+        }
+        else if ((mods & mod_mask) == MOD_BIT(KC_LEFT_SHIFT)) {
+            SEND_STRING(SS_LCTL("b"));
+            SEND_STRING("t");
         }
         else {
             SEND_STRING(SS_LCTL("b"));
@@ -297,6 +305,7 @@ bail_false:
  */
 int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
+    clear_mods();
     if (keycode == HELM_RESUME) {
         SEND_STRING(SS_LCTL("x") "cb");
         goto bail_false;
@@ -338,6 +347,21 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
         goto bail_false;
     }
 
+    if (keycode == LSP_TYPE_DEFINITION) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")) "gt");
+        goto bail_false;
+    }
+
+    if (keycode == CCLS_CALL_HIERARCHY) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")) "cc");
+        goto bail_false;
+    }
+
+    if (keycode == CCLS_MEMBER_HIERARCHY) {
+        SEND_STRING(SS_LCTL(SS_LSFT(".")) "cm");
+        goto bail_false;
+    }
+
     if (keycode == GO_TO) {
         tap_code16(A(SE_DOT));
         goto bail_false;
@@ -356,7 +380,12 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
     }
 
     if (keycode == LSP_REFERENCES) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")) "gr");
+        if (mods & MOD_MASK_CTRL) {
+            SEND_STRING(SS_LCTL(SS_LSFT(".")) "Gr");
+        }
+        else {
+            SEND_STRING(SS_LCTL(SS_LSFT(".")) "gr");
+        }
         goto bail_false;
     }
 
@@ -380,9 +409,11 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
         goto bail_false;
     }
 
+    set_mods(mods);
     return -1;
 
 bail_false:
+    set_mods(mods);
     return 0;
 }
 
