@@ -64,8 +64,8 @@ U_NP,       U_NA,      KC_ALGR,  U_NA,     KC_MEH,   U_NA,         U_NP,        
 //    I removed RGB support for this. This was the upper right row before my changes: RGB_TOG,   RGB_MOD,  RGB_HUI,  RGB_SAI,   RGB_VAI,
 
 #define MIRYOKU_ALTERNATIVES_MEDIA                                      \
-U_NP, TD(U_TD_BOOT), TD(U_TD_U_TAP),  TD(U_TD_U_EXTRA),    TD(U_TD_U_BASE),   DT_PRNT,  GPT_QUERY, GPT_QUERY_T,     U_NU,     U_NU,      U_NU,  U_NP, \
-U_NP,       KC_LGUI,        KC_LALT,           KC_LCTL,            KC_LSFT,      DT_UP,  GPT_CHAT,     KC_MPRV,  KC_VOLD,  KC_VOLU,   KC_MNXT,  U_NP, \
+U_NP, TD(U_TD_BOOT), TD(U_TD_U_TAP),  TD(U_TD_U_EXTRA),    TD(U_TD_U_BASE),   DT_PRNT,  GPT_QUERY,        U_NU,     U_NU,     U_NU,      U_NU,  U_NP, \
+U_NP,       KC_LGUI,        KC_LALT,           KC_LCTL,            KC_LSFT,      DT_UP,      U_NU,     KC_MPRV,  KC_VOLD,  KC_VOLU,   KC_MNXT,  U_NP, \
 U_NP,          U_NA,        KC_ALGR,    TD(U_TD_U_FUN),   TD(U_TD_U_MEDIA),    DT_DOWN,   OU_AUTO,        U_NU,     U_NU,     U_NU,      U_NU,  U_NP, \
                                U_NA,              U_NA,               U_NA,    KC_MSTP,   KC_MPLY,     KC_MUTE
 // --------

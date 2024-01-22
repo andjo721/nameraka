@@ -55,8 +55,6 @@ enum custom_keycodes {
 
     /* GPT */
     GPT_QUERY,
-    GPT_QUERY_T,
-    GPT_CHAT,
 
     /* Swedish key codes for activation through e.g. Combos. */
     KEY_AA,
@@ -422,6 +420,7 @@ bail_false:
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
+    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     const uint8_t mods = get_mods();
 
     /* if (!process_layer_lock(keycode, record, LAYER_LOCK)) { */
@@ -455,18 +454,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
         // GPT
         if (keycode == GPT_QUERY) {
+            clear_mods();
             SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("gq");
-            goto bail_false;
-        }
-        if (keycode == GPT_QUERY_T) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("gt");
-            goto bail_false;
-        }
-        if (keycode == GPT_CHAT) {
-            SEND_STRING(SS_LCTL("c"));
-            SEND_STRING("gr");
+            if ((mods & mod_mask) == MOD_BIT(KC_LEFT_CTRL)) {
+                SEND_STRING("gr");
+            }
+            else if ((mods & mod_mask) == MOD_BIT(KC_LEFT_ALT)) {
+                SEND_STRING("gt");
+            } else {
+                SEND_STRING("gq");
+            }
             goto bail_false;
         }
 
