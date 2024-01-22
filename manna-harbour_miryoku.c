@@ -55,6 +55,7 @@ enum custom_keycodes {
 
     /* GPT */
     GPT_QUERY,
+    GPT_REPLY,
 
     /* Swedish key codes for activation through e.g. Combos. */
     KEY_AA,
@@ -457,14 +458,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             clear_mods();
             SEND_STRING(SS_LCTL("c"));
             if ((mods & mod_mask) == MOD_BIT(KC_LEFT_CTRL)) {
-                SEND_STRING("gr");
-            }
-            else if ((mods & mod_mask) == MOD_BIT(KC_LEFT_ALT)) {
                 SEND_STRING("gt");
             } else {
                 SEND_STRING("gq");
             }
             goto bail_false;
+        }
+
+        if (keycode == GPT_REPLY) {
+            SEND_STRING(SS_LCTL("c"));
+            SEND_STRING("gr");
         }
 
         if (keycode == KEY_AE) {
