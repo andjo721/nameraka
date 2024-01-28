@@ -75,7 +75,6 @@ combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo_ae, KEY_AE),
 };
 
-
 #define PROCESS_SUB_RECORD(F) { \
         int r = F(keycode, record, mods); \
         if (r == 0) \
@@ -218,6 +217,28 @@ bail:
     return 0;
 }
 
+/**
+ */
+int process_record_num(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
+{
+    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
+    clear_mods();
+
+    if (keycode >= KC_1 && keycode <= KC_0) {
+        if ((mods & mod_mask) == ((MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT)))) {
+            SEND_STRING(SS_LCTL("x"));
+            SEND_STRING("x");
+            tap_code(keycode);
+            goto bail;
+        }
+    }
+
+    set_mods(mods);
+    return -1;
+bail:
+    set_mods(mods);
+    return 0;
+}
 
 /**
  */
@@ -474,6 +495,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             tap_code16(SE_ADIA);
             return true;
         }
+
+        PROCESS_SUB_RECORD(process_record_num);
 
         PROCESS_SUB_RECORD(process_record_programming);
 
