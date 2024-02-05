@@ -368,17 +368,17 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
     }
 
     if (keycode == LSP_TYPE_DEFINITION) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")) "gt");
+        SEND_STRING(SS_LCTL("q") "lgt");
         goto bail_false;
     }
 
     if (keycode == CCLS_CALL_HIERARCHY) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")) "cc");
+        SEND_STRING(SS_LCTL("q") "lcc");
         goto bail_false;
     }
 
     if (keycode == CCLS_MEMBER_HIERARCHY) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")) "cm");
+        SEND_STRING(SS_LCTL("q") "lcm");
         goto bail_false;
     }
 
@@ -393,7 +393,7 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
     }
 
     if (keycode == LSP_FORMAT_REGION) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")));
+        SEND_STRING(SS_LCTL("q") "l");
         tap_code16(SE_EQL);
         SEND_STRING("r");
         goto bail_false;
@@ -401,21 +401,21 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
 
     if (keycode == LSP_REFERENCES) {
         if (mods & MOD_MASK_CTRL) {
-            SEND_STRING(SS_LCTL(SS_LSFT(".")) "Gr");
+            SEND_STRING(SS_LCTL("q") "lGr");
         }
         else {
-            SEND_STRING(SS_LCTL(SS_LSFT(".")) "gr");
+            SEND_STRING(SS_LCTL("q") "lgr");
         }
         goto bail_false;
     }
 
     if (keycode == LSP_RENAME) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")) "rr");
+        SEND_STRING(SS_LCTL("q") "lrr");
         goto bail_false;
     }
 
     if (keycode == LSP_LENS) {
-        SEND_STRING(SS_LCTL(SS_LSFT(".")) "Tl");
+        SEND_STRING(SS_LCTL("q") "lTl");
         goto bail_false;
     }
 
