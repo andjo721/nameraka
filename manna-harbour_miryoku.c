@@ -49,7 +49,7 @@ enum custom_keycodes {
     LSP_REFERENCES,
     LSP_RENAME,
     LSP_LENS,
-    SVN_REVERT_HUNK,
+    VC_REVERT_HUNK,
     FLYCHECK_NEXT_ERROR,
     FLYCHECK_PREV_ERROR,
 
@@ -351,7 +351,7 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
         goto bail_false;
     }
 
-    if (keycode == SVN_REVERT_HUNK) {
+    if (keycode == VC_REVERT_HUNK) {
         SEND_STRING(SS_LCTL("x") "vn");  // diff-hl-revert-hunk
         goto bail_false;
     }
