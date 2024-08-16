@@ -1,4 +1,4 @@
-# Created 2024-08-16 Fri 21:00
+# Created 2024-08-16 Fri 21:06
 #+title: Nameraka [滑らか]
 #+author: Andreas Johansson
 #+filetags: :Hårdvara:Emacs:Data:Programming:project:
@@ -121,6 +121,11 @@ The layer remains active for as long as the key is held down.
 - E: BACKSPACE
 - F: DELETE
 
+** Chords
+- u + i
+  Produces Swedish "å".
+- m + ,
+  Produces Swedish "ä".
 
 * Base layer 2 (COLEMAK mod DH)
 #+begin_example
