@@ -1,4 +1,4 @@
-# Created 2024-08-16 Fri 20:39
+# Created 2024-08-16 Fri 20:52
 #+title: Nameraka [滑らか]
 #+author: Andreas Johansson
 #+filetags: :Hårdvara:Emacs:Data:Programming:project:
@@ -178,7 +178,7 @@ _Modifiers_
 - L: Macro WIND_RIGHT (Ctrl-b →)
 
 - M: Caps Word Toggle\\
-  Caps word makes subsequently entered characters upper case for the duration of a word.\\
+  Caps word makes subsequently entered characters upper case for the duration of a word. \\
   Non alphabethical or numerical characters ends the word, except for '-' which becomes '_'.
 
 - N: INSERT
@@ -275,13 +275,13 @@ If you need to modify the behaviour, take a look at process_record_project() in 
 - C: PRJ_OTHER_FILE\\
   Macro (Ctrl-c p a)
   - Emacs: helm-projectile-find-other-file\\
-    Finds files with the same name but different extension.\\
+    Finds files with the same name but different extension. \\
     May, for example, be used to switch between .c and .h files in a C code base.
 
 - D: PRJ_SEARCH\\
   Macro (Ctrl-c p s s)
   - Emacs: helm-projectile-ag\\
-    Searches the contents of the files of the currently active Projectile Project,\\
+    Searches the contents of the files of the currently active Projectile Project, \\
     using The Silver Searcher (ag).
 
 - E: PRJ_FILES\\
@@ -382,33 +382,33 @@ If you need to modify the behaviour, take a look at process_record_project() in 
 - A: Quick Double tap enters Boot Mode\\
   Entering boot mode is needed during (re-)programming of the firmware.
 - B: Quick Double tap enters Tap Layer\\
-  This disables double functions of almost all keys, only the Navigation layer remains.\\
+  This disables double functions of almost all keys, only the Navigation layer remains. \\
   The only way to restore normal function is to unplug and reinsert the USB cable.
 - C: Quick Double tap enters Extra Layer\\
-  This is the other layer that can be used as base layer.\\
+  This is the other layer that can be used as base layer. \\
   If Base Layer has been given as QWERTY during qmk compilation, the Extra Layer is COLEMAC_DH, and vice versa.
 - D: Quick Double tap enters the compile time defined Base Layer\\
   This may be QWERTY or COLEMAK_DH.
-- E: Prints the current value of TAPPING_TERM.\\
-  By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer,\\
+- E: Prints the current value of TAPPING_TERM. \\
+  By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer, \\
   in order to determine what TAPPING_TERM value fits your needs. That value can then be set in config.h, and qmk recompiled.
 
 - F: Super
 - G: Meta
 - H: Control
 - I: Shift
-- J: Increases the current value of TAPPING_TERM.\\
+- J: Increases the current value of TAPPING_TERM. \\
   See [E] and [N].
 - K: Alt Gr
 - L: Quick Double tap enters Function Layer
 - M: Quick Double tap enters Media Layer
-- N: Decreases the current value of TAPPING_TERM.\\
+- N: Decreases the current value of TAPPING_TERM. \\
   See [E] and [J].
 
 ** Right
 - O: GPT_QUERY\\
-  Macro: (Ctrl-c g q)\\
-  If Control modifier is held:\\
+  Macro: (Ctrl-c g q) \\
+  If Control modifier is held: \\
   Macro: (Ctrl-c g t)
 
 - P: GPT_REPLY\\
