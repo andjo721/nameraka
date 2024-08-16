@@ -1,4 +1,4 @@
-# Created 2024-08-16 Fri 18:45
+# Created 2024-08-16 Fri 20:27
 #+title: Nameraka [滑らか]
 #+author: Andreas Johansson
 #+filetags: :Hårdvara:Emacs:Data:Programming:project:
@@ -40,18 +40,20 @@ Modifier keys are:
 
 These are placed in most layers like this:
 
-□ □ □ □ □    □ □ □ □ □
-D C B A E    E A B C D
-□ F □ G □    □ G □ F □
-    □ □ □    □ □ □
+#+begin_example
+  □ □ □ □ □    □ □ □ □ □
+  D C B A E    E A B C D
+  □ F □ G □    □ G □ F □
+      □ □ □    □ □ □
+#+end_example
 
-A: Shift
-B: Control
-C: Meta
-D: Super
-E: Meh
-F: Alt-Gr
-G: Hyper
+- A: Shift
+- B: Control
+- C: Meta
+- D: Super
+- E: Meh
+- F: Alt-Gr
+- G: Hyper
 
 In the base layers, home row mods are used, and thus the keys have the modifier function when held for a time.
 
@@ -89,18 +91,20 @@ The base layer is selected at compile time, and may be set to QWERTY or COLEMAK_
 The thumb keys each activate a layer when held, using the mod-tap (MT) functionality of QMK.
 The layer remains active for as long as the key is held down.
 
-□ □ □ □ □    □ □ □ □ □
-□ □ □ □ □    □ □ □ □ □
-□ □ □ □ □    □ □ □ □ □
-    A B C    D E F
+#+begin_example
+  □ □ □ □ □    □ □ □ □ □
+  □ □ □ □ □    □ □ □ □ □
+  □ □ □ □ □    □ □ □ □ □
+      A B C    D E F
+#+end_example
 
-A: Media and Misc layer
-B: Navigation layer
-C: Project and Programming layer
+- A: Media and Misc layer
+- B: Navigation layer
+- C: Project and Programming layer
 
-D: Symbol layer
-E: Number layer
-F: Function layer
+- D: Symbol layer
+- E: Number layer
+- F: Function layer
 
 * Base layer 1 (QWERTY)
 #+begin_example
@@ -110,13 +114,13 @@ F: Function layer
       A B C    D E F
 #+end_example
 
-A: ESCAPE
-B: SPACE BAR
-C: TAB
+- A: ESCAPE
+- B: SPACE BAR
+- C: TAB
 
-D: ENTER
-E: BACKSPACE
-F: DELETE
+- D: ENTER
+- E: BACKSPACE
+- F: DELETE
 
 
 * Base layer 2 (COLEMAK mod DH)
@@ -127,13 +131,13 @@ F: DELETE
       A B C    D E F
 #+end_example
 
-A: ESCAPE
-B: SPACE BAR
-C: TAB
+- A: ESCAPE
+- B: SPACE BAR
+- C: TAB
 
-D: ENTER
-E: BACKSPACE
-F: DELETE
+- D: ENTER
+- E: BACKSPACE
+- F: DELETE
 
 * Symbol layer
 #+begin_example
@@ -143,8 +147,8 @@ F: DELETE
         "  /  '     X  E  F
 #+end_example
 
-E: NA
-F: NA
+- E: NA
+- F: NA
 
 * Navigation layer
 
@@ -157,35 +161,35 @@ F: NA
 
 ** Left
 _Modifiers_
-A: Super
-B: Meta
-C: Control
-D: Shift
-E: Meh
+- A: Super
+- B: Meta
+- C: Control
+- D: Shift
+- E: Meh
 
-F: Alt Gr
-G: Hyper
+- F: Alt Gr
+- G: Hyper
 
 ** Right
-H: Macro WIND_MAX_TOGGLE (Ctrl-b z)
-I: Macro WIND_LEFT (Ctrl-b ←)
-J: Macro WIND_DOWN (Ctrl-b ↓)
-K: Macro WIND_UP (Ctrl-b ↑)
-L: Macro WIND_RIGHT (Ctrl-b →)
+- H: Macro WIND_MAX_TOGGLE (Ctrl-b z)
+- I: Macro WIND_LEFT (Ctrl-b ←)
+- J: Macro WIND_DOWN (Ctrl-b ↓)
+- K: Macro WIND_UP (Ctrl-b ↑)
+- L: Macro WIND_RIGHT (Ctrl-b →)
 
-M: Caps Word Toggle
-   Caps word makes subsequently entered characters upper case for the duration of a word.
-   Non alphabethical or numerical characters ends the word, except for '-' which becomes '_'.
+- M: Caps Word Toggle
+  Caps word makes subsequently entered characters upper case for the duration of a word.
+  Non alphabethical or numerical characters ends the word, except for '-' which becomes '_'.
 
-N: INSERT
-I: END
-J: PAGE DOWN
-K: PAGE UP
-L: HOME
+- N: INSERT
+- I: END
+- J: PAGE DOWN
+- K: PAGE UP
+- L: HOME
 
-M: ENTER
-N: BACKSPACE
-O: DELETE
+- M: ENTER
+- N: BACKSPACE
+- O: DELETE
 
 ** TODO switch places of END and HOME in analogue with the row above.
 
@@ -197,22 +201,21 @@ O: DELETE
             D   E   F      □   □   X
 #+end_example
 ** Left
-A: Print Screen
-B: Scroll Lock
-C: Pause/Break
+- A: Print Screen
+- B: Scroll Lock
+- C: Pause/Break
 
-D: App key (often performs the same function as the right mouse key in an UI)
-E: SPACE BAR
-F: TAB
+- D: App key (often performs the same function as the right mouse key in an UI)
+- E: SPACE BAR
+- F: TAB
 
 ** Right
-G: Meh
-H: Shift
-I: Control
-J: Meta
-K: Super
-
-L: Hyper key
+- G: Meh
+- H: Shift
+- I: Control
+- J: Meta
+- K: Super
+- L: Hyper
 
 * Number layer
 
@@ -227,19 +230,18 @@ L: Hyper key
 Only simple characters.
 
 ** Right
-A: Macro that yields the text
-#+begin_src js
-  = () => ()
-#+end_src
+- A: Macro that yields the text
+  #+begin_src js
+    = () => ()
+  #+end_src
 
 _Modifiers_
-B: Meh
-C: Shift
-D: Control
-E: Meta
-F: Super
-
-G: Hyper key
+- B: Meh
+- C: Shift
+- D: Control
+- E: Meta
+- F: Super
+- G: Hyper
 
 * Project and Programming layer
 This layer is completely Emacs centric, so if you do not use Emacs it probably won't be useful to you.
@@ -259,165 +261,167 @@ If you need to modify the behaviour, take a look at process_record_project() in 
 #+end_example
 
 ** Left
-A: LSP Format Region
-   Macro (Ctrl-q l = r)
-- Emacs: lsp-find-references
-  Finds references of the symbol at point.
+- A: LSP Format Region
+  Macro (Ctrl-q l = r)
+  - Emacs: lsp-find-references
+    Finds references of the symbol at point.
 
-B: VC_REVERT_HUNK
-   Macro (Ctrl-x v n)
-- Emacs: diff-hl-revert-hunk
-  Reverts any local changes in the marked region to the version currently checked out from Version Control (e.g. Subversion or Git).
+- B: VC_REVERT_HUNK
+  Macro (Ctrl-x v n)
+  - Emacs: diff-hl-revert-hunk
+    Reverts any local changes in the marked region to the version currently checked out from Version Control (e.g. Subversion or Git).
 
-C: PRJ_OTHER_FILE
-   Macro (Ctrl-c p a)
-- Emacs: helm-projectile-find-other-file
-  Finds files with the same name but different extension.
-  May, for example, be used to switch between .c and .h files in a C code base.
+- C: PRJ_OTHER_FILE
+  Macro (Ctrl-c p a)
+  - Emacs: helm-projectile-find-other-file
+    Finds files with the same name but different extension.
+    May, for example, be used to switch between .c and .h files in a C code base.
 
-D: PRJ_SEARCH
-   Macro (Ctrl-c p s s)
-- Emacs: helm-projectile-ag
-  Searches the contents of the files of the currently active Projectile Project,
-  using The Silver Searcher (ag).
+- D: PRJ_SEARCH
+  Macro (Ctrl-c p s s)
+  - Emacs: helm-projectile-ag
+    Searches the contents of the files of the currently active Projectile Project,
+    using The Silver Searcher (ag).
 
-E: PRJ_FILES
-   Macro (Ctrl-c p f)
-- Emacs: helm-projectile-find-file
-  Interactively find a file that is in the current Projectile project.
+- E: PRJ_FILES
+  Macro (Ctrl-c p f)
+  - Emacs: helm-projectile-find-file
+    Interactively find a file that is in the current Projectile project.
 
-F: MAGIT_STATUS
-   Macro (Ctrl-x g)
-- Emacs: magit-status
-  Shows the current git status (uses the package Magit).
+- F: MAGIT_STATUS
+  Macro (Ctrl-x g)
+  - Emacs: magit-status
+    Shows the current git status (uses the package Magit).
 
-G: New task
-   Macro (Shift-F12)
-- Emacs: Personal binding for input of custom Org todo.
+- G: New task
+  Macro (Shift-F12)
+  - Emacs: Personal binding for input of custom Org todo.
 
-H: PERSP_BUF
-   Macro (Ctrl-x Ctrl-b)
-- Emacs: helm-buffers-list
-  Shows a list of buffers that are open in the currently active perspective (package Perspective).
+- H: PERSP_BUF
+  Macro (Ctrl-x Ctrl-b)
+  - Emacs: helm-buffers-list
+    Shows a list of buffers that are open in the currently active perspective (package Perspective).
 
 ** Right
-I: LSP_TYPE_DEFINITION
-   Macro: (Ctrl-q l g t)
-- Emacs: lsp-find-type-definition
-  Shows the definition of the symbol at point (package LSP).
+- I: LSP_TYPE_DEFINITION
+  - Macro: (Ctrl-q l g t)
+    - Emacs: lsp-find-type-definition
+      Shows the definition of the symbol at point (package LSP).
 
-J: LSP_REFERENCES
-   Macro (Ctrl-q l g r)
-- Emacs:
-If modifier Ctrl is held:
-Macro (Ctrl-q l G r)
-- Emacs:
+- J: LSP_REFERENCES
+  - Macro (Ctrl-q l g r)
+    - Emacs:
+      If modifier Ctrl is held:
+      Macro (Ctrl-q l G r)
+    - Emacs:
 
-K: CCLS_CALL_HIERARCHY
-   Macro: (Ctrl-q l c c)
-- Emacs: ccls-call-hierarchy
+- K: CCLS_CALL_HIERARCHY
+  Macro: (Ctrl-q l c c)
+  - Emacs: ccls-call-hierarchy
 
-L: CCLS_MEMBER_HIERARCHY
-   Macro: (Ctrl-q l c m)
-- Emacs: ccls-member-hierarchy
+- L: CCLS_MEMBER_HIERARCHY
+  Macro: (Ctrl-q l c m)
+  - Emacs: ccls-member-hierarchy
 
-M: PRJ_PROJS
-   Macro: (Ctrl-c p p)
-- Emacs: helm-projectile-switch-project
-  Find a projectile project.
+- M: PRJ_PROJS
+  Macro: (Ctrl-c p p)
+  - Emacs: helm-projectile-switch-project
+    Find a projectile project.
 
-N: HELM_RESUME
-   Macro: (Ctrl-x c b)
-- Emacs: helm-resume
-  Recall the last helm session.
+- N: HELM_RESUME
+  Macro: (Ctrl-x c b)
+  - Emacs: helm-resume
+    Recall the last helm session.
 
-O: GO_TO
-   Macro: (Meta-.)
-- Emacs:
-  Go to symbol.
-  Uses xref bindings, and works with, for example, LSP.
+- O: GO_TO
+  Macro: (Meta-.)
+  - Emacs:
+    Go to symbol.
+    Uses xref bindings, and works with, for example, LSP.
 
-P: GO_BACK
-   Macro: (Meta-,)
-- Emacs:
-  Go back up the chain of previous locations, after a series of GO_TO has been executed.
-  Uses xref bindings, and works with, for example, LSP.
+- P: GO_BACK
+  Macro: (Meta-,)
+  - Emacs:
+    Go back up the chain of previous locations, after a series of GO_TO has been executed.
+    Uses xref bindings, and works with, for example, LSP.
 
-Q: LSP_LENS
-   Macro: (Ctrl-q l T l)
-- Emacs: lsp-lens-mode
-  Toggles LSP lens mode.
+- Q: LSP_LENS
+  Macro: (Ctrl-q l T l)
+  - Emacs: lsp-lens-mode
+    Toggles LSP lens mode.
 
-R: LSP_RENAME
-   Macro: (Ctrl-q l r r)
-- Emacs: lsp-rename
-  Rename symbol at point. Good for refactoring.
+- R: LSP_RENAME
+  Macro: (Ctrl-q l r r)
+  - Emacs: lsp-rename
+    Rename symbol at point. Good for refactoring.
 
-S: FLYCHECK_NEXT_ERROR
-   Macro: (Ctrl-c ! n)
-- Emacs: flycheck-next-error
-  Go to the next Flycheck syntax error.
+- S: FLYCHECK_NEXT_ERROR
+  Macro: (Ctrl-c ! n)
+  - Emacs: flycheck-next-error
+    Go to the next Flycheck syntax error.
 
-T: FLYCHECK_PREV_ERROR
-   Macro: (Ctrl-c ! p)
-- Emacs: flycheck-previous-error
-  Go to the previous Flycheck syntax error.
+- T: FLYCHECK_PREV_ERROR
+  Macro: (Ctrl-c ! p)
+  - Emacs: flycheck-previous-error
+    Go to the previous Flycheck syntax error.
 
-U: MC mark next
-   Macro: (Ctrl-<)
-- Emacs: mc/mark-next-like-this
-  Custom binding for "mark next like this" as a multiple cursor.
+- U: MC mark next
+  Macro: (Ctrl-<)
+  - Emacs: mc/mark-next-like-this
+    Custom binding for "mark next like this" as a multiple cursor.
 
 * Media and Misc Layer
-A B C D E    O □ □ □ □
-F G H I J    P Q R S T
-□ K L M N    U □ □ □ □
-    □ □ X    V W Y
+#+begin_example
+  A B C D E    O □ □ □ □
+  F G H I J    P Q R S T
+  □ K L M N    U □ □ □ □
+      □ □ X    V W Y
+#+end_example
 
 ** Left
-A: Quick Double tap enters Boot Mode
-   Entering boot mode is needed during (re-)programming of the firmware.
-B: Quick Double tap enters Tap Layer
-   This disables double functions of almost all keys, only the Navigation layer remains.
-   The only way to restore normal function is to unplug and reinsert the USB cable.
-C: Quick Double tap enters Extra Layer
-   This is the other layer that can be used as base layer.
-   If Base Layer has been given as QWERTY during qmk compilation, the Extra Layer is COLEMAC_DH, and vice versa.
-D: Quick Double tap enters the compile time defined Base Layer
-   This may be QWERTY or COLEMAK_DH.
-E: Prints the current value of TAPPING_TERM.
-   By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer,
-   in order to determine what TAPPING_TERM value fits your needs. That value can then be set in config.h, and qmk recompiled.
+- A: Quick Double tap enters Boot Mode
+  Entering boot mode is needed during (re-)programming of the firmware.
+- B: Quick Double tap enters Tap Layer
+  This disables double functions of almost all keys, only the Navigation layer remains.
+  The only way to restore normal function is to unplug and reinsert the USB cable.
+- C: Quick Double tap enters Extra Layer
+  This is the other layer that can be used as base layer.
+  If Base Layer has been given as QWERTY during qmk compilation, the Extra Layer is COLEMAC_DH, and vice versa.
+- D: Quick Double tap enters the compile time defined Base Layer
+  This may be QWERTY or COLEMAK_DH.
+- E: Prints the current value of TAPPING_TERM.
+  By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer,
+  in order to determine what TAPPING_TERM value fits your needs. That value can then be set in config.h, and qmk recompiled.
 
-F: Super
-G: Meta
-H: Control
-I: Shift
-J: Increases the current value of TAPPING_TERM.
-   See [E] and [N].
-K: Alt Gr
-L: Quick Double tap enters Function Layer
-M: Quick Double tap enters Media Layer
-N: Decreases the current value of TAPPING_TERM.
-   See [E] and [J].
+- F: Super
+- G: Meta
+- H: Control
+- I: Shift
+- J: Increases the current value of TAPPING_TERM.
+  See [E] and [N].
+- K: Alt Gr
+- L: Quick Double tap enters Function Layer
+- M: Quick Double tap enters Media Layer
+- N: Decreases the current value of TAPPING_TERM.
+  See [E] and [J].
 
 ** Right
-O: GPT_QUERY
-   Macro: (Ctrl-c g q)
-   If Control modifier is held:
-   Macro: (Ctrl-c g t)
+- O: GPT_QUERY
+  - Macro: (Ctrl-c g q)
+    If Control modifier is held:
+    Macro: (Ctrl-c g t)
 
-P: GPT_REPLY
-   Macro: (Ctrl-c g r)
-Q: MEDIA Previous
-R: MEDIA Volume Down
-S: MEDIA Volume Up
-T: MEDIA Next
+- P: GPT_REPLY
+  - Macro: (Ctrl-c g r)
+- Q: MEDIA Previous
+- R: MEDIA Volume Down
+- S: MEDIA Volume Up
+- T: MEDIA Next
 
-U: OU_AUTO
-   Automatically changes between USB and BT. (Not tested)
+- U: OU_AUTO
+  Automatically changes between USB and BT. (Not tested)
 
-V: MEDIA Stop
-W: MEDIA Play
-   Play/Pause
-Y: MEDIA Mute
+- V: MEDIA Stop
+- W: MEDIA Play
+  Play/Pause
+- Y: MEDIA Mute
