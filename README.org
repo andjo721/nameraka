@@ -1,23 +1,22 @@
-# Created 2024-08-16 Fri 20:52
+# Created 2024-08-16 Fri 21:00
 #+title: Nameraka [滑らか]
 #+author: Andreas Johansson
 #+filetags: :Hårdvara:Emacs:Data:Programming:project:
 
 * General
-Nameraka is a [[ https://qmk.fm/][QMK]] layout for 3x5 [[https://github.com/foostan/crkbd][Corne (crkbd)]] split ergonomic keyboards, that is based on the [[https://github.com/manna-harbour/miryoku][Miryoku]] layout and further modified to fit my needs.
+Nameraka is a [[ https://qmk.fm/][QMK]] layout for 3x5 [[https://github.com/foostan/crkbd][Corne (crkbd)]] split ergonomic keyboards, that is based on [[https://github.com/manna-harbour/miryoku][Miryoku]].
 Some files retain their name from Miryoku because of this.
 
-The layout is optimized for both programming and writing.
+The layout is optimized for both programming, writing and general keyboard centric computing.
 
-Some features and macros are Emacs specific, although of course, using Emacs is not required to make good use of the general features of the layout.
+Some features and macros are Emacs specific, although of course, using Emacs is not required to make good use of most of the layout.
 
 - Layer layouts in this document are described as rows of characters corresponding to keys on the keyboard.
 - The two halves of the keyboard are presented side by side.
 - Lower case alpha characters, numerals and symbols are literal, i.e. they result in that character being output when the key is pressed.
 - The character "□" denotes a blank key.
-- Upper case alpha characters represent special keys or more complex functions not easily representable by a character.\\
-  These are described in a list directly following the layer layout.\\
-  The list contains the upper case characters together with a description of their function when pressed.
+- Upper case alpha characters represent special keys or more complex functions not easily representable by a character.
+  These are described in a list directly following the layer layout. The list contains the upper case characters together with a description of their function when pressed.
 - X means the key does not have a function in the layer, and is unavailable for configuration.\\
   It is used for activating the layer being described, so it is required to be already held down.
 
@@ -68,7 +67,7 @@ Resting position:
 - Meta and super are allocated to the weaker ring and little fingers.
 
 Stretches:
-- Only the index finger stretches one position sideways and down for Meh and Hyper.\\
+- Only the index finger stretches one position sideways and down for Meh and Hyper.
   The thinking here is that the index finger normally is the strongest and most agile finger.
 
 * Base layer
@@ -178,7 +177,7 @@ _Modifiers_
 - L: Macro WIND_RIGHT (Ctrl-b →)
 
 - M: Caps Word Toggle\\
-  Caps word makes subsequently entered characters upper case for the duration of a word. \\
+  Caps word makes subsequently entered characters upper case for the duration of a word.
   Non alphabethical or numerical characters ends the word, except for '-' which becomes '_'.
 
 - N: INSERT
@@ -275,13 +274,13 @@ If you need to modify the behaviour, take a look at process_record_project() in 
 - C: PRJ_OTHER_FILE\\
   Macro (Ctrl-c p a)
   - Emacs: helm-projectile-find-other-file\\
-    Finds files with the same name but different extension. \\
+    Finds files with the same name but different extension.
     May, for example, be used to switch between .c and .h files in a C code base.
 
 - D: PRJ_SEARCH\\
   Macro (Ctrl-c p s s)
   - Emacs: helm-projectile-ag\\
-    Searches the contents of the files of the currently active Projectile Project, \\
+    Searches the contents of the files of the currently active Projectile Project,
     using The Silver Searcher (ag).
 
 - E: PRJ_FILES\\
@@ -336,14 +335,12 @@ If you need to modify the behaviour, take a look at process_record_project() in 
 - O: GO_TO\\
   Macro: (Meta-.)
   - Emacs:\\
-    Go to symbol.\\
-    Uses xref bindings, and works with, for example, LSP.
+    Go to symbol. Uses xref bindings, and works with, for example, LSP.
 
 - P: GO_BACK\\
   Macro: (Meta-,)
   - Emacs:\\
-    Go back up the chain of previous locations, after a series of GO_TO has been executed.\\
-    Uses xref bindings, and works with, for example, LSP.
+    Go back up the chain of previous locations, after a series of GO_TO has been executed. Uses xref bindings, and works with, for example, LSP.
 
 - Q: LSP_LENS\\
   Macro: (Ctrl-q l T l)
@@ -382,34 +379,35 @@ If you need to modify the behaviour, take a look at process_record_project() in 
 - A: Quick Double tap enters Boot Mode\\
   Entering boot mode is needed during (re-)programming of the firmware.
 - B: Quick Double tap enters Tap Layer\\
-  This disables double functions of almost all keys, only the Navigation layer remains. \\
+  This disables double functions of almost all keys, only the Navigation layer remains.
   The only way to restore normal function is to unplug and reinsert the USB cable.
 - C: Quick Double tap enters Extra Layer\\
-  This is the other layer that can be used as base layer. \\
+  This is the other layer that can be used as base layer.
   If Base Layer has been given as QWERTY during qmk compilation, the Extra Layer is COLEMAC_DH, and vice versa.
 - D: Quick Double tap enters the compile time defined Base Layer\\
   This may be QWERTY or COLEMAK_DH.
-- E: Prints the current value of TAPPING_TERM. \\
-  By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer, \\
+- E: Prints the current value of TAPPING_TERM.\\
+  By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer,
   in order to determine what TAPPING_TERM value fits your needs. That value can then be set in config.h, and qmk recompiled.
 
 - F: Super
 - G: Meta
 - H: Control
 - I: Shift
-- J: Increases the current value of TAPPING_TERM. \\
+- J: Increases the current value of TAPPING_TERM.\\
   See [E] and [N].
 - K: Alt Gr
 - L: Quick Double tap enters Function Layer
 - M: Quick Double tap enters Media Layer
-- N: Decreases the current value of TAPPING_TERM. \\
+- N: Decreases the current value of TAPPING_TERM.\\
   See [E] and [J].
 
 ** Right
 - O: GPT_QUERY\\
-  Macro: (Ctrl-c g q) \\
-  If Control modifier is held: \\
-  Macro: (Ctrl-c g t)
+  - No modifiers\\
+    Macro: (Ctrl-c g q)
+  - If Control modifier is held\\
+    Macro: (Ctrl-c g t)
 
 - P: GPT_REPLY\\
   Macro: (Ctrl-c g r)
