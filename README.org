@@ -1,0 +1,423 @@
+# Created 2024-08-16 Fri 18:45
+#+title: Nameraka [滑らか]
+#+author: Andreas Johansson
+#+filetags: :Hårdvara:Emacs:Data:Programming:project:
+
+* General
+Nameraka is a [[ https://qmk.fm/][QMK]] layout for 3x5 [[https://github.com/foostan/crkbd][Corne (crkbd)]] split ergonomic keyboards, that is based on the [[https://github.com/manna-harbour/miryoku][Miryoku]] layout and further modified to fit my needs.
+Some files retain their name from Miryoku because of this.
+
+The layout is optimized for both programming and writing.
+
+Some features and macros are Emacs specific, although of course, using Emacs is not required to make good use of the general features of the layout.
+
+- Layer layouts in this document are described as rows of characters corresponding to keys on the keyboard.
+- The two halves of the keyboard are presented side by side.
+- Lower case alpha characters, numerals and symbols are literal, i.e. they result in that character being output when the key is pressed.
+- The character "□" denotes a blank key.
+- Upper case alpha characters represent special keys or more complex functions not easily representable by a character.
+  These are described in a list directly following the layer layout.
+  The list contains the upper case characters together with a description of their function when pressed.
+  - X means the key does not have a function in the layer, and is unavailable for configuration.
+    It is used for activating the layer being described, so it is required to be already held down.
+
+* Modifiers
+Nameraka uses [[https://precondition.github.io/home-row-mods][home row mods]].
+
+Some keys have double functions, and generate one character when tapped,
+and become a modifier key when held for a time, using the Mod Tap (MT) functionality of QMK.
+
+For cases where there are several key codes for a modifier, the key code of the _left_ modifier key on a regular PC keyboard is used.
+
+Modifier keys are:
+- Shift
+- Control
+- Meta (Alt)
+- Super (GUI/Win)
+- Meh (Shift + Ctrl + Meta)
+- Alt-Gr
+- Hyper (Shift + Ctrl + Meta + Super)
+
+These are placed in most layers like this:
+
+□ □ □ □ □    □ □ □ □ □
+D C B A E    E A B C D
+□ F □ G □    □ G □ F □
+    □ □ □    □ □ □
+
+A: Shift
+B: Control
+C: Meta
+D: Super
+E: Meh
+F: Alt-Gr
+G: Hyper
+
+In the base layers, home row mods are used, and thus the keys have the modifier function when held for a time.
+
+In other layers, the modifiers on one half of the keyboard typically are static, and the only function of that key.
+
+** Rationale for modifier keys placement
+The modifier keys are placed so that they can comfortably be reached from a normal
+resting hand position on the home row.
+
+Resting position:
+- Shift and control are given the prime real estate directly under the index and middle finger.
+- Meta and super are allocated to the weaker ring and little fingers.
+
+Stretches:
+- Only the index finger stretches one position sideways and down for Meh and Hyper.
+  The thinking here is that the index finger normally is the strongest and most agile finger.
+
+* Base layer
+When no special layer has been activated, the base layer is active.
+The base layer is selected at compile time, and may be set to QWERTY or COLEMAK_DH.
+
+* Installing
+
+* Compiling
+- MIRYOKU_ALPHAS chooses which layout is used for the default base layer
+- MIRYOKU_EXTRA chooses what is used for the extra base layer
+- MIRYOKU_TAP chooses the base layout of the TAP layer
+  The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and there are (mostly) no extended layers.
+
+#+begin_src sh
+  qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY
+#+end_src
+
+* Extended layers
+The thumb keys each activate a layer when held, using the mod-tap (MT) functionality of QMK.
+The layer remains active for as long as the key is held down.
+
+□ □ □ □ □    □ □ □ □ □
+□ □ □ □ □    □ □ □ □ □
+□ □ □ □ □    □ □ □ □ □
+    A B C    D E F
+
+A: Media and Misc layer
+B: Navigation layer
+C: Project and Programming layer
+
+D: Symbol layer
+E: Number layer
+F: Function layer
+
+* Base layer 1 (QWERTY)
+#+begin_example
+  q w e r t    y u i o p
+  a s d f g    h j k l ö
+  z x c v b    n m , . -
+      A B C    D E F
+#+end_example
+
+A: ESCAPE
+B: SPACE BAR
+C: TAB
+
+D: ENTER
+E: BACKSPACE
+F: DELETE
+
+
+* Base layer 2 (COLEMAK mod DH)
+#+begin_example
+  q w f p b    j l u y +
+  a r s t g    m n e i o
+  z x c d v    k h , . '
+      A B C    D E F
+#+end_example
+
+A: ESCAPE
+B: SPACE BAR
+C: TAB
+
+D: ENTER
+E: BACKSPACE
+F: DELETE
+
+* Symbol layer
+#+begin_example
+  <  &  {  }  @     /  `  ^  '  ?
+  >  $  (  )  ;     #  =  □  □  □
+  |  !  [  ]  :     \  %  ~  □  □
+        "  /  '     X  E  F
+#+end_example
+
+E: NA
+F: NA
+
+* Navigation layer
+
+#+begin_example
+  □ □ □ □ □    H I J K L
+  A B C D E    M ← ↓ ↑ →
+  □ F □ G □    N I J K L
+      □ X □    M N O
+#+end_example
+
+** Left
+_Modifiers_
+A: Super
+B: Meta
+C: Control
+D: Shift
+E: Meh
+
+F: Alt Gr
+G: Hyper
+
+** Right
+H: Macro WIND_MAX_TOGGLE (Ctrl-b z)
+I: Macro WIND_LEFT (Ctrl-b ←)
+J: Macro WIND_DOWN (Ctrl-b ↓)
+K: Macro WIND_UP (Ctrl-b ↑)
+L: Macro WIND_RIGHT (Ctrl-b →)
+
+M: Caps Word Toggle
+   Caps word makes subsequently entered characters upper case for the duration of a word.
+   Non alphabethical or numerical characters ends the word, except for '-' which becomes '_'.
+
+N: INSERT
+I: END
+J: PAGE DOWN
+K: PAGE UP
+L: HOME
+
+M: ENTER
+N: BACKSPACE
+O: DELETE
+
+** TODO switch places of END and HOME in analogue with the row above.
+
+* Function layer
+#+begin_example
+  F12  F7  F8  F9   A      □   □   □   □   □
+  F11  F4  F5  F6   B      G   H   I   J   K
+  F10  F1  F2  F3   C      □   L   □   □   □
+            D   E   F      □   □   X
+#+end_example
+** Left
+A: Print Screen
+B: Scroll Lock
+C: Pause/Break
+
+D: App key (often performs the same function as the right mouse key in an UI)
+E: SPACE BAR
+F: TAB
+
+** Right
+G: Meh
+H: Shift
+I: Control
+J: Meta
+K: Super
+
+L: Hyper key
+
+* Number layer
+
+#+begin_example
+  /  7  8  9  -     A  □  □  □  □
+  ,*  4  5  6  +     B  C  D  E  F
+  §  1  2  3  %     □  G  □  □  □
+        .  0  :     □  X  □
+#+end_example
+
+** Left
+Only simple characters.
+
+** Right
+A: Macro that yields the text
+#+begin_src js
+  = () => ()
+#+end_src
+
+_Modifiers_
+B: Meh
+C: Shift
+D: Control
+E: Meta
+F: Super
+
+G: Hyper key
+
+* Project and Programming layer
+This layer is completely Emacs centric, so if you do not use Emacs it probably won't be useful to you.
+It contains macros that mostly concern project handling and programming,
+and is made for Emacs with the packages LSP, ccsl, Projectile, diff-hl, magit, helm, perspective, multiple-cursors, org-mode installed.
+If you have not got all these packages installed, the macros for the ones you have should still work.
+
+Stock keybindings for the macros have been used when possible.
+
+If you need to modify the behaviour, take a look at process_record_project() in manna-harbour_miryoku.c.
+
+#+begin_example
+  A □ □ B □    I J K L M
+  C D □ E F    N O P Q □
+  □ □ G □ H    R S T □ □
+      □ □ X    U □ □
+#+end_example
+
+** Left
+A: LSP Format Region
+   Macro (Ctrl-q l = r)
+- Emacs: lsp-find-references
+  Finds references of the symbol at point.
+
+B: VC_REVERT_HUNK
+   Macro (Ctrl-x v n)
+- Emacs: diff-hl-revert-hunk
+  Reverts any local changes in the marked region to the version currently checked out from Version Control (e.g. Subversion or Git).
+
+C: PRJ_OTHER_FILE
+   Macro (Ctrl-c p a)
+- Emacs: helm-projectile-find-other-file
+  Finds files with the same name but different extension.
+  May, for example, be used to switch between .c and .h files in a C code base.
+
+D: PRJ_SEARCH
+   Macro (Ctrl-c p s s)
+- Emacs: helm-projectile-ag
+  Searches the contents of the files of the currently active Projectile Project,
+  using The Silver Searcher (ag).
+
+E: PRJ_FILES
+   Macro (Ctrl-c p f)
+- Emacs: helm-projectile-find-file
+  Interactively find a file that is in the current Projectile project.
+
+F: MAGIT_STATUS
+   Macro (Ctrl-x g)
+- Emacs: magit-status
+  Shows the current git status (uses the package Magit).
+
+G: New task
+   Macro (Shift-F12)
+- Emacs: Personal binding for input of custom Org todo.
+
+H: PERSP_BUF
+   Macro (Ctrl-x Ctrl-b)
+- Emacs: helm-buffers-list
+  Shows a list of buffers that are open in the currently active perspective (package Perspective).
+
+** Right
+I: LSP_TYPE_DEFINITION
+   Macro: (Ctrl-q l g t)
+- Emacs: lsp-find-type-definition
+  Shows the definition of the symbol at point (package LSP).
+
+J: LSP_REFERENCES
+   Macro (Ctrl-q l g r)
+- Emacs:
+If modifier Ctrl is held:
+Macro (Ctrl-q l G r)
+- Emacs:
+
+K: CCLS_CALL_HIERARCHY
+   Macro: (Ctrl-q l c c)
+- Emacs: ccls-call-hierarchy
+
+L: CCLS_MEMBER_HIERARCHY
+   Macro: (Ctrl-q l c m)
+- Emacs: ccls-member-hierarchy
+
+M: PRJ_PROJS
+   Macro: (Ctrl-c p p)
+- Emacs: helm-projectile-switch-project
+  Find a projectile project.
+
+N: HELM_RESUME
+   Macro: (Ctrl-x c b)
+- Emacs: helm-resume
+  Recall the last helm session.
+
+O: GO_TO
+   Macro: (Meta-.)
+- Emacs:
+  Go to symbol.
+  Uses xref bindings, and works with, for example, LSP.
+
+P: GO_BACK
+   Macro: (Meta-,)
+- Emacs:
+  Go back up the chain of previous locations, after a series of GO_TO has been executed.
+  Uses xref bindings, and works with, for example, LSP.
+
+Q: LSP_LENS
+   Macro: (Ctrl-q l T l)
+- Emacs: lsp-lens-mode
+  Toggles LSP lens mode.
+
+R: LSP_RENAME
+   Macro: (Ctrl-q l r r)
+- Emacs: lsp-rename
+  Rename symbol at point. Good for refactoring.
+
+S: FLYCHECK_NEXT_ERROR
+   Macro: (Ctrl-c ! n)
+- Emacs: flycheck-next-error
+  Go to the next Flycheck syntax error.
+
+T: FLYCHECK_PREV_ERROR
+   Macro: (Ctrl-c ! p)
+- Emacs: flycheck-previous-error
+  Go to the previous Flycheck syntax error.
+
+U: MC mark next
+   Macro: (Ctrl-<)
+- Emacs: mc/mark-next-like-this
+  Custom binding for "mark next like this" as a multiple cursor.
+
+* Media and Misc Layer
+A B C D E    O □ □ □ □
+F G H I J    P Q R S T
+□ K L M N    U □ □ □ □
+    □ □ X    V W Y
+
+** Left
+A: Quick Double tap enters Boot Mode
+   Entering boot mode is needed during (re-)programming of the firmware.
+B: Quick Double tap enters Tap Layer
+   This disables double functions of almost all keys, only the Navigation layer remains.
+   The only way to restore normal function is to unplug and reinsert the USB cable.
+C: Quick Double tap enters Extra Layer
+   This is the other layer that can be used as base layer.
+   If Base Layer has been given as QWERTY during qmk compilation, the Extra Layer is COLEMAC_DH, and vice versa.
+D: Quick Double tap enters the compile time defined Base Layer
+   This may be QWERTY or COLEMAK_DH.
+E: Prints the current value of TAPPING_TERM.
+   By default this value is defined in config.h, and it may be volatilely modified at runtime by [J] and [N] of this layer,
+   in order to determine what TAPPING_TERM value fits your needs. That value can then be set in config.h, and qmk recompiled.
+
+F: Super
+G: Meta
+H: Control
+I: Shift
+J: Increases the current value of TAPPING_TERM.
+   See [E] and [N].
+K: Alt Gr
+L: Quick Double tap enters Function Layer
+M: Quick Double tap enters Media Layer
+N: Decreases the current value of TAPPING_TERM.
+   See [E] and [J].
+
+** Right
+O: GPT_QUERY
+   Macro: (Ctrl-c g q)
+   If Control modifier is held:
+   Macro: (Ctrl-c g t)
+
+P: GPT_REPLY
+   Macro: (Ctrl-c g r)
+Q: MEDIA Previous
+R: MEDIA Volume Down
+S: MEDIA Volume Up
+T: MEDIA Next
+
+U: OU_AUTO
+   Automatically changes between USB and BT. (Not tested)
+
+V: MEDIA Stop
+W: MEDIA Play
+   Play/Pause
+Y: MEDIA Mute
