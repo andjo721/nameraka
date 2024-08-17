@@ -11,6 +11,26 @@ The layout is optimized for both programming, writing and general keyboard centr
 
 Some features and macros are Emacs specific, although of course, using Emacs is not required to make good use of most of the layout.
 
+* Installation
+1. Clone and prepare qmk
+   #+begin_src sh
+     git clone https://github.com/qmk/qmk_firmware.git
+     cd qmk_firmware
+     qmk setup
+   #+end_src
+2. Clone nameraka
+   Place it in the keymaps directory of the Corne keyboard (crkbd).
+   #+begin_src sh
+     git clone https://github.com/andjo721/nameraka keyboards/crkbd/keymaps/nameraka
+   #+end_src
+3. Build and flash
+   Change environment variables to customize the build.\\
+   For example:
+   #+begin_src sh
+     qmk flash -c -kb crkbd -km nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
+   #+end_src
+
+* The layout documentation
 - Layer layouts in this document are described as rows of characters corresponding to keys on the keyboard.
 - The two halves of the keyboard are presented side by side.
 - Lower case alpha characters, numerals and symbols are literal, i.e. they result in that character being output when the key is pressed.
