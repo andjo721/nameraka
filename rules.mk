@@ -19,9 +19,9 @@ BACKLIGHT_ENABLE = no
 
 # INTROSPECTION_KEYMAP_C = andjo-nameraka.c # keymaps
 
-include users/andjo-nameraka/custom_rules.mk
+include keyboards/crkbd/keymaps/nameraka/custom_rules.mk
 
-include users/andjo-nameraka/post_rules.mk
+include keyboards/crkbd/keymaps/nameraka/post_rules.mk
 
 # SRC += features/layer_lock.c
 
