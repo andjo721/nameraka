@@ -1,49 +1,44 @@
-# Copyright 2022 Manna Harbour
-# https://github.com/manna-harbour/miryoku
-
-#SRC += manna-harbour_miryoku.c # keymaps
-
 # alternative layout options
 
-ifneq ($(strip $(MIRYOKU_ALPHAS)),)
-  OPT_DEFS += -DMIRYOKU_ALPHAS_$(MIRYOKU_ALPHAS)
+ifneq ($(strip $(NAMERAKA_ALPHAS)),)
+  OPT_DEFS += -DNAMERAKA_ALPHAS_$(NAMERAKA_ALPHAS)
 endif
 
-ifneq ($(strip $(MIRYOKU_EXTRA)),)
-  OPT_DEFS += -DMIRYOKU_EXTRA_$(MIRYOKU_EXTRA)
+ifneq ($(strip $(NAMERAKA_EXTRA)),)
+  OPT_DEFS += -DNAMERAKA_EXTRA_$(NAMERAKA_EXTRA)
 endif
 
-ifneq ($(strip $(MIRYOKU_TAP)),)
-  OPT_DEFS += -DMIRYOKU_TAP_$(MIRYOKU_TAP)
+ifneq ($(strip $(NAMERAKA_TAP)),)
+  OPT_DEFS += -DNAMERAKA_TAP_$(NAMERAKA_TAP)
 endif
 
-ifneq ($(strip $(MIRYOKU_NAV)),)
-  OPT_DEFS += -DMIRYOKU_NAV_$(MIRYOKU_NAV)
+ifneq ($(strip $(NAMERAKA_NAV)),)
+  OPT_DEFS += -DNAMERAKA_NAV_$(NAMERAKA_NAV)
 endif
 
-ifneq ($(strip $(MIRYOKU_CLIPBOARD)),)
-  OPT_DEFS += -DMIRYOKU_CLIPBOARD_$(MIRYOKU_CLIPBOARD)
+ifneq ($(strip $(NAMERAKA_CLIPBOARD)),)
+  OPT_DEFS += -DNAMERAKA_CLIPBOARD_$(NAMERAKA_CLIPBOARD)
 endif
 
-ifneq ($(strip $(MIRYOKU_LAYERS)),)
-  OPT_DEFS += -DMIRYOKU_LAYERS_$(MIRYOKU_LAYERS)
+ifneq ($(strip $(NAMERAKA_LAYERS)),)
+  OPT_DEFS += -DNAMERAKA_LAYERS_$(NAMERAKA_LAYERS)
 endif
 
 
-ifneq ($(strip $(MIRYOKU_KEYMAP)),)
-  OPT_DEFS += -DMIRYOKU_KEYMAP_$(MIRYOKU_KEYMAP)
+ifneq ($(strip $(NAMERAKA_KEYMAP)),)
+  OPT_DEFS += -DNAMERAKA_KEYMAP_$(NAMERAKA_KEYMAP)
 endif
 
 # subset mappings
 
-ifneq ($(strip $(MIRYOKU_MAPPING)),)
-  OPT_DEFS += -DMIRYOKU_MAPPING_$(MIRYOKU_MAPPING)
+ifneq ($(strip $(NAMERAKA_MAPPING)),)
+  OPT_DEFS += -DNAMERAKA_MAPPING_$(NAMERAKA_MAPPING)
 endif
 
 # kludges
 
 # thumb combos
-ifeq ($(strip $(MIRYOKU_KLUDGE_THUMBCOMBOS)),yes)
+ifeq ($(strip $(NAMERAKA_KLUDGE_THUMBCOMBOS)),yes)
   COMBO_ENABLE = yes
-  OPT_DEFS += -DMIRYOKU_KLUDGE_THUMBCOMBOS
+  OPT_DEFS += -DNAMERAKA_KLUDGE_THUMBCOMBOS
 endif

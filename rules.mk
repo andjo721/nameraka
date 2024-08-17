@@ -1,8 +1,7 @@
-# Copyright 2019 Manna Harbour
-# https://github.com/manna-harbour/miryoku
+# https://github.com/andjo721/nameraka
 
-MOUSEKEY_ENABLE = no # Mouse keys
-EXTRAKEY_ENABLE = yes # Audio control and System control
+MOUSEKEY_ENABLE = no   # Mouse keys
+EXTRAKEY_ENABLE = yes  # Audio control and System control
 AUTO_SHIFT_ENABLE = no # Auto Shift
 TAP_DANCE_ENABLE = yes
 CAPS_WORD_ENABLE = yes
@@ -14,11 +13,15 @@ DYNAMIC_TAPPING_TERM_ENABLE = yes
 LTO_ENABLE = yes
 NKRO_ENABLE = yes
 
-INTROSPECTION_KEYMAP_C = manna-harbour_miryoku.c # keymaps
+# Disable LED functionality (I don't use leds on my keyboards)
+RGBLIGHT_ENABLE = no
+BACKLIGHT_ENABLE = no
 
-include users/manna-harbour_miryoku/custom_rules.mk
+# INTROSPECTION_KEYMAP_C = andjo-nameraka.c # keymaps
 
-include users/manna-harbour_miryoku/post_rules.mk
+include users/andjo-nameraka/custom_rules.mk
+
+include users/andjo-nameraka/post_rules.mk
 
 # SRC += features/layer_lock.c
 

@@ -1,4 +1,5 @@
-/* manna-harbour_miryoku modified by Andreas Johansson
+/* Created by Andreas Johansson
+   Inspired by and expanded from manna-harbour_miryoku
    ---------------------------------------------------
 
    Features include:
@@ -9,18 +10,18 @@
    - Swedish characters using outer 3x6 columns or combos.
 
    To build and flash normally:
-   qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY
+   qmk flash -c -kb crkbd -km andjo-nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
 
    May be built with mac os ansi keymap support by setting the environment variable:
-   -e MIRYOKU_KEYMAP=MACOS
+   -e NAMERAKA_KEYMAP=MACOS
    when building. For example
-   qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY -e MIRYOKU_KEYMAP=MACOS
+   qmk flash -c -kb crkbd -km andjo-nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY -e NAMERAKA_KEYMAP=MACOS
 
    To enable support for the lsp code server ccls, see ccls_create.sh.
 */
 
 #include QMK_KEYBOARD_H
-#include "manna-harbour_miryoku.h"
+#include "andjo-nameraka.h"
 #include "wait.h"
 #include "features/layer_lock.h"
 
@@ -542,9 +543,9 @@ bool caps_word_press_user(uint16_t keycode)
 
 enum {
     U_TD_BOOT,
-#define MIRYOKU_X(LAYER, STRING) U_TD_U_##LAYER,
-MIRYOKU_LAYER_LIST
-#undef MIRYOKU_X
+#define NAMERAKA_X(LAYER, STRING) U_TD_U_##LAYER,
+NAMERAKA_LAYER_LIST
+#undef NAMERAKA_X
 };
 
 void u_td_fn_boot(tap_dance_state_t *state, void *user_data) { \
@@ -553,20 +554,20 @@ void u_td_fn_boot(tap_dance_state_t *state, void *user_data) { \
   }
 }
 
-#define MIRYOKU_X(LAYER, STRING) \
+#define NAMERAKA_X(LAYER, STRING) \
 void u_td_fn_U_##LAYER(tap_dance_state_t *state, void *user_data) { \
   if (state->count == 2) { \
     default_layer_set((layer_state_t)1 << U_##LAYER); \
   } \
 }
-MIRYOKU_LAYER_LIST
-#undef MIRYOKU_X
+NAMERAKA_LAYER_LIST
+#undef NAMERAKA_X
 
 tap_dance_action_t tap_dance_actions[] = {
     [U_TD_BOOT] = ACTION_TAP_DANCE_FN(u_td_fn_boot),
-#define MIRYOKU_X(LAYER, STRING) [U_TD_U_##LAYER] = ACTION_TAP_DANCE_FN(u_td_fn_U_##LAYER),
-MIRYOKU_LAYER_LIST
-#undef MIRYOKU_X
+#define NAMERAKA_X(LAYER, STRING) [U_TD_U_##LAYER] = ACTION_TAP_DANCE_FN(u_td_fn_U_##LAYER),
+NAMERAKA_LAYER_LIST
+#undef NAMERAKA_X
 };
 
 
@@ -574,21 +575,21 @@ MIRYOKU_LAYER_LIST
 // keymap
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-#define MIRYOKU_X(LAYER, STRING) [U_##LAYER] = U_MACRO_VA_ARGS(MIRYOKU_LAYERMAPPING_##LAYER, MIRYOKU_LAYER_##LAYER),
-MIRYOKU_LAYER_LIST
-#undef MIRYOKU_X
+#define NAMERAKA_X(LAYER, STRING) [U_##LAYER] = U_MACRO_VA_ARGS(NAMERAKA_LAYERMAPPING_##LAYER, NAMERAKA_LAYER_##LAYER),
+NAMERAKA_LAYER_LIST
+#undef NAMERAKA_X
 };
 
 // thumb combos
 
-#if defined (MIRYOKU_KLUDGE_THUMBCOMBOS)
+#if defined (NAMERAKA_KLUDGE_THUMBCOMBOS)
 const uint16_t PROGMEM thumbcombos_base_right[] = {LT(U_SYM, KC_ENT), LT(U_NUM, KC_BSPC), COMBO_END};
 const uint16_t PROGMEM thumbcombos_base_left[] = {LT(U_NAV, KC_SPC), LT(U_DEVELOP, KC_TAB), COMBO_END};
 const uint16_t PROGMEM thumbcombos_nav[] = {KC_ENT, KC_BSPC, COMBO_END};
 const uint16_t PROGMEM thumbcombos_mouse[] = {KC_BTN2, KC_BTN1, COMBO_END};
 const uint16_t PROGMEM thumbcombos_media[] = {KC_MSTP, KC_MPLY, COMBO_END};
 const uint16_t PROGMEM thumbcombos_num[] = {KC_0, KC_MINS, COMBO_END};
-  #if defined (MIRYOKU_LAYERS_FLIP)
+  #if defined (NAMERAKA_LAYERS_FLIP)
 const uint16_t PROGMEM thumbcombos_sym[] = {KC_UNDS, KC_LPRN, COMBO_END};
   #else
 const uint16_t PROGMEM thumbcombos_sym[] = {KC_RPRN, KC_UNDS, COMBO_END};
@@ -601,7 +602,7 @@ combo_t key_combos[COMBO_COUNT] = {
   COMBO(thumbcombos_mouse, KC_BTN3),
   COMBO(thumbcombos_media, KC_MUTE),
   COMBO(thumbcombos_num, KC_DOT),
-  #if defined (MIRYOKU_LAYERS_FLIP)
+  #if defined (NAMERAKA_LAYERS_FLIP)
   COMBO(thumbcombos_sym, KC_RPRN),
   #else
   COMBO(thumbcombos_sym, KC_LPRN),

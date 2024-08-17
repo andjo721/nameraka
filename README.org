@@ -77,13 +77,13 @@ The base layer is selected at compile time, and may be set to QWERTY or COLEMAK_
 * Installing
 
 * Compiling
-- MIRYOKU_ALPHAS chooses which layout is used for the default base layer
-- MIRYOKU_EXTRA chooses what is used for the extra base layer
-- MIRYOKU_TAP chooses the base layout of the TAP layer
-  The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and there are (mostly) no extended layers.
+- NAMERAKA_ALPHAS chooses which layout is used for the default base layer
+- NAMERAKA_EXTRA chooses what is used for the extra base layer
+- NAMERAKA_TAP chooses the base layout of the TAP layer
+  The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and only the Navigation layer is available.
 
 #+begin_src sh
-  qmk flash -c -kb crkbd -km manna-harbour_miryoku   -e MIRYOKU_ALPHAS=QWERTY   -e MIRYOKU_EXTRA=COLEMAKDH   -e MIRYOKU_TAP=QWERTY
+  qmk flash -c -kb crkbd -km manna-harbour_miryoku -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
 #+end_src
 
 * Extended layers
