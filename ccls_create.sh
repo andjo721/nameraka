@@ -8,4 +8,4 @@
 #
 # Done! ccls should now be available when developing.
 
-echo 'clang' > .ccls; cat .build/obj_crkbd_rev1_andjo-miryoku/cflags.txt | sed 's/ -/\n-/g' >> .ccls
+echo 'clang' > .ccls; cat .build/obj_crkbd_rev1_nameraka/cflags.txt | sed 's/ -/\n-/g' >> .ccls

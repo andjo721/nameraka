@@ -30,6 +30,13 @@ Some features and macros are Emacs specific, although of course, using Emacs is 
      qmk flash -c -kb crkbd -km nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
    #+end_src
 
+  Some environment variables that may be set at build time:
+  - NAMERAKA_ALPHAS chooses which layout is used for the default base layer
+  - NAMERAKA_EXTRA chooses what is used for the extra base layer
+  - NAMERAKA_TAP chooses the base layout of the TAP layer\\
+    The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and only the Navigation layer is available.
+  - NAMERAKA_KEYMAP=MACOS makes a few adjustments of output character codes for MacOS.
+
 * The layout documentation
 - Layer layouts in this document are described as rows of characters corresponding to keys on the keyboard.
 - The two halves of the keyboard are presented side by side.
@@ -76,9 +83,9 @@ These are placed in most layers like this:
 
 In the base layers, home row mods are used, and thus the keys have the modifier function when held for a time.
 
-In other layers, the modifiers on one half of the keyboard typically are static, and the only function of that key.
+In other layers, the modifiers on one half of the keyboard are static, and the only function of that key.
 
-** Rationale for modifier keys placement
+** Placement rationale
 The modifier keys are placed so that they can comfortably be reached from a normal
 resting hand position on the home row.
 
@@ -93,18 +100,6 @@ Stretches:
 * Base layer
 When no special layer has been activated, the base layer is active.
 The base layer is selected at compile time, and may be set to QWERTY or COLEMAK_DH.
-
-* Installing
-
-* Compiling
-- NAMERAKA_ALPHAS chooses which layout is used for the default base layer
-- NAMERAKA_EXTRA chooses what is used for the extra base layer
-- NAMERAKA_TAP chooses the base layout of the TAP layer
-  The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and only the Navigation layer is available.
-
-#+begin_src sh
-  qmk flash -c -kb crkbd -km manna-harbour_miryoku -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
-#+end_src
 
 * Extended layers
 The thumb keys each activate a layer when held, using the mod-tap (MT) functionality of QMK.
