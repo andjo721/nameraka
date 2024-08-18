@@ -5,7 +5,6 @@
 
 * General
 Nameraka is a [[ https://qmk.fm/][QMK]] layout for 3x5 [[https://github.com/foostan/crkbd][Corne (crkbd)]] split ergonomic keyboards, that is based on [[https://github.com/manna-harbour/miryoku][Miryoku]].
-Some files retain their name from Miryoku because of this.
 
 The layout is optimized for both programming, writing and general keyboard centric computing.
 
@@ -18,14 +17,11 @@ Some features and macros are Emacs specific, although of course, using Emacs is 
      cd qmk_firmware
      qmk setup
    #+end_src
-2. Clone nameraka
-   Place it in the keymaps directory of the Corne keyboard (crkbd).
+2. Clone nameraka, and place it in the keymaps directory of the Corne keyboard (crkbd)
    #+begin_src sh
      git clone https://github.com/andjo721/nameraka keyboards/crkbd/keymaps/nameraka
    #+end_src
 3. Build and flash
-   Change environment variables to customize the build.\\
-   For example:
    #+begin_src sh
      qmk flash -c -kb crkbd -km nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
    #+end_src
@@ -50,8 +46,10 @@ Some features and macros are Emacs specific, although of course, using Emacs is 
 * Modifiers
 Nameraka uses [[https://precondition.github.io/home-row-mods][home row mods]].
 
-Some keys have double functions, and generate one character when tapped,
-and become a modifier key when held for a time, using the Mod Tap (MT) functionality of QMK.
+Some keys have double functions:
+1. They have one function (usually output of a character) when tapped,and
+2. Become a modifier key when held for a time, using the Mod Tap (MT) functionality of QMK.\\
+   The modifier remains active for as long as the key is held.
 
 For cases where there are several key codes for a modifier, the key code of the _left_ modifier key on a regular PC keyboard is used.
 
@@ -199,7 +197,8 @@ _Modifiers_
 - M: Caps Word Toggle\\
   Caps word makes subsequently entered characters upper case for the duration of a word.
   Non alphabethical or numerical characters ends the word, except for '-' which becomes '_'.
-
+  There also is a timeout. Whenever no key has been pressed for the duration of the timeout,
+  Caps Word mode is terminated, and everything is back to normal.
 - N: INSERT
 - I: END
 - J: PAGE DOWN
@@ -241,7 +240,7 @@ _Modifiers_
 
 #+begin_example
   /  7  8  9  -     A  □  □  □  □
-  ,*  4  5  6  +     B  C  D  E  F
+  *  4  5  6  +     B  C  D  E  F
   §  1  2  3  %     □  G  □  □  □
         .  0  :     □  X  □
 #+end_example
