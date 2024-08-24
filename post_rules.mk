@@ -29,6 +29,10 @@ ifneq ($(strip $(NAMERAKA_KEYMAP)),)
   OPT_DEFS += -DNAMERAKA_KEYMAP_$(NAMERAKA_KEYMAP)
 endif
 
+ifneq ($(strip $(NAMERAKA_TAPPING_TERM)),)
+  OPT_DEFS += -DNAMERAKA_TAPPING_TERM=$(NAMERAKA_TAPPING_TERM)
+endif
+
 # subset mappings
 
 ifneq ($(strip $(NAMERAKA_MAPPING)),)

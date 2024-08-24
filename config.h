@@ -4,7 +4,12 @@
 
 // default but used in macros
 #undef TAPPING_TERM
+
+#if defined (NAMERAKA_TAPPING_TERM)
+#define TAPPING_TERM (NAMERAKA_TAPPING_TERM)
+#else
 #define TAPPING_TERM 175
+#endif
 
 #define PERMISSIVE_HOLD
 
