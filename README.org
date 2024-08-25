@@ -26,12 +26,15 @@ Some features and macros are Emacs specific, although of course, using Emacs is 
      qmk flash -c -kb crkbd -km nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
    #+end_src
 
-  Some environment variables that may be set at build time:
-  - NAMERAKA_ALPHAS chooses which layout is used for the default base layer
-  - NAMERAKA_EXTRA chooses what is used for the extra base layer
-  - NAMERAKA_TAP chooses the base layout of the TAP layer\\
-    The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and only the Navigation layer is available.
-  - NAMERAKA_KEYMAP=MACOS makes a few adjustments of output character codes for MacOS.
+   Some environment variables that may be set at build time:
+   - NAMERAKA_ALPHAS chooses which layout is used for the default base layer
+   - NAMERAKA_EXTRA chooses what is used for the extra base layer
+   - NAMERAKA_TAP chooses the base layout of the TAP layer\\
+     The TAP layer is for tasks that demand alpha key taps only - keys have no special behaviours like Mod Tap and only the Navigation layer is available.
+   - NAMERAKA_KEYMAP=MACOS makes a few adjustments of output character codes for MacOS.
+   - NAMERAKA_TAPPING_TERM=<integer>
+     Changes the tapping term time, that is how long before a key press becomes a hold.
+     Default is 175 (ms), which is a reasonable value.
 
 * The layout documentation
 - Layer layouts in this document are described as rows of characters corresponding to keys on the keyboard.
