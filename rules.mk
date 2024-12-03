@@ -5,7 +5,7 @@ EXTRAKEY_ENABLE = yes  # Audio control and System control
 AUTO_SHIFT_ENABLE = no # Auto Shift
 TAP_DANCE_ENABLE = yes
 CAPS_WORD_ENABLE = yes
-KEY_OVERRIDE_ENABLE = yes
+KEY_OVERRIDE_ENABLE = no
 COMBO_ENABLE = yes
 
 DYNAMIC_TAPPING_TERM_ENABLE = yes

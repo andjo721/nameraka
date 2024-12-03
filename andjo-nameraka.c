@@ -21,9 +21,9 @@
 */
 
 #include QMK_KEYBOARD_H
-#include "andjo-nameraka.h"
 #include "wait.h"
 #include "features/layer_lock.h"
+#include "andjo-nameraka.h"
 
 enum custom_keycodes {
     WIND_LEFT = SAFE_RANGE,
@@ -65,6 +65,7 @@ enum custom_keycodes {
 
     /* Macro keys */
     JS_ARROW_FN,
+    JS_USE_EFCT,
 };
 
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
@@ -459,6 +460,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
         // JS
         if (keycode == JS_ARROW_FN) {
+            // = () => {}
             tap_code(KC_SPC);
             tap_code16(SE_EQL);
             tap_code(KC_SPC);
@@ -472,6 +474,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             send_string(SS_LSFT(SS_LALT("8")));
             send_string(SS_LSFT(SS_LALT("9")));
             tap_code(KC_LEFT);
+            goto bail_false;
+        }
+
+        if (keycode == JS_USE_EFCT) {
+            int i;
+            // (() => {}, [])
+            tap_code16(SE_LPRN); // (
+            tap_code16(SE_LPRN);
+            tap_code16(SE_RPRN);
+            tap_code(KC_SPC);
+            tap_code16(SE_EQL);
+
+            tap_code16(SE_RABK);
+            tap_code16(KC_SPC);
+            send_string(SS_LSFT(SS_LALT("8"))); // {
+            send_string(SS_LSFT(SS_LALT("9"))); // }
+
+            tap_code16(KC_COMM);
+            tap_code16(KC_SPC);
+
+            send_string(SS_LALT("8")); // [
+            send_string(SS_LALT("9")); // ]
+
+            tap_code16(SE_RPRN); // )
+
+            for (i=0; i<6; i++)
+                tap_code(KC_LEFT);
+
             goto bail_false;
         }
 
@@ -503,8 +533,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
         PROCESS_SUB_RECORD(process_record_navigation);
 
-        PROCESS_SUB_RECORD(process_record_project);
-    }
+        PROCESS_SUB_RECORD(process_record_project);}
+
 
     return true;
 

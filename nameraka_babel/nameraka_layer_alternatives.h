@@ -66,15 +66,23 @@ U_NP,          U_NA,        KC_ALGR,    TD(U_TD_U_FUN),   TD(U_TD_U_MEDIA),    D
 // --------
 
 // Right thumb key #1 (from inside)
+#if defined(NAMERAKA_KEYMAP_MACOS)
+#define NAMERAKA_ALTERNATIVES_SYM \
+U_NP,       SE_LABK,  SE_AMPR,  SE_LCBR,   SE_RCBR,   A(SE_2),            SE_SLSH,   SE_GRV,            SE_CIRC,        SE_ACUT,     SE_QUES,  U_NP, \
+U_NP,       SE_RABK,  SE_DLR,   SE_LPRN,   SE_RPRN,   SE_SCLN,            SE_HASH,   SE_EQL,        LCTL_T(U_NA),   LALT_T(U_NA),  LGUI(U_NA),  U_NP, \
+U_NP,       SE_PIPE,  SE_EXLM,  SE_LBRC,   SE_RBRC,   SE_COLN,            SE_BSLS,   KC_PERC,            SE_TILD,        KC_ALGR,        U_NA,  U_NP, \
+                                SE_DQUO,   SE_SLSH,   SE_QUOT,            U_NA,      U_NA,                  U_NA
+#else
 #define NAMERAKA_ALTERNATIVES_SYM \
 U_NP,       SE_LABK,  SE_AMPR,  SE_LCBR,   SE_RCBR,   SE_AT,              SE_SLSH,   SE_GRV,            SE_CIRC,        SE_ACUT,     SE_QUES,  U_NP, \
 U_NP,       SE_RABK,  SE_DLR,   SE_LPRN,   SE_RPRN,   SE_SCLN,            SE_HASH,   SE_EQL,        LCTL_T(U_NA),   LALT_T(U_NA),  LGUI(U_NA),  U_NP, \
 U_NP,       SE_PIPE,  SE_EXLM,  SE_LBRC,   SE_RBRC,   SE_COLN,            SE_BSLS,   KC_PERC,            SE_TILD,        KC_ALGR,        U_NA,  U_NP, \
                                 SE_DQUO,   SE_SLSH,   SE_QUOT,            U_NA,      U_NA,                  U_NA
+#endif
 
 // Right thumb key #2 (from inside)
 #define NAMERAKA_ALTERNATIVES_NUM \
-U_NP,        SE_SLSH,  SE_7,   SE_8,   SE_9,   SE_MINS,       JS_ARROW_FN, U_NA,         U_NA,          U_NA,        U_NA,      U_NP, \
+U_NP,        SE_SLSH,  SE_7,   SE_8,   SE_9,   SE_MINS,       JS_ARROW_FN, JS_USE_EFCT,  U_NA,          U_NA,        U_NA,      U_NP, \
 U_NP,        SE_ASTR,  SE_4,   SE_5,   SE_6,   SE_PLUS,       KC_HYPR,     KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,   U_NP, \
 U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   SE_PERC,       U_NA,        KC_MEH,       U_NA,          KC_ALGR,     U_NA,      U_NP, \
                               SE_DOT,  SE_0,   SE_COLN,       U_NA,        U_NA,         U_NA

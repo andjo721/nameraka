@@ -2,7 +2,7 @@
 
 #include "../../../quantum/keymap_extras/keymap_nordic.h"
 #if defined(NAMERAKA_KEYMAP_MACOS)
-#include "../../../quantum/keymap_extras/keymap_swedish_mac_ansi.h"
+#include "../../../quantum/keymap_extras/keymap_swedish_mac_iso.h"
 #else
 #include "../../../quantum/keymap_extras/keymap_swedish.h"
 #endif
