@@ -229,11 +229,11 @@ bail:
  */
 int process_record_num(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
-    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(NAMERAKA_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
+    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     clear_mods();
 
     if (keycode >= KC_1 && keycode <= KC_0) {
-        if ((mods & mod_mask) == ((MOD_BIT(NAMERAKA_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT)))) {
+        if ((mods & mod_mask) == ((MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT)))) {
             SEND_STRING(SS_LCTL("x"));
             SEND_STRING("x");
             tap_code(keycode);
@@ -450,7 +450,7 @@ bail_false:
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
-    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(NAMERAKA_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
+    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     const uint8_t mods = get_mods();
 
     /* if (!process_layer_lock(keycode, record, LAYER_LOCK)) { */
