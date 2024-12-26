@@ -3,9 +3,14 @@
 #include "../../../quantum/keymap_extras/keymap_nordic.h"
 #if defined(NAMERAKA_KEYMAP_MACOS)
 #include "../../../quantum/keymap_extras/keymap_swedish_mac_iso.h"
+#undef LALT_T
+#undef KC_LALT
+#define LALT_T RALT_T
+#define KC_LALT KC_RALT
 #else
 #include "../../../quantum/keymap_extras/keymap_swedish.h"
 #endif
+
 #include "nameraka_layer_alternatives.h"
 
 #if !defined(NAMERAKA_LAYER_BASE)
