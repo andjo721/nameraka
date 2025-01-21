@@ -391,12 +391,20 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
     }
 
     if (keycode == GO_TO) {
-        tap_code16(A(SE_DOT));
+#if defined(NAMERAKA_KEYMAP_MACOS)
+        SEND_STRING(SS_RALT("."));
+#else
+        SEND_STRING(SS_LALT("."));
+#endif
         goto bail_false;
     }
 
     if (keycode == GO_BACK) {
-        tap_code16(A(SE_COMM));
+#if defined(NAMERAKA_KEYMAP_MACOS)
+        SEND_STRING(SS_RALT(","));
+#else
+        SEND_STRING(SS_LALT(","));
+#endif
         goto bail_false;
     }
 
