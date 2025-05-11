@@ -8,12 +8,13 @@
 #if defined (NAMERAKA_TAPPING_TERM)
 #define TAPPING_TERM (NAMERAKA_TAPPING_TERM)
 #else
-#define TAPPING_TERM 155
+#define TAPPING_TERM 175
 #endif
 
 #define CHORDAL_HOLD
 
 #define PERMISSIVE_HOLD
+//#define HOLD_ON_OTHER_KEY_PRESS
 
 // Should be the default nowadays, but set it just in case
 #define USB_POLLING_INTERVAL_MS 1
