@@ -398,7 +398,7 @@ If you need to modify the behaviour, take a look at process_record_project() in 
   A B C D E    O □ □ □ □
   F G H I J    P Q R S T
   □ K L M N    U □ □ □ □
-      □ □ X    V W Y
+      X □ □    V W Y
 #+end_example
 
 ** Left
