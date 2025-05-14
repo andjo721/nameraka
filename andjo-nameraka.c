@@ -568,6 +568,8 @@ bool caps_word_press_user(uint16_t keycode)
     case SE_ADIA:
     case SE_ODIA:
     case SE_MINS:
+    case KEY_AA:
+    case KEY_AE:
         add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
         return true;
 
