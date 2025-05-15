@@ -96,125 +96,62 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
     // Mostly for programming
     clear_mods();
 
-    if (mods & MOD_MASK_ALT) {
-        if (keycode == SE_LCBR) {
-            tap_code(KC_END);
-            tap_code(KC_SPC);
-            tap_code16(SE_LCBR);
-            tap_code16(SE_RCBR);
-            tap_code(KC_LEFT);
-            tap_code(KC_TAB);
-            tap_code(KC_ENT);
-            tap_code(KC_ENT);
-            tap_code(KC_TAB);
-            tap_code(KC_UP);
-            tap_code(KC_TAB);
-            goto bail;
+    if ((mods & MOD_MASK_ALT) && keycode == SE_LCBR) {
+        static const uint16_t PROGMEM seq[] = {
+            KC_END, KC_SPC, SE_LCBR, SE_RCBR,
+            KC_LEFT, KC_TAB, KC_ENT, KC_ENT,
+            KC_TAB, KC_UP,  KC_TAB
+        };
+        for (uint8_t i = 0; i < sizeof(seq)/sizeof(*seq); ++i) {
+            tap_code16(pgm_read_word(&seq[i]));
         }
+        goto bail;
     }
 
+    // A table of keycodes we special-case under CTRL
+    // Each keycode trigger the corresponding sequence in ctrl_seq.
+    static const uint16_t PROGMEM ctrl_keys[] = {
+        SE_LABK, KC_COMM, SE_SLSH, SE_GRV,  SE_QUOT, SE_DQUO,
+        SE_EQL,  SE_SCLN, SE_EXLM, SE_PIPE, SE_AMPR, SE_LPRN,
+        SE_LCBR, SE_LBRC
+    };
+
+    // Length of sequences
+    static const uint8_t PROGMEM ctrl_lens[] = {
+        3,    2,    3,    5,     3,      3,
+        4,    3,    4,    4,     4,      3,
+        3,    3
+    };
+
+    // One sequence per line
+    static const uint16_t PROGMEM ctrl_seq[] = {
+        SE_LABK,   SE_RABK,   KC_LEFT,
+        KC_COMM,   KC_SPC,
+        SE_SLSH,   SE_SLSH,   KC_SPC,
+        SE_GRV,    SE_GRV,    SE_GRV,  SE_GRV,  KC_LEFT,
+        SE_QUOT,   SE_QUOT,   KC_LEFT,
+        SE_DQUO,   SE_DQUO,   KC_LEFT,
+        KC_SPC,    SE_EQL,    SE_EQL,  KC_SPC,
+        KC_END,    SE_SCLN,   KC_ENT,
+        KC_SPC,    SE_EXLM,   SE_EQL,  KC_SPC,
+        KC_SPC,    SE_PIPE,   SE_PIPE, KC_SPC,
+        KC_SPC,    SE_AMPR,   SE_AMPR, KC_SPC,
+        SE_LPRN,   SE_RPRN,   KC_LEFT,
+        SE_LCBR,   SE_RCBR,   KC_LEFT,
+        SE_LBRC,   SE_RBRC,   KC_LEFT,
+    };
+
+    // Look up and play back, depending on keycode tapped:
     if (mods & MOD_MASK_CTRL) {
-        if (keycode == SE_LABK) {
-            tap_code16(SE_LABK);
-            tap_code16(SE_RABK);
-            tap_code(KC_LEFT);
-            goto bail;
-        }
-
-        if (keycode == KC_COMM) {
-            tap_code(KC_COMM);
-            tap_code(KC_SPC);
-            goto bail;
-        }
-
-        if (keycode == SE_SLSH) {
-            tap_code16(SE_SLSH);
-            tap_code16(SE_SLSH);
-            tap_code(KC_SPC);
-            goto bail;
-        }
-
-        if (keycode == SE_GRV) {
-            tap_code16(SE_GRV);
-            tap_code16(SE_GRV);
-            tap_code16(SE_GRV);
-            tap_code16(SE_GRV);
-            tap_code(KC_LEFT);
-            goto bail;
-        }
-
-        if (keycode == SE_QUOT) {
-            tap_code16(SE_QUOT);
-            tap_code16(SE_QUOT);
-            tap_code(KC_LEFT);
-            goto bail;
-        }
-
-        if (keycode == SE_DQUO) {
-            tap_code16(SE_DQUO);
-            tap_code16(SE_DQUO);
-            tap_code(KC_LEFT);
-            goto bail;
-        }
-
-        if (keycode == SE_EQL) {
-            tap_code(KC_SPC);
-            tap_code16(SE_EQL);
-            tap_code16(SE_EQL);
-            tap_code(KC_SPC);
-            goto bail;
-        }
-
-        if (keycode == SE_SCLN) {
-            tap_code(KC_END);
-            tap_code16(SE_SCLN);
-            tap_code(KC_ENT);
-            goto bail;
-        }
-
-        if (keycode == SE_EXLM) {
-            tap_code(KC_SPC);
-            tap_code16(SE_EXLM);
-            tap_code16(SE_EQL);
-            tap_code(KC_SPC);
-            goto bail;
-        }
-
-        if (keycode == SE_PIPE) {
-            tap_code(KC_SPC);
-            tap_code16(SE_PIPE);
-            tap_code16(SE_PIPE);
-            tap_code(KC_SPC);
-            goto bail;
-        }
-
-        if (keycode == SE_AMPR) {
-            tap_code(KC_SPC);
-            tap_code16(SE_AMPR);
-            tap_code16(SE_AMPR);
-            tap_code(KC_SPC);
-            goto bail;
-        }
-
-        if (keycode == SE_LPRN) {
-            tap_code16(SE_LPRN);
-            tap_code16(SE_RPRN);
-            tap_code(KC_LEFT);
-            goto bail;
-        }
-
-        if (keycode == SE_LCBR) {
-            tap_code16(SE_LCBR);
-            tap_code16(SE_RCBR);
-            tap_code(KC_LEFT);
-            goto bail;
-        }
-
-        if (keycode == SE_LBRC) {
-            tap_code16(SE_LBRC);
-            tap_code16(SE_RBRC);
-            tap_code(KC_LEFT);
-            goto bail;
+        for (uint8_t i = 0, offset = 0; i < ARRAY_SIZE(ctrl_keys); i++) {
+            if (keycode == pgm_read_word(&ctrl_keys[i])) {
+                uint8_t len = pgm_read_byte(&ctrl_lens[i]);
+                for (uint8_t j = 0; j < len; j++) {
+                    tap_code16(pgm_read_word(&ctrl_seq[offset + j]));
+                }
+                goto bail;
+            }
+            offset += pgm_read_byte(&ctrl_lens[i]);
         }
     }
 
@@ -472,6 +409,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return true;
         }
 
+        if (keycode == KEY_AE) {
+            tap_code16(SE_ADIA);
+            return true;
+        }
+
         // JS
         if (keycode == JS_ARROW_FN) {
             // = () => {}
@@ -536,19 +478,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             SEND_STRING("gr");
         }
 
-        if (keycode == KEY_AE) {
-            tap_code16(SE_ADIA);
-            return true;
-        }
-
         PROCESS_SUB_RECORD(process_record_num);
 
         PROCESS_SUB_RECORD(process_record_programming);
 
         PROCESS_SUB_RECORD(process_record_navigation);
 
-        PROCESS_SUB_RECORD(process_record_project);}
-
+        PROCESS_SUB_RECORD(process_record_project);
+    }
 
     return true;
 
@@ -594,25 +531,26 @@ NAMERAKA_LAYER_LIST
 #undef NAMERAKA_X
 };
 
-void u_td_fn_boot(tap_dance_state_t *state, void *user_data) { \
-  if (state->count == 2) {
-    reset_keyboard();
-  }
+void u_td_fn_boot(tap_dance_state_t *state, void *user_data)
+{
+    if (state->count == 2) {
+        reset_keyboard();
+    }
 }
 
-#define NAMERAKA_X(LAYER, STRING) \
-void u_td_fn_U_##LAYER(tap_dance_state_t *state, void *user_data) { \
-  if (state->count == 2) { \
-    default_layer_set((layer_state_t)1 << U_##LAYER); \
-  } \
-}
+#define NAMERAKA_X(LAYER, STRING)                                       \
+    void u_td_fn_U_##LAYER(tap_dance_state_t *state, void *user_data) { \
+        if (state->count == 2) {                                        \
+            default_layer_set((layer_state_t)1 << U_##LAYER);           \
+        }                                                               \
+    }
 NAMERAKA_LAYER_LIST
 #undef NAMERAKA_X
 
 tap_dance_action_t tap_dance_actions[] = {
     [U_TD_BOOT] = ACTION_TAP_DANCE_FN(u_td_fn_boot),
 #define NAMERAKA_X(LAYER, STRING) [U_TD_U_##LAYER] = ACTION_TAP_DANCE_FN(u_td_fn_U_##LAYER),
-NAMERAKA_LAYER_LIST
+    NAMERAKA_LAYER_LIST
 #undef NAMERAKA_X
 };
 
@@ -622,7 +560,7 @@ NAMERAKA_LAYER_LIST
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define NAMERAKA_X(LAYER, STRING) [U_##LAYER] = U_MACRO_VA_ARGS(NAMERAKA_LAYERMAPPING_##LAYER, NAMERAKA_LAYER_##LAYER),
-NAMERAKA_LAYER_LIST
+    NAMERAKA_LAYER_LIST
 #undef NAMERAKA_X
 };
 

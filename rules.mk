@@ -10,13 +10,16 @@ COMBO_ENABLE = yes
 
 # DYNAMIC_TAPPING_TERM_ENABLE = yes
 
-OPT_DEFS += -Os
 LTO_ENABLE = yes
 NKRO_ENABLE = yes
+
+EXTRAFLAGS += -flto -s -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwind-tables -mrelax -Os  -ffunction-sections -fdata-sections -Wl,--gc-sections
 
 # Disable LED functionality (I don't use leds on my keyboards)
 RGBLIGHT_ENABLE = no
 BACKLIGHT_ENABLE = no
+
+BOOTMAGIC_ENABLE = no
 
 # INTROSPECTION_KEYMAP_C = andjo-nameraka.c # keymaps
 
