@@ -19,6 +19,12 @@
 // Should be the default nowadays, but set it just in case
 #define USB_POLLING_INTERVAL_MS 1
 
+// If you get multiple characters from tapping a single key, increase this value.
+// 2 ms should work fine with quality switches.
+// Default is 5 ms
+#define DEBOUNCE 2
+
+
 //#define RGB_MATRIX_LED_COUNT 0
 //define HOLD_ON_OTHER_KEY_PRESS
 
