@@ -171,8 +171,7 @@ int process_record_num(uint16_t keycode, keyrecord_t *record, const uint8_t mods
 
     if (keycode >= KC_1 && keycode <= KC_0) {
         if ((mods & mod_mask) == ((MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT)))) {
-            SEND_STRING(SS_LCTL("x"));
-            SEND_STRING("x");
+            SEND_STRING(SS_LCTL("b"));
             tap_code(keycode);
             goto bail;
         }

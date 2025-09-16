@@ -269,6 +269,11 @@ _Modifiers_
 - F: Super
 - G: Hyper
 
+- G + <number>:
+  Macro: Ctrl-b <number>
+  - I use this for jump-to-perspective in emacs,
+    and jump-to-window in tmux.
+
 * Project and Programming layer
 This layer is completely Emacs centric, so if you do not use Emacs it probably won't be useful to you.
 It contains macros that mostly concern project handling and programming,
