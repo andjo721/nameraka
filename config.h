@@ -22,7 +22,7 @@
 // If you get multiple characters from tapping a single key, increase this value.
 // 2 ms should work fine with quality switches.
 // Default is 5 ms
-#define DEBOUNCE 3
+#define DEBOUNCE 2
 
 
 //#define RGB_MATRIX_LED_COUNT 0

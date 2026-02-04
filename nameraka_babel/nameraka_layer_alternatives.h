@@ -89,10 +89,10 @@ U_NP,        SE_SECT,  SE_1,   SE_2,   SE_3,   SE_PERC,       U_NA,        KC_ME
 
 // Right thumb key #3 (from inside)
 #define NAMERAKA_ALTERNATIVES_FUN \
-U_NP,       KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,        U_NA,       U_NA,        U_NA,         U_NA,       U_NA,     U_NP, \
-U_NP,       KC_F11, KC_F4, KC_F5, KC_F6, KC_SCRL,        KC_HYPR,    KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,  U_NP, \
-U_NP,       KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,        U_NA,       KC_MEH,      U_NA,         U_NA,       U_NA,     U_NP, \
-                           KC_APP,KC_SPC, KC_TAB,        U_NA,       U_NA,        U_NA
+U_NP,       KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,        KC_MS_BTN1,  U_NA,        U_NA,         U_NA,       U_NA,     U_NP, \
+U_NP,       KC_F11, KC_F4, KC_F5, KC_F6, KC_SCRL,        KC_HYPR,     KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,  U_NP, \
+U_NP,       KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,        U_NA,        KC_MEH,      U_NA,         U_NA,       U_NA,     U_NP, \
+                           KC_APP,KC_SPC, KC_TAB,        U_NA,        U_NA,        U_NA
 
 
 #define NAMERAKA_ALTERNATIVES_EMPTY \

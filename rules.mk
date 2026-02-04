@@ -1,6 +1,6 @@
 # https://github.com/andjo721/nameraka
 
-MOUSEKEY_ENABLE = no   # Mouse keys
+MOUSEKEY_ENABLE = yes   # Mouse keys
 EXTRAKEY_ENABLE = yes  # Audio control and System control
 AUTO_SHIFT_ENABLE = no # Auto Shift
 TAP_DANCE_ENABLE = yes
@@ -19,8 +19,14 @@ EXTRAFLAGS += -flto -s -fno-exceptions -fno-unwind-tables -fno-asynchronous-unwi
 RGBLIGHT_ENABLE = no
 BACKLIGHT_ENABLE = no
 
+OLED_DRIVER_ENABLE = no
+OLED_ENABLE = no
+RGB_MATRIX_ENABLE = no
+WS2812_ENABLE = no
+
 BOOTMAGIC_ENABLE = no
 
+AVR_USE_MINIMAL_PRINTF = yes
 # INTROSPECTION_KEYMAP_C = andjo-nameraka.c # keymaps
 
 include keyboards/crkbd/keymaps/nameraka/custom_rules.mk
