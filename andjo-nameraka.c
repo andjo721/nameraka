@@ -43,6 +43,11 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
     return true;
 }
 
+// Runtime helper to get the correct Alt keycode for the detected OS
+static inline uint16_t get_nameraka_alt_keycode(void) {
+    return is_macos ? KC_RALT : KC_LALT;
+}
+
 // Runtime helper to get the correct Alt key for the detected OS
 static inline uint16_t get_nameraka_alt(void) {
     return is_macos ? KC_RIGHT_ALT : KC_LEFT_ALT;
@@ -55,6 +60,7 @@ static inline uint8_t get_nameraka_alt_mod(void) {
 
 // Runtime helpers for OS-specific bracket/brace keycodes
 // Linux uses AltGr (ALGR), macOS uses Option (A) or Shift+Option (S(A()))
+
 static inline uint16_t se_lcbr_runtime(void) {
     return is_macos ? S(A(KC_8)) : ALGR(KC_7);
 }
@@ -83,7 +89,7 @@ static uint16_t translate_se_keycode(uint16_t kc) {
     }
     // Translate Linux SE_* keycodes to macOS equivalents
     switch (kc) {
-        case ALGR(KC_7):  return S(A(KC_8));  // SE_LCBR: { 
+        case ALGR(KC_7):  return S(A(KC_8));  // SE_LCBR: {
         case ALGR(KC_0):  return S(A(KC_9));  // SE_RCBR: }
         case ALGR(KC_8):  return A(KC_8);     // SE_LBRC: [
         case ALGR(KC_9):  return A(KC_9);     // SE_RBRC: ]
@@ -135,6 +141,12 @@ enum custom_keycodes {
     JS_ARROW_FN,
     JS_USE_EFCT,
     OS_STATUS,
+    // Runtime OS-aware Alt mod-tap keys
+    MT_ALT_R,   // Colemak left hand (R)
+    MT_ALT_I,   // Colemak right hand (I)
+    MT_ALT_S,   // QWERTY left hand (S)
+    MT_ALT_L,   // QWERTY right hand (L)
+    NMK_LALT,   // Plain Alt key (runtime-swapped)
 };
 
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
@@ -456,6 +468,9 @@ bail_false:
 
 /**
  */
+static uint16_t alt_mt_timer;
+static uint16_t alt_mt_key = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     // Runtime translation of Linux SE keycodes for macOS
@@ -477,6 +492,50 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
     const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     const uint8_t mods = get_mods();
+
+    // Custom OS-aware Alt Mod-Tap Logic
+    if (keycode == MT_ALT_R || keycode == MT_ALT_I || keycode == MT_ALT_S || keycode == MT_ALT_L) {
+        if (record->event.pressed) {
+            alt_mt_timer = timer_read();
+            alt_mt_key = keycode;
+            return false;
+        } else {
+            if (alt_mt_key == keycode) {
+                if (timer_elapsed(alt_mt_timer) < TAPPING_TERM) {
+                    uint16_t base_key = KC_NO;
+                    switch(keycode) {
+                        case MT_ALT_R: base_key = KC_R; break;
+                        case MT_ALT_I: base_key = KC_I; break;
+                        case MT_ALT_S: base_key = KC_S; break;
+                        case MT_ALT_L: base_key = KC_L; break;
+                    }
+                    tap_code(base_key);
+                } else {
+                    // Ensure it is unregistered if it was registered
+                    unregister_code16(get_nameraka_alt_keycode());
+                }
+                alt_mt_key = 0;
+            }
+            unregister_code16(get_nameraka_alt_keycode());
+            return false;
+        }
+    }
+
+    if (keycode == NMK_LALT) {
+        if (record->event.pressed) {
+            register_code16(get_nameraka_alt_keycode());
+        } else {
+            unregister_code16(get_nameraka_alt_keycode());
+        }
+        return false;
+    }
+
+    // Handle interruptions for Custom Alt Mod-Tap (Permissive Hold)
+    if (record->event.pressed && alt_mt_key != 0) {
+        register_code16(get_nameraka_alt_keycode());
+        // Force hold behavior on release
+        alt_mt_timer = 0;
+    }
 
     /* if (!process_layer_lock(keycode, record, LAYER_LOCK)) { */
     /*     return false; */
