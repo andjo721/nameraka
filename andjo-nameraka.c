@@ -8,28 +8,90 @@
    - Tmux and emacs window handling
    - Emacs project and programming layer
    - Swedish characters using outer 3x6 columns or combos.
+   - Automatic OS detection (macOS vs Linux) at runtime - no reflash needed!
 
-   To build and flash normally:
+   To build and flash:
    qmk flash -c -kb crkbd -km andjo-nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY
 
-   May be built with mac os ansi keymap support by setting the environment variable:
-   -e NAMERAKA_KEYMAP=MACOS
-   when building. For example
-   qmk flash -c -kb crkbd -km andjo-nameraka -e NAMERAKA_ALPHAS=QWERTY -e NAMERAKA_EXTRA=COLEMAKDH -e NAMERAKA_TAP=QWERTY -e NAMERAKA_KEYMAP=MACOS
+   The keyboard will automatically detect whether it's connected to macOS or Linux
+   and adjust keycodes accordingly (Alt key behavior, bracket keycodes, etc.).
 
    To enable support for the lsp code server ccls, see ccls_create.sh.
 */
 
 #include QMK_KEYBOARD_H
-#include "wait.h"
+#include "os_detection.h"
 #include "features/layer_lock.h"
 #include "andjo-nameraka.h"
 
-#if defined(NAMERAKA_KEYMAP_MACOS)
-#define NAMERAKA_ALT KC_RIGHT_ALT
-#else
-#define NAMERAKA_ALT KC_LEFT_ALT
-#endif
+// Runtime OS detection state
+static bool is_macos = false;
+
+// QMK OS detection callback - fires when detection is stable
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_MACOS:
+        case OS_IOS:
+            is_macos = true;
+            break;
+        case OS_LINUX:
+        case OS_WINDOWS:
+        default:
+            is_macos = false;
+            break;
+    }
+    return true;
+}
+
+// Runtime helper to get the correct Alt key for the detected OS
+static inline uint16_t get_nameraka_alt(void) {
+    return is_macos ? KC_RIGHT_ALT : KC_LEFT_ALT;
+}
+
+// Runtime helper to get the correct Alt mod bit for the detected OS
+static inline uint8_t get_nameraka_alt_mod(void) {
+    return is_macos ? MOD_BIT(KC_RIGHT_ALT) : MOD_BIT(KC_LEFT_ALT);
+}
+
+// Runtime helpers for OS-specific bracket/brace keycodes
+// Linux uses AltGr (ALGR), macOS uses Option (A) or Shift+Option (S(A()))
+static inline uint16_t se_lcbr_runtime(void) {
+    return is_macos ? S(A(KC_8)) : ALGR(KC_7);
+}
+
+static inline uint16_t se_rcbr_runtime(void) {
+    return is_macos ? S(A(KC_9)) : ALGR(KC_0);
+}
+
+static inline uint16_t se_lbrc_runtime(void) {
+    return is_macos ? A(KC_8) : ALGR(KC_8);
+}
+
+static inline uint16_t se_rbrc_runtime(void) {
+    return is_macos ? A(KC_9) : ALGR(KC_9);
+}
+
+static inline uint16_t se_pipe_runtime(void) {
+    return is_macos ? A(KC_7) : ALGR(KC_NUBS);
+}
+
+// Helper to translate Swedish keymap keycodes to OS-specific versions at runtime
+// This handles the difference between Linux (AltGr) and macOS (Option) for brackets
+static uint16_t translate_se_keycode(uint16_t kc) {
+    if (!is_macos) {
+        return kc;  // Linux keycodes are already correct (from keymap_swedish.h)
+    }
+    // Translate Linux SE_* keycodes to macOS equivalents
+    switch (kc) {
+        case ALGR(KC_7):  return S(A(KC_8));  // SE_LCBR: { 
+        case ALGR(KC_0):  return S(A(KC_9));  // SE_RCBR: }
+        case ALGR(KC_8):  return A(KC_8);     // SE_LBRC: [
+        case ALGR(KC_9):  return A(KC_9);     // SE_RBRC: ]
+        case ALGR(KC_NUBS): return A(KC_7);   // SE_PIPE: |
+        case ALGR(KC_MINS): return S(A(KC_7)); // SE_BSLS: backslash
+        default: return kc;
+    }
+}
 
 enum custom_keycodes {
     WIND_LEFT = SAFE_RANGE,
@@ -72,6 +134,7 @@ enum custom_keycodes {
     /* Macro keys */
     JS_ARROW_FN,
     JS_USE_EFCT,
+    OS_STATUS,
 };
 
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
@@ -103,7 +166,7 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
             KC_TAB, KC_UP,  KC_TAB
         };
         for (uint8_t i = 0; i < sizeof(seq)/sizeof(*seq); ++i) {
-            tap_code16(pgm_read_word(&seq[i]));
+            tap_code16(translate_se_keycode(pgm_read_word(&seq[i])));
         }
         goto bail;
     }
@@ -147,7 +210,7 @@ int process_record_programming(uint16_t keycode, keyrecord_t *record, const uint
             if (keycode == pgm_read_word(&ctrl_keys[i])) {
                 uint8_t len = pgm_read_byte(&ctrl_lens[i]);
                 for (uint8_t j = 0; j < len; j++) {
-                    tap_code16(pgm_read_word(&ctrl_seq[offset + j]));
+                    tap_code16(translate_se_keycode(pgm_read_word(&ctrl_seq[offset + j])));
                 }
                 goto bail;
             }
@@ -188,7 +251,8 @@ bail:
  */
 int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8_t mods)
 {
-    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(NAMERAKA_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
+    const uint8_t nameraka_alt_mod = get_nameraka_alt_mod();
+    const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | nameraka_alt_mod | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     bool          wind_move = (keycode == WIND_LEFT) || (keycode == WIND_DOWN) || (keycode == WIND_UP) || (keycode == WIND_RIGHT);
     clear_mods();
 
@@ -213,12 +277,12 @@ int process_record_navigation(uint16_t keycode, keyrecord_t *record, const uint8
             goto bail_false;
         }
 
-        if ((mods & mod_mask) == MOD_BIT(NAMERAKA_ALT) && (keycode == WIND_RIGHT)) {
+        if ((mods & mod_mask) == nameraka_alt_mod && (keycode == WIND_RIGHT)) {
             tap_code16(KC_PERCENT);
             goto bail_false;
         }
 
-        if ((mods & mod_mask) == MOD_BIT(NAMERAKA_ALT) && (keycode == WIND_DOWN)) {
+        if ((mods & mod_mask) == nameraka_alt_mod && (keycode == WIND_DOWN)) {
             tap_code16(SE_DQUO);
             goto bail_false;
         }
@@ -327,20 +391,20 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
     }
 
     if (keycode == GO_TO) {
-#if defined(NAMERAKA_KEYMAP_MACOS)
-        SEND_STRING(SS_RALT("."));
-#else
-        SEND_STRING(SS_LALT("."));
-#endif
+        if (is_macos) {
+            SEND_STRING(SS_RALT("."));
+        } else {
+            SEND_STRING(SS_LALT("."));
+        }
         goto bail_false;
     }
 
     if (keycode == GO_BACK) {
-#if defined(NAMERAKA_KEYMAP_MACOS)
-        SEND_STRING(SS_RALT(","));
-#else
-        SEND_STRING(SS_LALT(","));
-#endif
+        if (is_macos) {
+            SEND_STRING(SS_RALT(","));
+        } else {
+            SEND_STRING(SS_LALT(","));
+        }
         goto bail_false;
     }
 
@@ -394,6 +458,23 @@ bail_false:
  */
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
+    // Runtime translation of Linux SE keycodes for macOS
+    if (is_macos && record->event.pressed) {
+        uint16_t translated = 0;
+        switch (keycode) {
+            case ALGR(KC_7):    translated = S(A(KC_8)); break;  // {
+            case ALGR(KC_0):    translated = S(A(KC_9)); break;  // }
+            case ALGR(KC_8):    translated = A(KC_8);    break;  // [
+            case ALGR(KC_9):    translated = A(KC_9);    break;  // ]
+            case ALGR(KC_NUBS): translated = A(KC_7);    break;  // |
+            case ALGR(KC_MINS): translated = S(A(KC_7)); break;  // backslash
+        }
+        if (translated) {
+            tap_code16(translated);
+            return false;
+        }
+    }
+
     const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     const uint8_t mods = get_mods();
 
@@ -426,8 +507,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
             tap_code16(SE_RABK);
             tap_code16(KC_SPC);
-            send_string(SS_LSFT(SS_LALT("8")));
-            send_string(SS_LSFT(SS_LALT("9")));
+            tap_code16(se_lcbr_runtime());  // {
+            tap_code16(se_rcbr_runtime());  // }
             tap_code(KC_LEFT);
             goto bail_false;
         }
@@ -443,14 +524,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
             tap_code16(SE_RABK);
             tap_code16(KC_SPC);
-            send_string(SS_LSFT(SS_LALT("8"))); // {
-            send_string(SS_LSFT(SS_LALT("9"))); // }
+            tap_code16(se_lcbr_runtime()); // {
+            tap_code16(se_rcbr_runtime()); // }
 
             tap_code16(KC_COMM);
             tap_code16(KC_SPC);
 
-            send_string(SS_LALT("8")); // [
-            send_string(SS_LALT("9")); // ]
+            tap_code16(se_lbrc_runtime()); // [
+            tap_code16(se_rbrc_runtime()); // ]
 
             tap_code16(SE_RPRN); // )
 
@@ -458,6 +539,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                 tap_code(KC_LEFT);
 
             goto bail_false;
+        }
+
+        // OS Status - types "MAC" or "LIN" to show current detection
+        if (keycode == OS_STATUS) {
+            if (is_macos) {
+                SEND_STRING("MAC");
+            } else {
+                SEND_STRING("LIN");
+            }
+            return false;
         }
 
         // GPT

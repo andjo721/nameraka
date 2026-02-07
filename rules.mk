@@ -2,6 +2,9 @@
 
 MOUSEKEY_ENABLE = yes   # Mouse keys
 EXTRAKEY_ENABLE = yes  # Audio control and System control
+
+# OS Detection - automatically detect macOS vs Linux at runtime
+OS_DETECTION_ENABLE = yes
 AUTO_SHIFT_ENABLE = no # Auto Shift
 TAP_DANCE_ENABLE = yes
 CAPS_WORD_ENABLE = yes
