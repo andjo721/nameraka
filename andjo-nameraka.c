@@ -484,9 +484,14 @@ static uint16_t alt_mt_key = 0;
 static char alt_mt_hand = 0;
 static uint16_t alt_mt_pending_keycode = 0;
 static uint16_t alt_mt_pending_original = 0;
+static keyrecord_t alt_mt_pending_record;
+static bool alt_mt_bypass = false;
+static bool alt_mt_pending_active = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
+    if (alt_mt_bypass) return true;
+
     // Runtime translation of Linux SE keycodes for macOS
     if (is_macos && record->event.pressed) {
         uint16_t translated = 0;
@@ -510,20 +515,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     // Handle pending key release (opposite-hand key that was blocked)
     // This must come before MT_ALT_* check because an MT_ALT key could be the pending key
     if (!record->event.pressed && (keycode == alt_mt_pending_keycode || (alt_mt_pending_original != 0 && keycode == alt_mt_pending_original))) {
-        if (alt_mt_key != 0) {
-            // NESTED: pending key released before mod-tap
-            // This means hold behavior - send Alt + pending key
-            register_code16(get_nameraka_alt_keycode());
-            tap_code16(alt_mt_pending_keycode);
-            alt_mt_pending_keycode = 0;
-            alt_mt_pending_original = 0;
-            alt_mt_timer = 0; // Force hold on mod-tap release
+        if (alt_mt_pending_active) {
+            if (alt_mt_pending_original != 0) {
+                 unregister_code16(alt_mt_pending_keycode);
+            } else {
+                 alt_mt_bypass = true;
+                 process_record(record);
+                 alt_mt_bypass = false;
+            }
+            if (alt_mt_key == 0) unregister_code16(get_nameraka_alt_keycode());
+            else alt_mt_timer = 0;
         } else {
-            // ROLLING aftermath: mod-tap already released, now release pending
-            unregister_code16(alt_mt_pending_keycode);
-            alt_mt_pending_keycode = 0;
-            alt_mt_pending_original = 0;
+            if (alt_mt_key != 0) {
+                // NESTED: pending key released before mod-tap
+                register_code16(get_nameraka_alt_keycode());
+                uint16_t key_to_tap = alt_mt_pending_keycode;
+                tap_code16(key_to_tap);
+                alt_mt_timer = 0; // Force hold
+            } else {
+                // ROLLING aftermath
+                unregister_code16(get_nameraka_alt_keycode());
+                unregister_code16(alt_mt_pending_keycode);
+            }
         }
+        alt_mt_pending_active = false;
+        alt_mt_pending_keycode = 0;
+        alt_mt_pending_original = 0;
         return false;
     }
 
@@ -544,6 +561,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                 }
                 alt_mt_pending_keycode = base_key;
                 alt_mt_pending_original = keycode;
+                alt_mt_pending_record = *record;
                 return false;
             }
             
@@ -567,7 +585,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                     }
                     unregister_code16(get_nameraka_alt_keycode());
                     tap_code(base_key);
-                    register_code16(alt_mt_pending_keycode);
+                    
+                    if (alt_mt_pending_original != 0) {
+                        register_code16(alt_mt_pending_keycode);
+                    } else {
+                        alt_mt_bypass = true;
+                        process_record(&alt_mt_pending_record);
+                        alt_mt_bypass = false;
+                    }
+                    alt_mt_pending_active = true;
                 } else if (timer_elapsed(alt_mt_timer) < TAPPING_TERM) {
                     uint16_t base_key = KC_NO;
                     switch(keycode) {
@@ -618,14 +644,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             if (alt_mt_pending_keycode == 0) {
                 alt_mt_pending_keycode = keycode;
                 alt_mt_pending_original = 0;
+                alt_mt_pending_record = *record;
                 return false; // Block the keypress
             } else {
                 // Second interrupt while pending - resolve as hold
                 register_code16(get_nameraka_alt_keycode());
-                uint16_t key_to_tap = alt_mt_pending_keycode;
-                alt_mt_pending_keycode = 0;
-                alt_mt_pending_original = 0;
-                tap_code16(key_to_tap);
+
+                if (alt_mt_pending_original != 0) {
+                    // Nested MT: register base key
+                    register_code16(alt_mt_pending_keycode);
+                    alt_mt_pending_active = true;
+                } else {
+                    // Normal/Layer Key: Replay full record to activate layers
+                    alt_mt_bypass = true;
+                    process_record(&alt_mt_pending_record);
+                    alt_mt_bypass = false;
+                    
+                    // We handed off the key to QMK, so we are done with it.
+                    alt_mt_pending_keycode = 0;
+                    alt_mt_pending_original = 0;
+                    alt_mt_pending_active = false;
+                }
+                
                 alt_mt_timer = 0;
                 // Let this new key through normally with Alt held
             }
