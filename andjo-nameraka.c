@@ -577,8 +577,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     if (record->event.pressed && alt_mt_key != 0) {
         char other_hand = get_key_handedness(record);
 
-        // Same hand OR wildcard on either side -> treat as tap (rolling)
-        if (alt_mt_hand == other_hand || alt_mt_hand == '*' || other_hand == '*') {
+        // Same hand -> treat as tap (rolling)
+        if (alt_mt_hand == other_hand) {
             uint16_t base_key = KC_NO;
             switch(alt_mt_key) {
                 case MT_ALT_R: base_key = KC_R; break;
