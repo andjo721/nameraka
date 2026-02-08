@@ -149,6 +149,17 @@ enum custom_keycodes {
     NMK_LALT,   // Plain Alt key (runtime-swapped)
 };
 
+extern const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM;
+
+static char get_key_handedness(keyrecord_t *record) {
+    uint8_t row = record->event.key.row;
+    uint8_t col = record->event.key.col;
+    if (row >= MATRIX_ROWS || col >= MATRIX_COLS) {
+        return '*';
+    }
+    return pgm_read_byte(&chordal_hold_layout[row][col]);
+}
+
 // Combos for å ä ö, that works on the smaller 3x5 keyboard splits.
 const uint16_t PROGMEM combo_aa[] = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_oe[] = {RSFT_T(KC_J), LCTL_T(KC_K), COMBO_END};
@@ -470,6 +481,8 @@ bail_false:
  */
 static uint16_t alt_mt_timer;
 static uint16_t alt_mt_key = 0;
+static char alt_mt_hand = 0;
+static uint16_t alt_mt_pending_keycode = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
@@ -498,10 +511,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         if (record->event.pressed) {
             alt_mt_timer = timer_read();
             alt_mt_key = keycode;
+            alt_mt_hand = get_key_handedness(record);
+            alt_mt_pending_keycode = 0;
             return false;
         } else {
             if (alt_mt_key == keycode) {
-                if (timer_elapsed(alt_mt_timer) < TAPPING_TERM) {
+                if (alt_mt_pending_keycode != 0) {
+                    // ROLLING: mod-tap released before pending key
+                    // Tap the base key, then send the pending key
+                    uint16_t base_key = KC_NO;
+                    switch(keycode) {
+                        case MT_ALT_R: base_key = KC_R; break;
+                        case MT_ALT_I: base_key = KC_I; break;
+                        case MT_ALT_S: base_key = KC_S; break;
+                        case MT_ALT_L: base_key = KC_L; break;
+                    }
+                    tap_code(base_key);
+                    register_code16(alt_mt_pending_keycode);
+                } else if (timer_elapsed(alt_mt_timer) < TAPPING_TERM) {
                     uint16_t base_key = KC_NO;
                     switch(keycode) {
                         case MT_ALT_R: base_key = KC_R; break;
@@ -511,7 +538,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                     }
                     tap_code(base_key);
                 } else {
-                    // Ensure it is unregistered if it was registered
                     unregister_code16(get_nameraka_alt_keycode());
                 }
                 alt_mt_key = 0;
@@ -530,12 +556,54 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         return false;
     }
 
-    // Handle interruptions for Custom Alt Mod-Tap (Permissive Hold)
-    if (record->event.pressed && alt_mt_key != 0) {
-        register_code16(get_nameraka_alt_keycode());
-        // Force hold behavior on release
-        alt_mt_timer = 0;
+    // Handle pending key release (opposite-hand key that was blocked)
+    if (!record->event.pressed && keycode == alt_mt_pending_keycode) {
+        if (alt_mt_key != 0) {
+            // NESTED: pending key released before mod-tap
+            // This means hold behavior - send Alt + pending key
+            register_code16(get_nameraka_alt_keycode());
+            tap_code16(alt_mt_pending_keycode);
+            alt_mt_pending_keycode = 0;
+            alt_mt_timer = 0; // Force hold on mod-tap release
+        } else {
+            // ROLLING aftermath: mod-tap already released, now release pending
+            unregister_code16(alt_mt_pending_keycode);
+            alt_mt_pending_keycode = 0;
+        }
+        return false;
     }
+
+    // Handle interruptions for Custom Alt Mod-Tap (Permissive Hold + Chordal Hold)
+    if (record->event.pressed && alt_mt_key != 0) {
+        char other_hand = get_key_handedness(record);
+
+        // Same hand OR wildcard on either side -> treat as tap (rolling)
+        if (alt_mt_hand == other_hand || alt_mt_hand == '*' || other_hand == '*') {
+            uint16_t base_key = KC_NO;
+            switch(alt_mt_key) {
+                case MT_ALT_R: base_key = KC_R; break;
+                case MT_ALT_I: base_key = KC_I; break;
+                case MT_ALT_S: base_key = KC_S; break;
+                case MT_ALT_L: base_key = KC_L; break;
+            }
+            alt_mt_key = 0;
+            tap_code(base_key);
+        } else {
+            // Opposite hands: defer decision until we know rolling vs nested
+            if (alt_mt_pending_keycode == 0) {
+                alt_mt_pending_keycode = keycode;
+                return false; // Block the keypress
+            } else {
+                // Second interrupt while pending - resolve as hold
+                register_code16(get_nameraka_alt_keycode());
+                tap_code16(alt_mt_pending_keycode);
+                alt_mt_pending_keycode = 0;
+                alt_mt_timer = 0;
+                // Let this new key through normally with Alt held
+            }
+        }
+    }
+
 
     /* if (!process_layer_lock(keycode, record, LAYER_LOCK)) { */
     /*     return false; */
