@@ -492,23 +492,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
     if (alt_mt_bypass) return true;
 
-    // Runtime translation of Linux SE keycodes for macOS
-    if (is_macos && record->event.pressed) {
-        uint16_t translated = 0;
-        switch (keycode) {
-            case ALGR(KC_7):    translated = S(A(KC_8)); break;  // {
-            case ALGR(KC_0):    translated = S(A(KC_9)); break;  // }
-            case ALGR(KC_8):    translated = A(KC_8);    break;  // [
-            case ALGR(KC_9):    translated = A(KC_9);    break;  // ]
-            case ALGR(KC_NUBS): translated = A(KC_7);    break;  // |
-            case ALGR(KC_MINS): translated = S(A(KC_7)); break;  // backslash
-        }
-        if (translated) {
-            tap_code16(translated);
-            return false;
-        }
-    }
-
     const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     const uint8_t mods = get_mods();
 
@@ -770,6 +753,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         PROCESS_SUB_RECORD(process_record_navigation);
 
         PROCESS_SUB_RECORD(process_record_project);
+
+        // Runtime translation of Linux SE keycodes for macOS (fallback if no macro handled it)
+        if (is_macos) {
+            uint16_t translated = 0;
+            switch (keycode) {
+                case ALGR(KC_7):    translated = S(A(KC_8)); break;  // {
+                case ALGR(KC_0):    translated = S(A(KC_9)); break;  // }
+                case ALGR(KC_8):    translated = A(KC_8);    break;  // [
+                case ALGR(KC_9):    translated = A(KC_9);    break;  // ]
+                case ALGR(KC_NUBS): translated = A(KC_7);    break;  // |
+                case ALGR(KC_MINS): translated = S(A(KC_7)); break;  // backslash
+            }
+            if (translated) {
+                tap_code16(translated);
+                return false;
+            }
+        }
     }
 
     return true;
