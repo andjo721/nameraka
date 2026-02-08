@@ -483,6 +483,7 @@ static uint16_t alt_mt_timer;
 static uint16_t alt_mt_key = 0;
 static char alt_mt_hand = 0;
 static uint16_t alt_mt_pending_keycode = 0;
+static uint16_t alt_mt_pending_original = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
@@ -506,13 +507,51 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     const uint8_t mod_mask  = (MOD_BIT(KC_LEFT_GUI)) | (MOD_BIT(KC_LEFT_ALT)) | (MOD_BIT(KC_LEFT_CTRL)) | (MOD_BIT(KC_LEFT_SHIFT));
     const uint8_t mods = get_mods();
 
+    // Handle pending key release (opposite-hand key that was blocked)
+    // This must come before MT_ALT_* check because an MT_ALT key could be the pending key
+    if (!record->event.pressed && (keycode == alt_mt_pending_keycode || (alt_mt_pending_original != 0 && keycode == alt_mt_pending_original))) {
+        if (alt_mt_key != 0) {
+            // NESTED: pending key released before mod-tap
+            // This means hold behavior - send Alt + pending key
+            register_code16(get_nameraka_alt_keycode());
+            tap_code16(alt_mt_pending_keycode);
+            alt_mt_pending_keycode = 0;
+            alt_mt_pending_original = 0;
+            alt_mt_timer = 0; // Force hold on mod-tap release
+        } else {
+            // ROLLING aftermath: mod-tap already released, now release pending
+            unregister_code16(alt_mt_pending_keycode);
+            alt_mt_pending_keycode = 0;
+            alt_mt_pending_original = 0;
+        }
+        return false;
+    }
+
     // Custom OS-aware Alt Mod-Tap Logic
     if (keycode == MT_ALT_R || keycode == MT_ALT_I || keycode == MT_ALT_S || keycode == MT_ALT_L) {
         if (record->event.pressed) {
+            // Check if another MT_ALT key is already held - treat this as an interrupt
+            if (alt_mt_key != 0 && alt_mt_key != keycode) {
+                register_code16(get_nameraka_alt_keycode());
+                alt_mt_timer = 0; // Force hold behavior on first key's release
+                
+                uint16_t base_key = KC_NO;
+                switch(keycode) {
+                    case MT_ALT_R: base_key = KC_R; break;
+                    case MT_ALT_I: base_key = KC_I; break;
+                    case MT_ALT_S: base_key = KC_S; break;
+                    case MT_ALT_L: base_key = KC_L; break;
+                }
+                alt_mt_pending_keycode = base_key;
+                alt_mt_pending_original = keycode;
+                return false;
+            }
+            
             alt_mt_timer = timer_read();
             alt_mt_key = keycode;
             alt_mt_hand = get_key_handedness(record);
             alt_mt_pending_keycode = 0;
+            alt_mt_pending_original = 0;
             return false;
         } else {
             if (alt_mt_key == keycode) {
@@ -526,6 +565,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                         case MT_ALT_S: base_key = KC_S; break;
                         case MT_ALT_L: base_key = KC_L; break;
                     }
+                    unregister_code16(get_nameraka_alt_keycode());
                     tap_code(base_key);
                     register_code16(alt_mt_pending_keycode);
                 } else if (timer_elapsed(alt_mt_timer) < TAPPING_TERM) {
@@ -556,22 +596,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
         return false;
     }
 
-    // Handle pending key release (opposite-hand key that was blocked)
-    if (!record->event.pressed && keycode == alt_mt_pending_keycode) {
-        if (alt_mt_key != 0) {
-            // NESTED: pending key released before mod-tap
-            // This means hold behavior - send Alt + pending key
-            register_code16(get_nameraka_alt_keycode());
-            tap_code16(alt_mt_pending_keycode);
-            alt_mt_pending_keycode = 0;
-            alt_mt_timer = 0; // Force hold on mod-tap release
-        } else {
-            // ROLLING aftermath: mod-tap already released, now release pending
-            unregister_code16(alt_mt_pending_keycode);
-            alt_mt_pending_keycode = 0;
-        }
-        return false;
-    }
+
 
     // Handle interruptions for Custom Alt Mod-Tap (Permissive Hold + Chordal Hold)
     if (record->event.pressed && alt_mt_key != 0) {
@@ -592,12 +617,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             // Opposite hands: defer decision until we know rolling vs nested
             if (alt_mt_pending_keycode == 0) {
                 alt_mt_pending_keycode = keycode;
+                alt_mt_pending_original = 0;
                 return false; // Block the keypress
             } else {
                 // Second interrupt while pending - resolve as hold
                 register_code16(get_nameraka_alt_keycode());
-                tap_code16(alt_mt_pending_keycode);
+                uint16_t key_to_tap = alt_mt_pending_keycode;
                 alt_mt_pending_keycode = 0;
+                alt_mt_pending_original = 0;
+                tap_code16(key_to_tap);
                 alt_mt_timer = 0;
                 // Let this new key through normally with Alt held
             }
