@@ -479,6 +479,28 @@ bail_false:
 
 /**
  */
+inline uint16_t mt_alt_base_key(uint16_t keycode)
+{
+    uint16_t base_key = KC_NO;
+
+    switch(keycode) {
+        case MT_ALT_R: base_key = KC_R; break;
+        case MT_ALT_I: base_key = KC_I; break;
+        case MT_ALT_S: base_key = KC_S; break;
+        case MT_ALT_L: base_key = KC_L; break;
+    }
+
+    // Special handling for CAPS WORD
+    if (is_caps_word_on()) {
+        add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
+    }
+
+    return base_key;
+}
+
+
+/**
+ */
 static uint16_t alt_mt_timer;
 static uint16_t alt_mt_key = 0;
 static char alt_mt_hand = 0;
@@ -534,20 +556,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             if (alt_mt_key != 0 && alt_mt_key != keycode) {
                 register_code16(get_nameraka_alt_keycode());
                 alt_mt_timer = 0; // Force hold behavior on first key's release
-                
-                uint16_t base_key = KC_NO;
-                switch(keycode) {
-                    case MT_ALT_R: base_key = KC_R; break;
-                    case MT_ALT_I: base_key = KC_I; break;
-                    case MT_ALT_S: base_key = KC_S; break;
-                    case MT_ALT_L: base_key = KC_L; break;
-                }
-                alt_mt_pending_keycode = base_key;
+
+                alt_mt_pending_keycode = mt_alt_base_key(keycode);
                 alt_mt_pending_original = keycode;
                 alt_mt_pending_record = *record;
                 return false;
             }
-            
+
             alt_mt_timer = timer_read();
             alt_mt_key = keycode;
             alt_mt_hand = get_key_handedness(record);
@@ -559,16 +574,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                 if (alt_mt_pending_keycode != 0) {
                     // ROLLING: mod-tap released before pending key
                     // Tap the base key, then send the pending key
-                    uint16_t base_key = KC_NO;
-                    switch(keycode) {
-                        case MT_ALT_R: base_key = KC_R; break;
-                        case MT_ALT_I: base_key = KC_I; break;
-                        case MT_ALT_S: base_key = KC_S; break;
-                        case MT_ALT_L: base_key = KC_L; break;
-                    }
                     unregister_code16(get_nameraka_alt_keycode());
-                    tap_code(base_key);
-                    
+                    tap_code(mt_alt_base_key(keycode));
+
                     if (alt_mt_pending_original != 0) {
                         register_code16(alt_mt_pending_keycode);
                     } else {
@@ -578,14 +586,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                     }
                     alt_mt_pending_active = true;
                 } else if (timer_elapsed(alt_mt_timer) < TAPPING_TERM) {
-                    uint16_t base_key = KC_NO;
-                    switch(keycode) {
-                        case MT_ALT_R: base_key = KC_R; break;
-                        case MT_ALT_I: base_key = KC_I; break;
-                        case MT_ALT_S: base_key = KC_S; break;
-                        case MT_ALT_L: base_key = KC_L; break;
-                    }
-                    tap_code(base_key);
+                    tap_code(mt_alt_base_key(keycode));
                 } else {
                     unregister_code16(get_nameraka_alt_keycode());
                 }
@@ -613,15 +614,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
         // Same hand -> treat as tap (rolling)
         if (alt_mt_hand == other_hand) {
-            uint16_t base_key = KC_NO;
-            switch(alt_mt_key) {
-                case MT_ALT_R: base_key = KC_R; break;
-                case MT_ALT_I: base_key = KC_I; break;
-                case MT_ALT_S: base_key = KC_S; break;
-                case MT_ALT_L: base_key = KC_L; break;
-            }
             alt_mt_key = 0;
-            tap_code(base_key);
+            tap_code(mt_alt_base_key(keycode));
         } else {
             // Opposite hands: defer decision until we know rolling vs nested
             if (alt_mt_pending_keycode == 0) {
@@ -642,13 +636,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                     alt_mt_bypass = true;
                     process_record(&alt_mt_pending_record);
                     alt_mt_bypass = false;
-                    
+
                     // We handed off the key to QMK, so we are done with it.
                     alt_mt_pending_keycode = 0;
                     alt_mt_pending_original = 0;
                     alt_mt_pending_active = false;
                 }
-                
+
                 alt_mt_timer = 0;
                 // Let this new key through normally with Alt held
             }
