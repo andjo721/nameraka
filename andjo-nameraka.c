@@ -479,7 +479,7 @@ bail_false:
 
 /**
  */
-inline uint16_t mt_alt_base_key(uint16_t keycode)
+uint16_t mt_alt_base_key(uint16_t keycode)
 {
     uint16_t base_key = KC_NO;
 
