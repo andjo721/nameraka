@@ -58,6 +58,11 @@ static inline uint8_t get_nameraka_alt_mod(void) {
     return is_macos ? MOD_BIT(KC_RIGHT_ALT) : MOD_BIT(KC_LEFT_ALT);
 }
 
+// Helper to check if a keycode is a pure modifier
+static bool is_modifier_keycode(uint16_t keycode) {
+    return (keycode >= KC_LCTL && keycode <= KC_RGUI);
+}
+
 // Runtime helpers for OS-specific bracket/brace keycodes
 // Linux uses AltGr (ALGR), macOS uses Option (A) or Shift+Option (S(A()))
 
@@ -612,8 +617,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     if (record->event.pressed && alt_mt_key != 0) {
         char other_hand = get_key_handedness(record);
 
-        // Same hand -> treat as tap (rolling)
-        if (alt_mt_hand == other_hand) {
+        // Same hand -> treat as tap (rolling), UNLESS it's a modifier (which should force hold)
+        if (alt_mt_hand == other_hand && !is_modifier_keycode(keycode)) {
             alt_mt_key = 0;
             tap_code(mt_alt_base_key(keycode));
         } else {
