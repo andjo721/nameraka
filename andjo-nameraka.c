@@ -100,6 +100,8 @@ static uint16_t translate_se_keycode(uint16_t kc) {
         case ALGR(KC_9):  return A(KC_9);     // SE_RBRC: ]
         case ALGR(KC_NUBS): return A(KC_7);   // SE_PIPE: |
         case ALGR(KC_MINS): return S(A(KC_7)); // SE_BSLS: backslash
+        case ALGR(KC_4):    return A(KC_4);       // SE_DLR:  $
+        case ALGR(KC_RBRC): return A(KC_RBRC);    // SE_TILD: ~
         default: return kc;
     }
 }
@@ -763,6 +765,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
                 case ALGR(KC_9):    translated = A(KC_9);    break;  // ]
                 case ALGR(KC_NUBS): translated = A(KC_7);    break;  // |
                 case ALGR(KC_MINS): translated = S(A(KC_7)); break;  // backslash
+                case ALGR(KC_4):    translated = A(KC_4);       break; // $
+                case ALGR(KC_RBRC): translated = A(KC_RBRC);    break; // ~
             }
             if (translated) {
                 tap_code16(translated);
