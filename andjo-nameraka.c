@@ -782,6 +782,12 @@ bail_false:
     return false;
 }
 
+void matrix_scan_user(void) {
+    if (alt_mt_key != 0 && alt_mt_timer != 0 && timer_elapsed(alt_mt_timer) >= TAPPING_TERM) {
+        register_code16(get_nameraka_alt_keycode());
+        alt_mt_timer = 0;
+    }
+}
 
 // Customized caps word for defines
 bool caps_word_press_user(uint16_t keycode)
