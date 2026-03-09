@@ -791,6 +791,15 @@ void matrix_scan_user(void) {
     }
 }
 
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record,
+                      uint16_t other_keycode, keyrecord_t *other_record) {
+    if (other_keycode == MT_ALT_R || other_keycode == MT_ALT_I ||
+        other_keycode == MT_ALT_S || other_keycode == MT_ALT_L) {
+        return true;
+    }
+    return get_chordal_hold_default(tap_hold_record, other_record);
+}
+
 // Customized caps word for defines
 bool caps_word_press_user(uint16_t keycode)
 {
