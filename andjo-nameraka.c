@@ -133,6 +133,10 @@ enum custom_keycodes {
     LSP_RENAME,
     LSP_LENS,
     VC_REVERT_HUNK,
+    VC_DIFF,
+    VC_ANNOTATE,
+    VC_LOG,
+    DIRED_JUMP,
     FLYCHECK_NEXT_ERROR,
     FLYCHECK_PREV_ERROR,
 
@@ -395,6 +399,26 @@ int process_record_project(uint16_t keycode, keyrecord_t *record, const uint8_t 
         goto bail_false;
     }
 
+    if (keycode == VC_DIFF) {
+        SEND_STRING(SS_LCTL("x") "v");
+        tap_code16(SE_EQL);
+        goto bail_false;
+    }
+
+    if (keycode == VC_ANNOTATE) {
+        SEND_STRING(SS_LCTL("x") "vg");
+        goto bail_false;
+    }
+
+    if (keycode == VC_LOG) {
+        SEND_STRING(SS_LCTL("x") "vl");
+        goto bail_false;
+    }
+
+    if (keycode == DIRED_JUMP) {
+        SEND_STRING(SS_LCTL("x") SS_LCTL("f") SS_TAP(X_ENT));
+        goto bail_false;
+    }
 
     if (keycode == PERSP_BUF) {
         SEND_STRING(SS_LCTL("x") SS_LCTL("b"));
